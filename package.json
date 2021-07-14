@@ -76,7 +76,7 @@
   },
   "author": "",
   "scripts": {
-    "eslint": "npx eslint -c eslint.config.js '**/*.{js,jsx,ts,tsx}' && npx tsc --project tsconfig.eslint.json",
+    "eslint": "npx eslint -c eslint.config.js '**/*.{js,jsx,ts,tsx}' && npx tsc --project tsconfig.json",
     "stylelint": "npx stylelint --config stylelint.config.js '**/*.{css,less}'",
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
@@ -108,6 +108,9 @@
     "react-dom": "^17.0.0"
   },
   "devDependencies": {
+    "@antmjs/babel-preset": "^0.1.0",
+    "@antmjs/eslint": "^0.3.1",
+    "@antmjs/stylelint": "^0.3.1",
     "@babel/core": "^7.8.0",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
@@ -115,23 +118,13 @@
     "@tarojs/webpack-runner": "3.3.0",
     "@types/react": "^17.0.2",
     "@types/webpack-env": "^1.13.6",
-    "@typescript-eslint/eslint-plugin": "^4.28.3",
-    "@typescript-eslint/parser": "^4.28.3",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.30.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^7.0.1",
     "lint-staged": "^11.0.1",
     "prettier": "^2.3.2",
     "stylelint": "^13.13.1",
-    "stylelint-config-prettier": "^8.0.2",
-    "stylelint-config-standard": "^22.0.0",
     "typescript": "^4.3.5"
   }
 }

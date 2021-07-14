@@ -1,7 +1,7 @@
 module.exports = {
   presets: [
     [
-      '@zatjs/babel-preset',
+      '@antmjs/babel-preset',
       {
         presets: {
           env: {

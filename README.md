@@ -14,3 +14,22 @@ Commitlint + Husky + lint-staged + Prettier + Eslint + Stylelint + TSC
 ### Vscode
 
 Prettier - Code formatter + Eslint + stylelint
+
+
+### 使用
+
+git clone git@github.com:AntmJS/temptaro.git
+
+rm -rf .git
+
+git init
+
+npx husky install
+
+git add .
+
+git commit -m 'feat: 初始化'
+
+git remote add origin your git shh link
+
+git push origin master

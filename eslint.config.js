@@ -1,29 +1,14 @@
 module.exports = {
-  parser: '@typescript-eslint/parser',
+  extends: './node_modules/@antmjs/eslint/index.js',
   parserOptions: {
-    project: 'tsconfig.eslint.json',
+    project: 'tsconfig.json',
     sourceType: 'module',
     ecmaVersion: '2021',
-  },
-  plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended',
-  ],
-  root: true,
-  env: {
-    browser: true,
-    node: true,
-    jest: true,
   },
   settings: {
     'import/resolver': {
       typescript: {
-        project: 'tsconfig.eslint.json',
+        project: 'tsconfig.json',
       },
     },
     react: {
@@ -37,30 +22,5 @@ module.exports = {
       // It will default to "detect" in the future
       // flowVersion: '0.53', // Flow version
     },
-  },
-  rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-duplicate-imports': ['error'],
-    'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'import/order': [
-      'error',
-      {
-        groups: [
-          'builtin',
-          'external',
-          'type',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'object',
-        ],
-      },
-    ],
   },
 }
