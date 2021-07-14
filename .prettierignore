@@ -1,18 +1,23 @@
 *.log
+*.md
 *.lock
 *.swp
 
-.github
 .cache
 .temp
 .idea
 .rn_temp
 .DS_Store
-
-pullRequest.js
-package-lock.json
+.editorconfig
+.eslintignore
+.gitignore
+.prettierignore
+.prettierrc
+.stylelintignore
+LICENSE
 
 node_modules
+src/iconfont.less
 coverage
 dist
 build

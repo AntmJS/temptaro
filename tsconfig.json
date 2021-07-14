@@ -1,31 +1,42 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "lib",
+    /** type checking */
+    "strict": true,
+    // 默认false,是否检测定义了但是没使用的变量
     "noUnusedLocals": true,
+    // 用于检查是否有在函数体中没有使用的参数
     "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "rootDir": ".",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": false,
+    "noImplicitReturns": true,
+    // "noImplicitAny": false,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    /** module */
+    "baseUrl": "./",
+    "module": "commonjs",
+    // default: module === AMD or UMD or System or ES6, then Classic otherwise Node
+    "moduleResolution": "Node",
+    "target": "es5",
+    "lib": ["ESNext", "dom"],
+    /** emit */
+    "noEmit": true,
+    /** Interop Constraints */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "jsx": "react-jsx",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "global.d.ts"
-    ]
+    "typeRoots": ["node_modules/@types", "global.d.ts"],
+    // "skipLibCheck": true, // 解决mongoose 和@types/mongoose冲突问题
+    "paths": {
+      // 指定模块的路径，和baseUrl有关联，和webpack中resolve.alias配置一样
+      "@/*": ["./src/*"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
   "compileOnSave": false
 }
