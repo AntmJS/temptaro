@@ -4,6 +4,11 @@
 
 Taro + React + Less
 
+### 特性
+
+- 非UI全局缓存能力
+- UI全局缓存能力
+
 ### 规范
 
 Commitlint + Husky + lint-staged + Prettier + Eslint + Stylelint + TSC
@@ -16,7 +21,7 @@ Commitlint + Husky + lint-staged + Prettier + Eslint + Stylelint + TSC
 Prettier - Code formatter + Eslint + stylelint
 
 
-### 使用
+### 工程使用
 
 git clone git@github.com:AntmJS/temptaro.git
 
@@ -24,12 +29,67 @@ rm -rf .git
 
 git init
 
+yarn install
+
 npx husky install
 
 git add .
 
 git commit -m 'feat: 初始化'
 
-git remote add origin your git shh link
+git remote add origin ...
 
 git push origin master
+
+### 应用变更
+
+project.weapp.json - projectname description
+project.tt.json - projectname description
+package.json - name description appId(环境对应API_ENV) Taro版本
+config/index.js - projectName date h5.webpackChain.publicPath
+src/app.config.ts - window.navigationBarTitleText
+
+### 注意事项
+
+- 路径引用可以使用 '@/xxx'
+- 主题可以放在src/style/index.less下面
+- API_ENV: stable real pre dev
+
+### 执行顺序 useDidShow 优先于useEffect执行
+
+- app show
+- app launch
+
+- index com show
+- index page show
+- index com load
+- index page load
+
+- index com hide
+- index page hide
+
+- second com show
+- second page show
+- second com load
+- second page load
+
+- index com show
+- index pageshow
+
+- second page unload
+- second com unload
+
+### 已添加
+
+- Cache
+
+### 待完善
+
+- hack Taro API
+- Monitor
+- Store
+- Boundary Error
+- request loading error 结合React
+- theme
+- action ts
+- 分页快速模版

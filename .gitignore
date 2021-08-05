@@ -1,5 +1,4 @@
 *.log
-*.lock
 *.swp
 
 .github

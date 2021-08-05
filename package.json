@@ -1,5 +1,6 @@
 {
   "name": "temptaro",
+  "version": "0.0.0",
   "private": true,
   "description": "Taro应用模版",
   "templateInfo": {
@@ -12,8 +13,19 @@
     "npm": ">=6.4",
     "yarn": ">=1.22"
   },
+  "appId": {
+    "weapp": {
+      "real": "",
+      "pre": "",
+      "dev": ""
+    },
+    "tt": {
+      "real": "",
+      "pre": "",
+      "dev": ""
+    }
+  },
   "browserslist": [
-    "last 3 versions",
     "Chrome >= 35",
     "ChromeAndroid >= 35",
     "iOS >= 8",
@@ -76,40 +88,38 @@
   },
   "author": "",
   "scripts": {
-    "eslint": "npx eslint -c eslint.config.js '**/*.{js,jsx,ts,tsx}' && npx tsc --project tsconfig.json",
-    "stylelint": "npx stylelint --config stylelint.config.js '**/*.{css,less}'",
-    "build:weapp": "taro build --type weapp",
-    "build:swan": "taro build --type swan",
-    "build:alipay": "taro build --type alipay",
-    "build:tt": "taro build --type tt",
-    "build:h5": "taro build --type h5",
-    "build:rn": "taro build --type rn",
-    "build:qq": "taro build --type qq",
-    "build:jd": "taro build --type jd",
-    "build:quickapp": "taro build --type quickapp",
-    "dev:weapp": "npm run build:weapp -- --watch",
-    "dev:swan": "npm run build:swan -- --watch",
-    "dev:alipay": "npm run build:alipay -- --watch",
-    "dev:tt": "npm run build:tt -- --watch",
-    "dev:h5": "npm run build:h5 -- --watch",
-    "dev:rn": "npm run build:rn -- --watch",
-    "dev:qq": "npm run build:qq -- --watch",
-    "dev:jd": "npm run build:jd -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
+    "eslint": "npx eslint -c eslint.config.js '**/*.{js,jsx,ts,tsx}' && npx tsc -p tsconfig.json --skipLibCheck",
+    "stylelint": "npx stylelint --aei --config stylelint.config.js '**/*.{css,less}'",
+    "iconfont": "npx antm-icon --input-path https://at.alicdn.com/t/xxxx.css --output-path src/iconfont.less",
+    "watch:weapp": "cross-env NODE_ENV=development API_ENV=dev WATCHING=true npx taro build --type weapp --watch",
+    "watch:alipay": "cross-env NODE_ENV=development API_ENV=dev WATCHING=true npx taro build --type alipay --watch",
+    "watch:tt": "cross-env NODE_ENV=development API_ENV=dev WATCHING=true npx taro build --type tt --watch",
+    "watch:h5": "cross-env NODE_ENV=development API_ENV=dev WATCHING=true npx taro build --type h5 --watch",
+    "dev:weapp": "cross-env NODE_ENV=production API_ENV=dev npx taro build --type weapp",
+    "dev:alipay": "cross-env NODE_ENV=production API_ENV=dev npx taro build --type alipay",
+    "dev:tt": "cross-env NODE_ENV=production API_ENV=dev npx taro build --type tt",
+    "dev:h5": "cross-env NODE_ENV=production API_ENV=dev npx taro build --type h5",
+    "real:weapp": "cross-env NODE_ENV=production API_ENV=real npx taro build --type weapp",
+    "real:alipay": "cross-env NODE_ENV=production API_ENV=real npx taro build --type alipay",
+    "real:tt": "cross-env NODE_ENV=production API_ENV=real npx taro build --type tt",
+    "real:h5": "cross-env NODE_ENV=production API_ENV=real npx taro build --type h5",
+    "build": "node ./updateVersion && cross-env BUILD_ENV=jenkins NODE_ENV=production npx taro build"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.14.7",
+    "@antmjs/cache": "^0.7.0",
+    "@antmjs/global-state": "^0.9.1",
+    "@antmjs/trace": "^0.7.0",
     "@tarojs/components": "3.3.0",
     "@tarojs/react": "3.3.0",
     "@tarojs/runtime": "3.3.0",
     "@tarojs/taro": "3.3.0",
-    "core-js": "^3.15.2",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
   "devDependencies": {
-    "@antmjs/babel-preset": "^0.1.0",
-    "@antmjs/eslint": "^0.3.1",
+    "@antmjs/babel-preset": "^0.4.2",
+    "@antmjs/eslint": "^0.8.0",
+    "@antmjs/iconfont": "^0.5.0",
     "@antmjs/stylelint": "^0.3.1",
     "@babel/core": "^7.8.0",
     "@commitlint/cli": "^12.1.4",
@@ -118,7 +128,9 @@
     "@tarojs/webpack-runner": "3.3.0",
     "@types/react": "^17.0.2",
     "@types/webpack-env": "^1.13.6",
+    "babel-plugin-transform-taroapi": "^3.3.0",
     "commitizen": "^4.2.4",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.30.0",
     "husky": "^7.0.1",

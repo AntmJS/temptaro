@@ -31,12 +31,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "jsx": "react-jsx",
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "paths": {
       // 指定模块的路径，和baseUrl有关联，和webpack中resolve.alias配置一样
       "@/*": ["./src/*"]
     }
   },
-  "include": ["*.js", "*.d.ts", "src", "config/*.js", "test"],
+  "include": ["*.js", "*.d.ts", "src", "config/**/*.js", "test"],
   "compileOnSave": false
 }

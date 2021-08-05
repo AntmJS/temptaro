@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
+const apis = require('@tarojs/taro-h5/dist/taroApis')
+
 module.exports = {
   presets: [
     [
@@ -27,17 +31,32 @@ module.exports = {
             allowNamespaces: true,
           },
         },
+        decorators: {
+          legacy: false,
+          decoratorsBeforeExport: false,
+        },
+        classProperties: {
+          loose: false,
+        },
         runtime: {
-          absoluteRuntime: false,
+          absoluteRuntime: path.dirname(
+            require.resolve('@babel/runtime-corejs3/package.json'),
+          ),
+          version: require('@babel/runtime-corejs3/package.json').version,
           corejs: false,
           helpers: true, // 使用到@babel/runtime
           regenerator: true, // 使用到@babel/runtime
           useESModules: false,
         },
-        exclude: [/@babel[/|\\\\]runtime/, /core-js/],
         enableReactRefresh:
           process.env.TARO_ENV === 'h5' && process.env.WATCHING === 'true',
       },
     ],
+  ],
+  plugins: [
+    [
+      require('babel-plugin-transform-taroapi'),
+      { packageName: '@tarojs/taro', apis },
+    ], // taro可以加，tree-shaking用
   ],
 }

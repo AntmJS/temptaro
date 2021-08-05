@@ -14,15 +14,18 @@ declare module '*.styl'
 
 declare namespace NodeJS {
   interface ProcessEnv {
-    TARO_ENV:
-      | 'weapp'
-      | 'swan'
-      | 'alipay'
-      | 'h5'
-      | 'rn'
-      | 'tt'
-      | 'quickapp'
-      | 'qq'
-      | 'jd'
+    NODE_ENV: 'production' | 'development'
+    TARO_ENV: 'weapp' | 'swan' | 'alipay' | 'h5' | 'tt' | 'qq'
+    API_ENV: 'stable' | 'real' | 'pre' | 'dev'
+    WATCHING: 'true' | 'false'
+    DEPLOY_VERSION: string
   }
+}
+
+declare namespace Normal {
+  type Record<K extends keyof any, T> = {
+    [P in K]: T
+  }
+  type IAnyObject = Record<string, any>
+  type INoneEmptyArray<T> = [T, ...T[]]
 }

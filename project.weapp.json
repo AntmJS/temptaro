@@ -1,8 +1,7 @@
 {
-  "miniprogramRoot": "./dist",
+  "miniprogramRoot": "./",
   "projectname": "temptaro",
-  "description": "Taro应用模版",
-  "appid": "touristappid",
+  "description": "小程序模版",
   "setting": {
     "urlCheck": true,
     "es6": false,
