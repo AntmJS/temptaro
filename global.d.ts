@@ -28,4 +28,22 @@ declare namespace Normal {
   }
   type IAnyObject = Record<string, any>
   type INoneEmptyArray<T> = [T, ...T[]]
+  // 匹配以/开头的url
+  type IPathName<
+    T extends string,
+    K extends string,
+  > = T extends `/${K}${infer R}` ? `/${K}${R}` : never
+  type IHref<T extends string> = T extends `https://${infer R}`
+    ? `https://${R}`
+    : T extends `http://${infer R}`
+    ? `http://${R}`
+    : never
+
+  interface IRequestResponse {
+    status: number
+    code: string
+    header?: IAnyObject
+    data: any
+    message?: string
+  }
 }

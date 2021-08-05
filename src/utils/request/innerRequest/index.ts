@@ -1,0 +1,52 @@
+import Taro from '@tarojs/taro'
+import type { IPrefix } from '@/constants/domain'
+
+// 基于和服务端的约定，这个方法主要是用来处理返回类型是json的请求，非json类型的自己单独封装
+// 格式如下 { statusCode: number, data: { success: boolean, data: any, code: string, message: string } }
+export default function innerRequest<
+  T extends Omit<Taro.request.Option, 'success' | 'fail'>,
+>(
+  option: {
+    [K in keyof T]: K extends 'url' ? Normal.IPathName<T[K], IPrefix> : T[K]
+  },
+) {
+  option.timeout = option.timeout || 30000
+  option.dataType = 'json'
+  option.responseType = 'text'
+
+  return Taro.request({
+    ...option,
+  })
+    .then((res) => {
+      // 符合返回的规范才认定为成功
+      if (res.data && res.data.code && typeof res.data.success === 'boolean') {
+        Promise.resolve({
+          status: 200,
+          header: res.header,
+          code: res.data.code.toString(),
+          data: res.data.data,
+        })
+      } else {
+        if (res.statusCode === 200) res.statusCode = 602
+        Promise.resolve({
+          status: res.statusCode || 601,
+          header: res.header,
+          code: (res.statusCode || 601).toString(),
+          data: res,
+          message:
+            res.errMsg ||
+            (res.data
+              ? res.data.error || res.data.error_msg || res.data
+              : '请求失败'),
+        })
+      }
+    })
+    .catch((error) => {
+      Promise.resolve({
+        status: 601,
+        code: '601',
+        data: error,
+        message: error.errMsg || '请求失败',
+      })
+    })
+}
