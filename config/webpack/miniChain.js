@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const npath = require('path')
+const MiniFixPlugin = require('@antmjs/plugin-mini-fix')
 const apis = require('@tarojs/taro-h5/dist/taroApis')
 module.exports = function (chain) {
+  chain.plugin('MiniFixPlugin').use(new MiniFixPlugin())
   chain.module
     .rule('global-loader')
     .test(/node_modules\/webpack\/buildin\/global\.js/i)

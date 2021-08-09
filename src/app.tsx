@@ -1,53 +1,15 @@
-import Trace, { EAppType, EAppSubType, EGcs } from '@antmjs/trace'
-import { document } from '@tarojs/runtime'
+// apiFix放最上方，确保先更新一下
+import './apiFix'
 import { useDidShow, useDidHide } from '@tarojs/taro'
 import React, { useEffect } from 'react'
 import { Provider } from './store'
+import './trace'
 import './cache'
 import './app.less'
 
 interface IProps {
   children: React.ReactNode
 }
-
-Trace(
-  {
-    appId: '1',
-    appType: process.env.TARO_ENV === 'h5' ? EAppType.browser : EAppType.mini,
-    appSubType:
-      process.env.TARO_ENV === 'h5'
-        ? EAppSubType.browser
-        : EAppSubType[process.env.TARO_ENV],
-    // 应用内应用版本号
-    appSubTypeVersion: '',
-    // Taro3需要
-    getElementById: document.getElementById,
-    getUserId() {
-      return new Promise((resolve) => {
-        resolve('')
-      })
-    },
-    getGenderId() {
-      return new Promise((resolve) => {
-        resolve('')
-      })
-    },
-    getLocation() {
-      return new Promise((resolve) => {
-        resolve({
-          gcs: EGcs.gcj02,
-          latitude: '',
-          longitude: '',
-        })
-      })
-    },
-    request(type /** log｜monitor */, data) {
-      console.info(type, data)
-    },
-  },
-  // 默认为0。为0的话request返回的data是对象，非0的话返回数组
-  { interval: 3000 },
-)
 
 export default function App(props: IProps) {
   // 可以使用所有的 React Hooks
