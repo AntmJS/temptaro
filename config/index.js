@@ -146,7 +146,15 @@ let config = {
       chunkFilename: 'assets/css/chunk/[name].css',
     },
   },
-  plugins: [npath.join(process.cwd(), 'config/webpack/configPlugin')],
+  plugins: [
+    [npath.join(process.cwd(), 'config/webpack/configPlugin')],
+    [
+      '@tarojs/plugin-html',
+      {
+        pxtransformBlackList: [/page|h5|weui/],
+      },
+    ],
+  ],
 }
 
 module.exports = function (merge) {
