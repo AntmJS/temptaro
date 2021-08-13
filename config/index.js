@@ -50,9 +50,9 @@ let config = {
     webpackChain(chain) {
       miniChain(chain)
     },
-    lessLoaderOption: {
-      additionalData: "@import '~/src/style/index.less';",
-    },
+    // lessLoaderOption: {
+    //   additionalData: "@import '~/src/style/index.less';",
+    // },
     postcss: {
       autoprefixer: {
         enable: true,
@@ -118,9 +118,9 @@ let config = {
       },
     },
     proxy: {},
-    lessLoaderOption: {
-      additionalData: "@import '~/src/style/index.less';",
-    },
+    // lessLoaderOption: {
+    //   additionalData: "@import '~/src/style/index.less';",
+    // },
     postcss: {
       autoprefixer: {
         enable: true,
@@ -146,15 +146,7 @@ let config = {
       chunkFilename: 'assets/css/chunk/[name].css',
     },
   },
-  plugins: [
-    [npath.join(process.cwd(), 'config/webpack/configPlugin')],
-    [
-      '@tarojs/plugin-html',
-      {
-        pxtransformBlackList: [/page|h5|weui/],
-      },
-    ],
-  ],
+  plugins: [[npath.join(process.cwd(), 'config/webpack/configPlugin')]],
 }
 
 module.exports = function (merge) {
