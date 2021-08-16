@@ -44,10 +44,15 @@ git push origin master
 ### 应用变更
 
 project.weapp.json - projectname description
+
 project.tt.json - projectname description
+
 package.json - name description appId(环境对应API_ENV) Taro版本
+
 config/index.js - projectName date h5.webpackChain.publicPath
+
 src/app.config.ts - window.navigationBarTitleText
+
 src/utils/request/innerRequest/index.ts - statusCode为200的判断依据返回是否和约定一致，其他均为失败
 
 ### 注意事项
