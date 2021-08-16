@@ -88,12 +88,12 @@ src/utils/request/innerRequest/index.ts - statusCode为200的判断依据返回�
 ### 已添加
 
 - Cache
+- Store
+- Monitor
 
 ### 待完善
 
 - hack Taro API
-- Monitor
-- Store
 - Boundary Error
 - request loading error 结合React
 - theme
