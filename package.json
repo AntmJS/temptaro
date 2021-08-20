@@ -106,10 +106,12 @@
     "build": "node ./updateVersion && cross-env BUILD_ENV=jenkins NODE_ENV=production npx taro build"
   },
   "dependencies": {
-    "@antmjs/cache": "^1.3.0",
-    "@antmjs/global-state": "^1.3.0",
-    "@antmjs/mini-fix": "^1.3.0",
-    "@antmjs/trace": "^1.3.0",
+    "@antmjs/antmui": "^1.9.3",
+    "@antmjs/cache": "^1.9.3",
+    "@antmjs/global-state": "^1.9.3",
+    "@antmjs/mini-fix": "^1.9.3",
+    "@antmjs/trace": "^1.9.3",
+    "@antmjs/unite": "^1.9.3",
     "@babel/runtime-corejs3": "^7.14.7",
     "@tarojs/components": "3.3.2",
     "@tarojs/react": "3.3.2",
@@ -120,11 +122,11 @@
     "react-dom": "^17.0.0"
   },
   "devDependencies": {
-    "@antmjs/babel-preset": "^1.3.0",
-    "@antmjs/eslint": "^1.3.0",
-    "@antmjs/iconfont": "^1.3.0",
-    "@antmjs/plugin-mini-fix": "^1.3.0",
-    "@antmjs/stylelint": "^1.3.0",
+    "@antmjs/babel-preset": "^1.9.3",
+    "@antmjs/eslint": "^1.9.3",
+    "@antmjs/iconfont": "^1.9.3",
+    "@antmjs/plugin-mini-fix": "^1.9.3",
+    "@antmjs/stylelint": "^1.9.3",
     "@babel/core": "^7.8.0",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",

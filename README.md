@@ -55,6 +55,8 @@ src/app.config.ts - window.navigationBarTitleText
 
 src/utils/request/innerRequest/index.ts - statusCode为200的判断依据返回是否和约定一致，其他均为失败
 
+src/components/container.tsx - MiniBar的homeUrl
+
 ### 注意事项
 
 - 路径引用可以使用 '@/xxx'

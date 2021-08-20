@@ -8,7 +8,7 @@ const {
   useUpdate,
   useFetchAndUpdate,
 } = GlobalState(
-  { user: { name: 'always' } },
+  { error: undefined, user: { name: 'always' } },
   {
     user: async function () {
       /** await getUser */

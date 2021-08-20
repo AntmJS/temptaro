@@ -13,3 +13,11 @@ Taro.useRouter = function useRouter<
   }
   return route
 }
+
+const canIUseBak = Taro.canIUse
+Taro.canIUse = function canIUse(schema: string): boolean {
+  if (process.env.TARO_ENV !== 'h5') {
+    return canIUseBak(schema)
+  }
+  return false
+}

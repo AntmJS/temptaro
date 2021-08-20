@@ -13,40 +13,55 @@ export default function innerRequest<
   option.timeout = option.timeout || 30000
   option.dataType = 'json'
   option.responseType = 'text'
-
-  return Taro.request({
-    ...option,
-  })
-    .then((res) => {
-      // 符合返回的规范才认定为成功
-      if (res.data && res.data.code && typeof res.data.success === 'boolean') {
-        Promise.resolve({
-          status: 200,
-          header: res.header,
-          code: res.data.code.toString(),
-          data: res.data.data,
-        })
-      } else {
-        if (res.statusCode === 200) res.statusCode = 602
-        Promise.resolve({
-          status: res.statusCode || 601,
-          header: res.header,
-          code: (res.statusCode || 601).toString(),
-          data: res,
-          message:
-            res.errMsg ||
-            (res.data
-              ? res.data.error || res.data.error_msg || res.data
-              : '请求失败'),
-        })
-      }
+  return new Promise((resolve: (res: Normal.IRequestResponse) => void) => {
+    Taro.request({
+      ...option,
     })
-    .catch((error) => {
-      Promise.resolve({
-        status: 601,
-        code: '601',
-        data: error,
-        message: error.errMsg || '请求失败',
+      .then((res) => {
+        // 符合返回的规范才认定为成功
+        if (
+          res.data &&
+          res.data.code &&
+          typeof res.data.success === 'boolean'
+        ) {
+          if (res.data.success) {
+            resolve({
+              status: 200,
+              header: res.header,
+              code: res.data.code.toString(),
+              data: res.data.data,
+            })
+          } else {
+            resolve({
+              status: 200,
+              header: res.header,
+              code: res.data.code.toString(),
+              data: res.data.message,
+              message: res.data.message,
+            })
+          }
+        } else {
+          if (res.statusCode === 200) res.statusCode = 602
+          resolve({
+            status: res.statusCode || 601,
+            header: res.header,
+            code: (res.statusCode || 601).toString(),
+            data: res,
+            message:
+              res.errMsg ||
+              (res.data
+                ? res.data.error || res.data.error_msg || res.data
+                : '请求失败'),
+          })
+        }
       })
-    })
+      .catch((error) => {
+        resolve({
+          status: 601,
+          code: '601',
+          data: error,
+          message: error.errMsg || '请求失败',
+        })
+      })
+  })
 }

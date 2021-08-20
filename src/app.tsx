@@ -1,11 +1,36 @@
 // apiFix放最上方，确保先更新一下
 import './apiFix'
-import { useDidShow, useDidHide } from '@tarojs/taro'
+import { useDidShow, useDidHide, showToast } from '@tarojs/taro'
+import { registerCatch } from '@antmjs/unite'
 import React, { useEffect } from 'react'
+import { EMlf } from '@antmjs/trace'
+import COMMON from '@/constants'
 import { Provider } from './store'
-import './trace'
 import './cache'
 import './app.less'
+import { monitor } from './trace'
+
+// 使用这套模型的时候才需要Unite({}, ({}) => <View></View>)
+registerCatch(function (res, setError) {
+  // res.options的时候需要monitor js，这个时候的错误说明是脚本错误，因为请求抛出来的错误会有options参数
+  if (res.options) {
+    if (res.options.rule === 'state') {
+      // monitor在请求侧已经上报过了
+      setError({ code: res.code, message: res.message })
+    } else {
+      showToast({ title: res.message })
+    }
+  } else {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('registerCatch', res)
+    }
+    setError({ code: COMMON.SCRIPT, message: '语法出现了小故障' })
+    monitor(EMlf.js, {
+      d1: 'registerCatch',
+      d2: JSON.stringify(res),
+    })
+  }
+})
 
 interface IProps {
   children: React.ReactNode

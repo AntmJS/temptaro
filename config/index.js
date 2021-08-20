@@ -50,9 +50,9 @@ let config = {
     webpackChain(chain) {
       miniChain(chain)
     },
-    // lessLoaderOption: {
-    //   additionalData: "@import '~/src/style/index.less';",
-    // },
+    lessLoaderOption: {
+      additionalData: "@import '~/src/style/index.less';",
+    },
     postcss: {
       autoprefixer: {
         enable: true,
@@ -118,9 +118,9 @@ let config = {
       },
     },
     proxy: {},
-    // lessLoaderOption: {
-    //   additionalData: "@import '~/src/style/index.less';",
-    // },
+    lessLoaderOption: {
+      additionalData: "@import '~/src/style/index.less';",
+    },
     postcss: {
       autoprefixer: {
         enable: true,

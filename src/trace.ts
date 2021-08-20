@@ -1,7 +1,7 @@
 import { document } from '@tarojs/runtime'
 import Trace, { EAppType, EAppSubType, EGcs } from '@antmjs/trace'
 
-Trace(
+const { exposure, log, monitor } = Trace(
   {
     appId: '1',
     appType: process.env.TARO_ENV === 'h5' ? EAppType.browser : EAppType.mini,
@@ -39,3 +39,5 @@ Trace(
   // 默认为0。为0的话request返回的data是对象，非0的话返回数组
   { interval: 3000 },
 )
+
+export { exposure, log, monitor }
