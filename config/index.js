@@ -21,7 +21,7 @@ function getVersion() {
 
 let version = getVersion()
 // 线上容器里面构建的时候直接取pkg.version，主要是h5 publicPath会依赖到
-if (process.env.BUILD_ENV === 'jenkins') {
+if (process.env.BUILD_ENV === 'CI') {
   version = pkg.version
 }
 

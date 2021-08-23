@@ -103,7 +103,7 @@
     "real:alipay": "cross-env NODE_ENV=production API_ENV=real npx taro build --type alipay",
     "real:tt": "cross-env NODE_ENV=production API_ENV=real npx taro build --type tt",
     "real:h5": "cross-env NODE_ENV=production API_ENV=real npx taro build --type h5",
-    "build": "node ./updateVersion && cross-env BUILD_ENV=jenkins NODE_ENV=production npx taro build"
+    "build": "node ./updateVersion && cross-env BUILD_ENV=CI NODE_ENV=production npx taro build"
   },
   "dependencies": {
     "@antmjs/antmui": "^1.9.3",
