@@ -2,8 +2,8 @@ import { View } from '@tarojs/components'
 import { navigateTo, useDidHide, useDidShow } from '@tarojs/taro'
 import { useEffect } from 'react'
 // import Unite from '@antmjs/unite'
-import Com from './com/index'
 import Container from '@/components/container'
+import Com from './com/index'
 
 import './index.less'
 
