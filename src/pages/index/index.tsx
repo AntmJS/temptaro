@@ -9,16 +9,16 @@ import './index.less'
 
 export default function Index() {
   useEffect(function () {
-    console.info('index page load')
+    console.info('index page load.')
     return function () {
-      console.info('index page unload')
+      console.info('index page unload.')
     }
   }, [])
   useDidShow(function () {
-    console.info('index page show')
+    console.info('index page show.')
   })
   useDidHide(function () {
-    console.info('index page hide')
+    console.info('index page hide.')
   })
 
   return (
