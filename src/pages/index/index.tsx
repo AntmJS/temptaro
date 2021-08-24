@@ -1,8 +1,9 @@
 import { View } from '@tarojs/components'
 import { navigateTo, useDidHide, useDidShow } from '@tarojs/taro'
 import { useEffect } from 'react'
-import Container from '@/components/container'
+// import Unite from '@antmjs/unite'
 import Com from './com/index'
+import Container from '@/components/container'
 
 import './index.less'
 
@@ -35,3 +36,38 @@ export default function Index() {
     </Container>
   )
 }
+
+// Unite写法，开发更加统一，对于团队成员经验不一致的的情况下，这种方式可能对代码的维护更加直观易懂
+// export default Unite(
+//   {
+//     state: {},
+//     onLoad() {
+//       console.info('index page load')
+//     },
+//     onUnload() {
+//       console.info('index page unload')
+//     },
+//     onShow() {
+//       console.info('index page show')
+//     },
+//     onHide() {
+//       console.info('index page hide')
+//     },
+//   },
+//   function ({ state, events, loading, error }, props) {
+//     return (
+//       <Container>
+//         <View className="pages-index-index">
+//           <View
+//             onClick={() => {
+//               navigateTo({ url: '/pages/second/index' })
+//             }}
+//           >
+//             Index Page!
+//           </View>
+//           <Com />
+//         </View>
+//       </Container>
+//     )
+//   },
+// )
