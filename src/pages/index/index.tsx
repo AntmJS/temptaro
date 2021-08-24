@@ -2,8 +2,8 @@ import { View } from '@tarojs/components'
 import { navigateTo, useDidHide, useDidShow } from '@tarojs/taro'
 import { useEffect } from 'react'
 // import Unite from '@antmjs/unite'
-import Container from '@/components/container'
 import Com from './com/index'
+import Container from '@/components/container'
 
 import './index.less'
 
@@ -37,7 +37,7 @@ export default function Index() {
   )
 }
 
-// Unite写法，开发更加统一，对于团队成员经验不一致的的情况下，这种方式可能对代码的维护更加直观易懂，同时这种方式配合ts也能增加代码的准确性
+// Unite写法，开发更加统一，对于团队成员经验不一致的的情况下，这种方式可能对代码的维护更加直观易懂，同时这种方式配合ts也能增加代码的准确性.
 // export default Unite(
 //   {
 //     state: {},
