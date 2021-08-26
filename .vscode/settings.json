@@ -7,6 +7,7 @@
   "javascript.validate.enable": false,
   "typescript.validate.enable": true,
   "typescript.tsdk": "./node_modules/typescript/lib",
+  "prettier.resolveGlobalModules": true,
   "editor.tabSize": 2,
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
