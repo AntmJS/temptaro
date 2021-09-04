@@ -27,7 +27,16 @@ module.exports = function (ctx) {
       const distConfigName =
         configName[ctx.initialConfig.outputRoot].distConfigName
 
-      if (fs.existsSync(`${outputPath}/${distConfigName}`)) return
+      if (fs.existsSync(`${outputPath}/${distConfigName}`)) {
+        if (process.env.TARO_ENV === 'tt') {
+          const origProjectConfig = fs.readJSONSync(
+            `${outputPath}/${distConfigName}`,
+          )
+          if (origProjectConfig.appid) return
+        } else {
+          return
+        }
+      }
 
       // 生成 project.config.json
       const projectConfigFileName = srcConfigName
