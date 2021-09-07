@@ -90,6 +90,7 @@
   "scripts": {
     "eslint": "npx eslint -c eslint.config.js '**/*.{js,jsx,ts,tsx}' && npx tsc -p tsconfig.json --skipLibCheck",
     "stylelint": "npx stylelint --aei --config stylelint.config.js '**/*.{css,less}'",
+    "prettier": "npx prettier --write '**/*.{js,jsx,ts,tsx,md,html,css,less}'",
     "iconfont": "npx antm-icon --input-path https://at.alicdn.com/t/xxxx.css --output-path src/iconfont.less",
     "watch:weapp": "cross-env NODE_ENV=development API_ENV=dev WATCHING=true npx taro build --type weapp --watch",
     "watch:alipay": "cross-env NODE_ENV=development API_ENV=dev WATCHING=true npx taro build --type alipay --watch",
