@@ -107,7 +107,7 @@
     "build": "node ./updateVersion && cross-env BUILD_ENV=CI NODE_ENV=production npx taro build"
   },
   "dependencies": {
-    "@antmjs/antmui": "^1.9.5",
+    "@antmjs/antmui": "^1.10.1",
     "@antmjs/cache": "^1.12.0",
     "@antmjs/global-state": "^1.12.0",
     "@antmjs/mini-fix": "^1.12.0",

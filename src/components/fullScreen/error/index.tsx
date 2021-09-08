@@ -1,9 +1,8 @@
 import type GlobalState from '@antmjs/global-state'
 import { View } from '@tarojs/components'
-import { useEffect, useState } from 'react'
 
 interface IProps {
-  globalFetchError?: Record<string, GlobalState.IError>
+  globalFetchError?: GlobalState.IError
   pageError?: { code: string; message: string }
   catchError?: { code: string; message: string }
   setPageError?: React.Dispatch<React.SetStateAction<undefined>>
@@ -11,25 +10,7 @@ interface IProps {
 }
 
 export default function Index(props: IProps) {
-  console.log(props)
   // 点击之后下拉刷新 并且 有globalError调用globalFetch，clearGlobalError clearCatchError clearPageError
   console.log(props)
-  const [isShowMask, setShowMask] = useState(false)
-  useEffect(function () {
-    Taro.nextTick(function () {
-      setShowMask(true)
-    })
-  }, [])
-  return (
-    <View
-      id="fullscreen"
-      className={`fullscreen ${isShowMask ? 'fullscreen-slideup-show' : ''}`}
-      onClick={() => {
-        setShowMask(false)
-        // 触发注释的部分
-      }}
-    >
-      login
-    </View>
-  )
+  return <View>error</View>
 }

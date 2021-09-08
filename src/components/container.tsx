@@ -1,6 +1,6 @@
-import { PureComponent, useState } from 'react'
+import { PureComponent, useState, useRef, useEffect } from 'react'
 import { EMlf } from '@antmjs/trace'
-import { MiniBar } from '@antmjs/antmui'
+import { MiniBar, FullScreen, IFullScreenRef } from '@antmjs/antmui'
 import { monitor } from '@/trace'
 import COMMON from '@/constants'
 import { useGlobalError } from '@/store'
@@ -56,48 +56,63 @@ function InnerCom(props: {
   setPageError?: React.Dispatch<React.SetStateAction<any>>
   setCatchError?: React.Dispatch<React.SetStateAction<any>>
 }) {
+  const fullScreenRef = useRef<IFullScreenRef>()
   const globalError = useGlobalError()
-  let hasError = false
+
+  let globalKey = ''
   let needLogin = false
-  const error: typeof globalError = {}
   for (const key in globalError) {
     if (globalError[key as keyof typeof globalError]) {
       if (globalError[key as keyof typeof globalError]?.code === COMMON.LOGIN) {
         needLogin = true
+        globalKey = key
+        break
       }
-      hasError = true
-      error[key as keyof typeof globalError] =
-        globalError[key as keyof typeof globalError]
-      break
+      globalKey = key
     }
   }
 
-  if (props.pageError || props.catchError || hasError) {
-    if (needLogin || props.pageError?.code === COMMON.LOGIN) {
-      // 登录成功后除了reload还需要reloadGlobalFetch
-      return (
-        <FullScreenLogin
-          globalFetchError={error}
-          pageError={props.pageError}
-          setPageError={props.setPageError}
-        />
-      )
-    }
+  useEffect(
+    function () {
+      if (props.pageError || props.catchError || globalKey) {
+        fullScreenRef.current!.show()
+      } else {
+        fullScreenRef.current!.hide()
+      }
+    },
+    [props.pageError, props.catchError, globalKey],
+  )
 
-    return (
-      <FullScreenError
-        globalFetchError={error}
-        catchError={props.catchError}
-        pageError={props.pageError}
-        setPageError={props.setPageError}
-        setCatchError={props.setCatchError}
-      />
-    )
-  } else if (props.loading) {
-    return <Loading />
-  }
-
-  return <>{props.children}</>
+  return (
+    <>
+      <FullScreen cref={fullScreenRef}>
+        {props?.pageError?.code === COMMON.LOGIN || needLogin ? (
+          <FullScreenLogin
+            globalFetchError={
+              globalError[globalKey as keyof typeof globalError]
+            }
+            pageError={props.pageError}
+            setPageError={props.setPageError}
+          />
+        ) : (
+          <FullScreenError
+            globalFetchError={
+              globalError[globalKey as keyof typeof globalError]
+            }
+            catchError={props.catchError}
+            pageError={props.pageError}
+            setPageError={props.setPageError}
+            setCatchError={props.setCatchError}
+          />
+        )}
+      </FullScreen>
+      {props.pageError || props.catchError || globalKey ? (
+        <Loading />
+      ) : (
+        props.children
+      )}
+    </>
+  )
 }
 
 // 提供给页面使用

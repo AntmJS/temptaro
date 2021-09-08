@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@antmjs/antmui@^1.9.5":
-  version "1.9.5"
-  resolved "https://registry.npmjs.org/@antmjs/antmui/-/antmui-1.9.5.tgz#c551e92812cc846397a44e6efdafcadcd6271a6b"
-  integrity sha512-1MMrJVMctElPTRlqjj2LrFhjwvm2Pz3p6UQODdA1vVE2Inu0P0Rhjv6H0jbl5uxIO4vS4+I3A8YbvvaQHDrHlg==
+"@antmjs/antmui@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.npmjs.org/@antmjs/antmui/-/antmui-1.10.1.tgz#46f23295a269f27c68c414317e1646af15aede03"
+  integrity sha512-Q7QXhrATJ77DbdzdBGneTX+cH+vTJZ2Y0/+E0ExfQSKWgZ0V2eGSQhqsBFwQq+m6JlPZHH88tSLbbm9888Nsyw==
   dependencies:
     "@babel/runtime-corejs3" "^7.14.7"
     classnames "^2.3.1"
