@@ -47,11 +47,7 @@ export default function innerRequest<
             header: res.header,
             code: (res.statusCode || 601).toString(),
             data: res,
-            message:
-              res.errMsg ||
-              (res.data
-                ? res.data.error || res.data.error_msg || res.data
-                : '请求失败'),
+            message: '请求错误',
           })
         }
       })
@@ -60,7 +56,7 @@ export default function innerRequest<
           status: 601,
           code: '601',
           data: error,
-          message: error.errMsg || '请求失败',
+          message: '网络不稳定，请重试',
         })
       })
   })

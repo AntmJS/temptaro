@@ -16,7 +16,7 @@ function sendMonitor(option: any, res: any) {
     d5: JSON.stringify(res),
   }
   if (process.env.NODE_ENV === 'development') {
-    console.error(option, res)
+    console.error('requestCatch', option, res)
   }
   monitor(EMlf.api, params)
 }

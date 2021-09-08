@@ -18,7 +18,7 @@ export default function uploadFile(
           status: res.statusCode || 601,
           code: (res.statusCode || 601).toString(),
           data: res.data || res,
-          message: res.errMsg || res.data || '请求失败',
+          message: '请求错误',
         })
       })
       .catch((error) => {
@@ -26,7 +26,7 @@ export default function uploadFile(
           status: 601,
           code: '601',
           data: error,
-          message: error.errMsg || '请求失败',
+          message: '网络不稳定，请重试',
         })
       })
   })
