@@ -14,7 +14,7 @@ import { monitor } from './trace'
 registerCatch(function (res, setError) {
   // res.options的时候需要monitor js，这个时候的错误说明是脚本错误，因为请求抛出来的错误会有options参数
   if (res.options) {
-    if (res.options.rule === 'state') {
+    if (res.options?.rule?.proxy === 'state') {
       // monitor在请求侧已经上报过了
       setError({ code: res.code, message: res.message })
     } else {
