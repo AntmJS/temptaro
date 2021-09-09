@@ -8,22 +8,14 @@ function getVersion() {
   function fillZero(value) {
     return value < 10 ? `0${value}` : `${value}`
   }
-  if (!pkg.version || pkg.version === '0.0.0') {
-    const date = new Date()
+  const date = new Date()
 
-    return `${date.getFullYear() - 2010}.${date.getMonth()}${fillZero(
-      date.getDay(),
-    )}.${date.getHours()}${fillZero(date.getMinutes())}`
-  }
-
-  return pkg.version
+  return `${date.getFullYear() - 2010}.${date.getMonth()}${fillZero(
+    date.getDay(),
+  )}.${date.getHours()}${fillZero(date.getMinutes())}`
 }
 
-let version = getVersion()
-// 线上容器里面构建的时候直接取pkg.version，主要是h5 publicPath会依赖到
-if (process.env.BUILD_ENV === 'CI') {
-  version = pkg.version
-}
+const version = getVersion()
 
 let config = {
   projectName: pkg.name,
@@ -78,6 +70,7 @@ let config = {
   },
   h5: {
     webpackChain(chain) {
+      const publicPath = process.env.PUBLIC_PATH || '/'
       h5Chain(chain)
       if (process.env.NODE_ENV === 'production') {
         chain.mode('production')
@@ -86,9 +79,7 @@ let config = {
           .path(npath.resolve('./build'))
           .filename('assets/js/[name].js')
           .chunkFilename('assets/js/chunk/[name].js')
-          .publicPath(
-            `https://cdn.xxx.com/static/${process.env.API_ENV}/${pkg.name}/${version}/`,
-          )
+          .publicPath(publicPath.replace('VERSION', version))
       } else {
         chain.mode('development')
         chain.devtool('eval-cheap-module-source-map')
@@ -96,9 +87,7 @@ let config = {
           .path(npath.resolve('./build'))
           .filename('assets/js/[name].js')
           .chunkFilename('assets/js/chunk/[name].js')
-          .publicPath(
-            `https://cdn.xxx.com/static/${process.env.API_ENV}/${pkg.name}/${version}/`,
-          )
+          .publicPath(publicPath.replace('VERSION', version))
       }
       if (process.env.WATCHING === 'true') {
         chain.output.publicPath(`/`)
