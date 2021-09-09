@@ -1,5 +1,3 @@
-// apiFix放最上方，确保先更新一下
-import './apiFix'
 import { useDidShow, useDidHide, showToast } from '@tarojs/taro'
 import { registerCatch } from '@antmjs/unite'
 import React, { useEffect } from 'react'
