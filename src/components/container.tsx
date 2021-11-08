@@ -1,12 +1,13 @@
-import { PureComponent, useState, useRef, useEffect } from 'react'
+import { PureComponent, useState, useEffect } from 'react'
 import { EMlf } from '@antmjs/trace'
-import { MiniBar, FullScreen, IFullScreenRef } from '@antmjs/antmui'
+import { Popup } from '@antmjs/vantui'
 import { monitor } from '@/trace'
 import COMMON from '@/constants'
 import { useGlobalError } from '@/store'
 import FullScreenError from '@/components/fullScreen/error'
 import FullScreenLogin from '@/components/fullScreen/login'
-import Loading from '@/components/loading'
+import Loading from '@/components/fullScreen/loading'
+import MiniBar from './miniBar'
 
 class ErrorBoundary extends PureComponent<{
   setError: any
@@ -56,7 +57,7 @@ function InnerCom(props: {
   setPageError?: React.Dispatch<React.SetStateAction<any>>
   setCatchError?: React.Dispatch<React.SetStateAction<any>>
 }) {
-  const fullScreenRef = useRef<IFullScreenRef>()
+  const [togglePage, setTogglePage] = useState(false)
   const globalError = useGlobalError()
 
   let globalKey = ''
@@ -75,9 +76,9 @@ function InnerCom(props: {
   useEffect(
     function () {
       if (props.pageError || props.catchError || globalKey) {
-        fullScreenRef.current!.show()
+        setTogglePage(true)
       } else {
-        fullScreenRef.current!.hide()
+        setTogglePage(false)
       }
     },
     [props.pageError, props.catchError, globalKey],
@@ -85,7 +86,16 @@ function InnerCom(props: {
 
   return (
     <>
-      <FullScreen cref={fullScreenRef}>
+      <Popup
+        show={togglePage}
+        closeable
+        closeIconPosition="top-left"
+        position="bottom"
+        style="height: 100%"
+        onClose={() => {
+          setTogglePage(false)
+        }}
+      >
         {props?.pageError?.code === COMMON.LOGIN || needLogin ? (
           <FullScreenLogin
             globalFetchError={
@@ -105,7 +115,7 @@ function InnerCom(props: {
             setCatchError={props.setCatchError}
           />
         )}
-      </FullScreen>
+      </Popup>
       {props.pageError || props.catchError || globalKey ? (
         <Loading />
       ) : (

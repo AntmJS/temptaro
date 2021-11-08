@@ -46,53 +46,61 @@ function header(option: Taro.request.Option) {
 export default function <
   T extends Omit<Taro.request.Option, 'success' | 'fail' | 'header'>,
 >(
-  option: {
+  query: {
     [K in keyof T]: K extends 'url' ? Normal.IPathName<T[K], IPrefix> : T[K]
   },
-  rule?: {
-    proxy?: 'toast' | 'state'
+  options: {
+    proxy?: 'error' | 'warning' | 'info'
   },
 ) {
-  url(option)
-  header(option)
-  return _request(option).then((res) => {
+  // error: 交给页面自己处理，会抛给error
+  // warning: 直接内部帮你做了toast
+  // info：直接把整个数据返回给请求的await结果
+  // 主要还是抛给外部registerCatch来处理
+  options.proxy = options.proxy || 'warning'
+  url(query)
+  header(query)
+  return _request(query).then((res) => {
     if (res.status !== 200) {
-      sendMonitor(option, res)
+      sendMonitor(query, res)
     }
-    if (rule?.proxy) {
-      if (res.status === 200 && res.code === '200') {
-        return res.data
+
+    if (res.status === 200 && res.code === '200') {
+      if (options.proxy === 'info') {
+        return res
       } else {
-        throw { code: res.code, message: res.message, options: rule }
+        return res.data
       }
     } else {
-      return res
+      if (options.proxy === 'info') {
+        return res
+      } else {
+        throw { code: res.code, message: res.message, options }
+      }
     }
   })
 }
 
 export function thirdRequest<
   T extends Omit<Taro.request.Option, 'success' | 'fail'>,
->(
-  option: {
-    [K in keyof T]: K extends 'url' ? Normal.IHref<T[K]> : T[K]
-  },
-) {
-  return _thirdRequest(option).then((res) => {
+>(query: {
+  [K in keyof T]: K extends 'url' ? Normal.IHref<T[K]> : T[K]
+}) {
+  return _thirdRequest(query).then((res) => {
     if (res.status !== 200) {
-      sendMonitor(option, res)
+      sendMonitor(query, res)
     }
     return res
   })
 }
 
 export function uploadFile(
-  option: Omit<Taro.uploadFile.Option, 'success' | 'fail' | 'url'>,
+  query: Omit<Taro.uploadFile.Option, 'success' | 'fail' | 'url'>,
 ) {
-  const updateOption: Taro.uploadFile.Option = { ...option, url: '' }
+  const updateOption: Taro.uploadFile.Option = { ...query, url: '' }
   return _uploadFile(updateOption).then((res) => {
     if (res.status !== 200) {
-      sendMonitor(option, res)
+      sendMonitor(query, res)
     }
     return res
   })

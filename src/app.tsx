@@ -10,15 +10,16 @@ import { monitor } from './trace'
 
 // 使用这套模型的时候才需要Unite({}, ({}) => <View></View>)
 registerCatch(function (res, setError) {
-  // res.options的时候需要monitor js，这个时候的错误说明是脚本错误，因为请求抛出来的错误会有options参数
+  // 请求抛出来的异常会带上options
   if (res.options) {
-    if (res.options?.rule?.proxy === 'state') {
+    if (res.options?.proxy === 'error') {
       // monitor在请求侧已经上报过了
       setError({ code: res.code, message: res.message })
     } else {
       showToast({ title: res.message })
     }
   } else {
+    // else代表的是语法错误的捕获
     if (process.env.NODE_ENV === 'development') {
       console.error('registerCatch', res)
     }

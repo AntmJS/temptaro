@@ -14,12 +14,23 @@ export default function uploadFile(
       ...option,
     })
       .then((res) => {
-        resolve({
-          status: res.statusCode || 601,
-          code: (res.statusCode || 601).toString(),
-          data: res.data || res,
-          message: '请求错误',
-        })
+        if (res.statusCode === 200) {
+          resolve({
+            status: 200,
+            header: {},
+            code: '',
+            data: res.data || res,
+            message: '请求错误',
+          })
+        } else {
+          resolve({
+            status: res.statusCode || 601,
+            header: {},
+            code: (res.statusCode || 601).toString(),
+            data: res,
+            message: '请求错误',
+          })
+        }
       })
       .catch((error) => {
         resolve({

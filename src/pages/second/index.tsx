@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components'
 import { useDidHide, useDidShow } from '@tarojs/taro'
-
 import { useEffect } from 'react'
+import Container from '@/components/container'
 import Com from './com/index'
 import './index.less'
 
@@ -19,9 +19,11 @@ export default function Index() {
     console.info('second page hide')
   })
   return (
-    <View className="pages-second-index">
-      <View>Second Page!</View>
-      <Com />
-    </View>
+    <Container>
+      <View className="pages-second-index">
+        <View>Second Page!</View>
+        <Com />
+      </View>
+    </Container>
   )
 }

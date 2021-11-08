@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="node_modules/@tarojs/plugin-platform-weapp/types/shims-weapp.d.ts" />
-
 declare module '*.png'
 declare module '*.gif'
 declare module '*.jpg'

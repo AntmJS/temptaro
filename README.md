@@ -95,8 +95,6 @@ src/components/container.tsx - MiniBar的homeUrl
 
 ### 待完善
 
-- hack Taro API
-- Boundary Error
 - request loading error 结合React
 - theme
 - action ts

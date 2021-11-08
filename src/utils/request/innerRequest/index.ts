@@ -5,11 +5,9 @@ import type { IPrefix } from '@/constants/domain'
 // 格式如下 { statusCode: number, data: { success: boolean, data: any, code: string, message: string } }
 export default function innerRequest<
   T extends Omit<Taro.request.Option, 'success' | 'fail'>,
->(
-  option: {
-    [K in keyof T]: K extends 'url' ? Normal.IPathName<T[K], IPrefix> : T[K]
-  },
-) {
+>(option: {
+  [K in keyof T]: K extends 'url' ? Normal.IPathName<T[K], IPrefix> : T[K]
+}) {
   option.timeout = option.timeout || 30000
   option.dataType = 'json'
   option.responseType = 'text'
@@ -20,22 +18,21 @@ export default function innerRequest<
       .then((res) => {
         // 符合返回的规范才认定为成功
         if (
-          res.data &&
-          res.data.code &&
+          (res.data.data || res.data.code) &&
           typeof res.data.success === 'boolean'
         ) {
           if (res.data.success) {
             resolve({
               status: 200,
               header: res.header,
-              code: res.data.code.toString(),
+              code: '200',
               data: res.data.data,
             })
           } else {
             resolve({
               status: 200,
               header: res.header,
-              code: res.data.code.toString(),
+              code: res.data.code?.toString(),
               data: res.data.message,
               message: res.data.message,
             })

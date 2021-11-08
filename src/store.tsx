@@ -8,7 +8,7 @@ const {
   useUpdate,
   useFetchAndUpdate,
 } = GlobalState(
-  { error: undefined, user: { name: 'always' } },
+  { error: undefined, user: { name: 'always' } }, // 默认值要先定义成undefined
   {
     user: async function () {
       /** await getUser */
