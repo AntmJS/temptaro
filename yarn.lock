@@ -91,10 +91,10 @@
     history "^5.0.0"
     mobile-detect "^1.4.5"
 
-"@antmjs/unite@^1.15.5":
-  version "1.15.5"
-  resolved "https://registry.npmjs.org/@antmjs/unite/-/unite-1.15.5.tgz#588e5ae98aa4d7faf781e5fee6ab1d8027781778"
-  integrity sha512-ElOmwKjfgMS/gxMKV+S6KHfA/0MG4bn9c9HkJGNmStRq439akMw2hsXCrTfFaPllKGMixrSKs9E4TWNuWBmerA==
+"@antmjs/unite@^1.15.6":
+  version "1.15.6"
+  resolved "https://registry.npmjs.org/@antmjs/unite/-/unite-1.15.6.tgz#6744dddd46603005f81f33ce69d334637ce7ae16"
+  integrity sha512-WF922fhUqAMuXfNMWVSvSQnBXnWA30iZXC1HeneUbOXOKUDxA0cUAX/FKomr1mB+zFSK7Zfr1wpWrdwXQqvJzQ==
   dependencies:
     "@babel/runtime-corejs3" "^7.14.7"
 

@@ -112,7 +112,7 @@
     "@antmjs/global-state": "^1.14.0",
     "@antmjs/mini-fix": "^1.14.0",
     "@antmjs/trace": "^1.14.0",
-    "@antmjs/unite": "^1.15.5",
+    "@antmjs/unite": "^1.15.6",
     "@antmjs/vantui": "^1.2.2",
     "@babel/runtime-corejs3": "^7.14.7",
     "@tarojs/components": "3.3.12",
