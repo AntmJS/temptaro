@@ -88,35 +88,37 @@ function InnerCom(props: {
     <>
       <Popup
         show={togglePage}
-        closeable
         closeIconPosition="top-left"
         position="bottom"
-        style="height: 100%"
+        style={`height: 100%; background-color: ${
+          props?.pageError?.code === COMMON.LOGIN || needLogin
+            ? 'red'
+            : '#ffffff'
+        };`}
         onClose={() => {
           setTogglePage(false)
         }}
       >
         {props?.pageError?.code === COMMON.LOGIN || needLogin ? (
           <FullScreenLogin
-            globalFetchError={
-              globalError[globalKey as keyof typeof globalError]
-            }
             pageError={props.pageError}
             setPageError={props.setPageError}
           />
         ) : (
-          <FullScreenError
-            globalFetchError={
-              globalError[globalKey as keyof typeof globalError]
-            }
-            catchError={props.catchError}
-            pageError={props.pageError}
-            setPageError={props.setPageError}
-            setCatchError={props.setCatchError}
-          />
+          (props.pageError || props.catchError || globalKey) && (
+            <FullScreenError
+              globalFetchError={
+                globalError[globalKey as keyof typeof globalError]
+              }
+              catchError={props.catchError}
+              pageError={props.pageError}
+              setPageError={props.setPageError}
+              setCatchError={props.setCatchError}
+            />
+          )
         )}
       </Popup>
-      {props.pageError || props.catchError || globalKey ? (
+      {props.pageError || props.catchError || globalKey || props.loading ? (
         <Loading />
       ) : (
         props.children
