@@ -130,7 +130,7 @@ let config = {
       },
     },
     miniCssExtractPluginOption: {
-      ignoreOrder: false,
+      ignoreOrder: true,
       filename: 'assets/css/[name].css',
       chunkFilename: 'assets/css/chunk/[name].css',
     },
