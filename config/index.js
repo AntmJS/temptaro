@@ -43,7 +43,16 @@ let config = {
       miniChain(chain)
     },
     lessLoaderOption: {
-      additionalData: "@import '~/src/style/index.less';",
+      lessOptions: {
+        modifyVars: {
+          hack: `true; @import "${npath.join(
+            process.cwd(),
+            'src/style/index.less',
+          )}";`,
+        },
+      },
+      // 适用于全局引入样式
+      // additionalData: "@import '~/src/style/index.less';",
     },
     postcss: {
       autoprefixer: {
@@ -108,7 +117,17 @@ let config = {
     },
     proxy: {},
     lessLoaderOption: {
-      additionalData: "@import '~/src/style/index.less';",
+      lessOptions: {
+        modifyVars: {
+          // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
+          hack: `true; @import "${npath.join(
+            process.cwd(),
+            'src/style/index.less',
+          )}";`,
+        },
+      },
+      // 适用于全局引入样式
+      // additionalData: "@import '~/src/style/index.less';",
     },
     postcss: {
       autoprefixer: {

@@ -1,6 +1,7 @@
 import { View } from '@tarojs/components'
 import { useEffect } from 'react'
 import { navigateTo, useDidHide, useDidShow } from '@tarojs/taro'
+import { Button } from '@antmjs/vantui'
 import Container from '@/components/container'
 // import Unite from '@antmjs/unite'
 import Com from './com/index'
@@ -24,6 +25,8 @@ export default function Index() {
   return (
     <Container>
       <View className="pages-index-index">
+        <Button type="primary">这个按钮的颜色已经通过主题定制过了</Button>
+        <View>如何更新主题可打开‘src/style/index.less’文件修改</View>
         <View
           onClick={() => {
             navigateTo({ url: '/pages/second/index' })
