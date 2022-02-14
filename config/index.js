@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const npath = require('path')
+const path = require('path')
 const pkg = require('../package.json')
 const miniChain = require('./webpack/miniChain')
 const h5Chain = require('./webpack/h5Chain')
@@ -34,8 +34,8 @@ let config = {
     DEPLOY_VERSION: JSON.stringify(version),
   },
   alias: {
-    '@': npath.resolve(process.cwd(), 'src'),
-    react: npath.resolve(process.cwd(), './node_modules/react'),
+    '@': path.resolve(process.cwd(), 'src'),
+    react: path.resolve(process.cwd(), './node_modules/react'),
   },
   framework: 'react',
   mini: {
@@ -45,10 +45,14 @@ let config = {
     lessLoaderOption: {
       lessOptions: {
         modifyVars: {
-          hack: `true; @import "${npath.join(
+          hack: `true; @import "${path.join(
             process.cwd(),
             'src/style/index.less',
-          )}";`,
+          )}";${
+            process.env.TARO_ENV === 'kwai'
+              ? `@import "${path.join(process.cwd(), 'src/style/kwai.less')}";`
+              : ''
+          }`,
         },
       },
       // 适用于全局引入样式
@@ -85,7 +89,7 @@ let config = {
         chain.mode('production')
         chain.devtool('hidden-source-map')
         chain.output
-          .path(npath.resolve('./build'))
+          .path(path.resolve('./build'))
           .filename('assets/js/[name].js')
           .chunkFilename('assets/js/chunk/[name].js')
           .publicPath(publicPath.replace('VERSION', version))
@@ -93,7 +97,7 @@ let config = {
         chain.mode('development')
         chain.devtool('eval-cheap-module-source-map')
         chain.output
-          .path(npath.resolve('./build'))
+          .path(path.resolve('./build'))
           .filename('assets/js/[name].js')
           .chunkFilename('assets/js/chunk/[name].js')
           .publicPath(publicPath.replace('VERSION', version))
@@ -103,7 +107,8 @@ let config = {
       }
     },
     router: {
-      mode: 'browser',
+      mode: 'hash',
+      // 'pages/empty/index'
     },
     devServer: {
       port: 10086,
@@ -115,12 +120,12 @@ let config = {
         'Access-Control-Allow-Origin': '*', // 表示允许跨域
       },
     },
+    esnextModules: [/@antmjs[\\/]vantui/],
     proxy: {},
     lessLoaderOption: {
       lessOptions: {
         modifyVars: {
-          // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
-          hack: `true; @import "${npath.join(
+          hack: `true; @import "${path.join(
             process.cwd(),
             'src/style/index.less',
           )}";`,
@@ -156,7 +161,8 @@ let config = {
   },
   plugins: [
     '@tarojs/plugin-platform-alipay-dd',
-    [npath.join(process.cwd(), 'config/webpack/configPlugin')],
+    '@tarojs/plugin-platform-kwai',
+    [path.join(process.cwd(), 'config/webpack/configPlugin')],
   ],
 }
 
