@@ -7,6 +7,7 @@ module.exports = function (chain) {
     .exclude.clear()
     .add(
       (filename) =>
+        /webpack[\\/]buildin[\\/]global\.js/.test(filename) ||
         /css-loader/.test(filename) ||
         (/node_modules/.test(filename) &&
           !(
