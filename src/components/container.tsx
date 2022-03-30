@@ -1,21 +1,24 @@
-import { PureComponent, useState, useEffect } from 'react'
+import {
+  PureComponent,
+  ReactNode,
+  useState,
+  useContext,
+  useEffect,
+} from 'react'
+import { showToast } from '@tarojs/taro'
+import { UniteContext, Popup } from '@antmjs/vantui'
 import { EMlf } from '@antmjs/trace'
-import { Popup } from '@antmjs/vantui'
 import { monitor } from '@/trace'
-import COMMON from '@/constants'
-import { useGlobalError } from '@/store'
-import FullScreenError from '@/components/fullScreen/error'
-import FullScreenLogin from '@/components/fullScreen/login'
-import Loading from '@/components/fullScreen/loading'
-import MiniBar from './miniBar'
+import Navigation from './navigation'
+import Error from './fullScreen/error'
+import Login from './fullScreen/login'
+import Loading from './fullScreen/loading'
+import './container.less'
 
-class ErrorBoundary extends PureComponent<{
-  setError: any
-}> {
+class ErrorBoundary extends PureComponent<{ setError: any }> {
   constructor(props: any) {
     super(props)
   }
-
   componentDidCatch(error: any, errorInfo: any) {
     if (process.env.NODE_ENV === 'development') {
       console.error('componentDidCatch', error, errorInfo)
@@ -26,10 +29,17 @@ class ErrorBoundary extends PureComponent<{
       d3: JSON.stringify(errorInfo || ''),
     })
     const showError = {
-      code: COMMON.SCRIPT,
+      code: 'BoundaryError',
       message: '渲染出现了小故障',
+      data: { error, errorInfo },
     }
     this.props.setError(showError)
+  }
+
+  clearError() {
+    this.setState({
+      error: null,
+    })
   }
 
   render() {
@@ -38,131 +48,96 @@ class ErrorBoundary extends PureComponent<{
 }
 
 type IProps = {
-  loading?: boolean
-  children: React.ReactNode
-  buttonColor?: 'white' | 'black'
-  title?: React.ReactNode
-  border?: boolean
-  fixed?: boolean
-  customNav?: boolean
-  pageError?: { code: string; message: string }
-  setPageError?: React.Dispatch<React.SetStateAction<any>>
+  children: ReactNode
+  useNav?: boolean
+  // renderData?: Record<string, any> | any[] | null
+  navTitle?: ReactNode
+  navClassName?: string
+  loading?: any
+  ignoreError?: boolean
 }
 
-function InnerCom(props: {
-  children: React.ReactNode
-  loading?: boolean
-  pageError?: { code: string; message: string }
-  catchError?: { code: string; message: string }
-  setPageError?: React.Dispatch<React.SetStateAction<any>>
-  setCatchError?: React.Dispatch<React.SetStateAction<any>>
-}) {
-  const [togglePage, setTogglePage] = useState(false)
-  const globalError = useGlobalError()
+export default function Index(props: IProps) {
+  const { useNav, navTitle, navClassName, loading, ignoreError } = props
+  const ctx = useContext(UniteContext)
+  const [loginStatus, setLoginStatus] = useState(false)
 
-  let globalKey = ''
-  let needLogin = false
-  for (const key in globalError) {
-    if (globalError[key as keyof typeof globalError]) {
-      if (globalError[key as keyof typeof globalError]?.code === COMMON.LOGIN) {
-        needLogin = true
-        globalKey = key
-        break
+  // 异常来自于三个部分 1: Request Code 2 JSError 3: BoundaryError
+  useEffect(() => {
+    if (!loading && ctx.error) {
+      if (!ignoreError) {
+        showToast({
+          title: ctx.error.message,
+          icon: 'none',
+        })
       }
-      globalKey = key
+      ctx.setError(undefined)
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ctx.error, loading])
 
-  useEffect(
-    function () {
-      if (props.pageError || props.catchError || globalKey) {
-        setTogglePage(true)
-      } else {
-        setTogglePage(false)
-      }
-    },
-    [props.pageError, props.catchError, globalKey],
-  )
+  useEffect(() => {
+    if (loading && ctx.error && !ignoreError && ctx.error.code === '404') {
+      setLoginStatus(true)
+    }
+  }, [loading, ctx, ignoreError])
 
-  return (
-    <>
-      <Popup
-        show={togglePage}
-        closeIconPosition="top-left"
-        position="bottom"
-        style={`height: 100%; background-color: ${
-          props?.pageError?.code === COMMON.LOGIN || needLogin
-            ? 'red'
-            : '#ffffff'
-        };`}
-        onClose={() => {
-          setTogglePage(false)
-        }}
-      >
-        {props?.pageError?.code === COMMON.LOGIN || needLogin ? (
-          <FullScreenLogin
-            pageError={props.pageError}
-            setPageError={props.setPageError}
-          />
-        ) : (
-          (props.pageError || props.catchError || globalKey) && (
-            <FullScreenError
-              globalFetchError={
-                globalError[globalKey as keyof typeof globalError]
-              }
-              catchError={props.catchError}
-              pageError={props.pageError}
-              setPageError={props.setPageError}
-              setCatchError={props.setCatchError}
+  function render() {
+    if (loading) {
+      if (ctx.error) {
+        if (ignoreError) return <></>
+        if (ctx.error.code !== '404')
+          return (
+            <Error
+              setError={ctx.setError as any}
+              onRefresh={ctx.startReload}
+              error={ctx.error}
             />
           )
-        )}
-      </Popup>
-      {props.pageError || props.catchError || globalKey || props.loading ? (
-        <Loading />
-      ) : (
-        props.children
-      )}
-    </>
-  )
-}
-
-// 提供给页面使用
-export default function Index(props: IProps) {
-  const {
-    customNav = true,
-    buttonColor,
-    border,
-    fixed,
-    title,
-    pageError,
-    setPageError,
-  } = props
-
-  // 收集componentDidCatch错误并在全屏展示错误
-  const [catchError, setCatchError] = useState(undefined)
-  return (
-    <>
-      {customNav && process.env.TARO_ENV !== 'h5' && (
-        <MiniBar
-          homeUrl="/pages/index/index"
-          fixed={fixed}
-          buttonColor={buttonColor}
-          title={title}
-          border={border}
-        />
-      )}
-      <ErrorBoundary setError={setCatchError}>
-        <InnerCom
-          loading={props.loading}
-          pageError={pageError}
-          catchError={catchError}
-          setPageError={setPageError}
-          setCatchError={setCatchError}
+      } else {
+        return <Loading />
+      }
+    }
+    return (
+      <>
+        {props.children}
+        <Popup
+          show={loginStatus}
+          className="popup-with-login"
+          closeIconPosition="top-left"
+          position="bottom"
+          closeable
+          safeAreaInsetTop
+          style={{
+            height: '100vh',
+          }}
+          onClose={() => {
+            setLoginStatus(false)
+            ctx.setError(undefined)
+            ctx.startReload()
+          }}
         >
-          {props.children}
-        </InnerCom>
-      </ErrorBoundary>
-    </>
+          <Login setError={ctx.setError as any} onRefresh={ctx.startReload} />
+        </Popup>
+      </>
+    )
+  }
+
+  return (
+    <ErrorBoundary setError={ctx.setError}>
+      {ctx.uniteConfig.page ? (
+        <Navigation
+          homeUrl="pages/index/index"
+          navTitle={navTitle}
+          navClassName={navClassName}
+          useNav={useNav}
+          loading={ctx.pullDownRefresh}
+        >
+          {render()}
+        </Navigation>
+      ) : (
+        render()
+      )}
+    </ErrorBoundary>
   )
 }

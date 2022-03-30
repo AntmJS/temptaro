@@ -1,5 +1,7 @@
 import Cache from '@antmjs/cache'
 
+// 和UI无关的全局数据存储在这里，和UI相关的全局数据存储在store.ts文件中
+
 const {
   cacheGetSync,
   cacheGet,
@@ -8,8 +10,14 @@ const {
   cacheRemoveSync,
   cacheRemove,
 } = Cache({
-  ram: { token1: '存储在缓存中' }, // 如果初始值为止则默认值要先定义成undefined
-  loc: { token2: '存储在缓存及localStorage中' }, // 如果初始值为止则默认值要先定义成undefined
+  ram: {},
+  loc: {
+    sysInfo: undefined,
+    menuButton: undefined,
+    token: '',
+    userId: '',
+    location: undefined,
+  },
 })
 
 export {

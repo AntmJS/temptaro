@@ -8,17 +8,21 @@
 .rn_temp
 .DS_Store
 
-pullRequest.js
+antm.config.js
 package-lock.json
 
+
+src/actions/*
+!src/actions/types
+!src/actions/constants
 node_modules
 coverage
 dist
 build
 weapp
 alipay
+kwai
 swan
 tt
 qq
 h5
-dd

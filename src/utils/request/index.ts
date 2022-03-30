@@ -1,11 +1,19 @@
+import type {
+  IPrefix,
+  IPathName,
+  IHref,
+  IRequestResponse,
+  TProxy,
+} from './constants'
+import { hideLoading } from '@tarojs/taro'
 import { EMlf } from '@antmjs/trace'
-import type { IPrefix } from '@/constants/domain'
-import DOMAIN from '@/constants/domain'
 import { monitor } from '@/trace'
+import { cacheGetSync } from '@/cache'
+import DOMAIN from './constants'
 // 注意：下面三个方法的调用不需要处理reject的场景，内部对请求做了封装，统一抛出到resolve内
 import _request from './innerRequest'
 import _thirdRequest from './thirdRequest'
-import _uploadFile from './uploadFile'
+// import _tencentUpload from './tencentUpload'
 
 function sendMonitor(option: any, res: any) {
   const params = {
@@ -16,7 +24,7 @@ function sendMonitor(option: any, res: any) {
     d5: JSON.stringify(res),
   }
   if (process.env.NODE_ENV === 'development') {
-    console.error('requestCatch', option, res)
+    console.error('development:requestCatch', option, res)
   }
   monitor(EMlf.api, params)
 }
@@ -35,73 +43,91 @@ function header(option: Taro.request.Option) {
   const header = {
     Accept: '*/*',
     'Content-Type': 'application/json',
-    'X-M-TOKEN': '',
     'X-M-VERSION': process.env.DEPLOY_VERSION,
     'X-M-TYPE': process.env.TARO_ENV,
+    'x-m-app': 'custom',
+    'x-m-token': cacheGetSync('token') || '',
   }
   option.header = header
 }
 
 // 只处理response.data为json的情况,其他返回都属于异常
-export default function <
+export function request<
   T extends Omit<Taro.request.Option, 'success' | 'fail' | 'header'>,
+  M extends TProxy,
 >(
   query: {
-    [K in keyof T]: K extends 'url' ? Normal.IPathName<T[K], IPrefix> : T[K]
+    [K in keyof T]: K extends 'url' ? IPathName<T[K], IPrefix> : T[K]
   },
-  options: {
-    proxy?: 'error' | 'warning' | 'info'
-  },
-) {
-  // error: 交给页面自己处理，会抛给error
+  type?: M,
+): Promise<M extends 'info' ? IRequestResponse : IRequestResponse['data']> {
   // warning: 直接内部帮你做了toast
   // info：直接把整个数据返回给请求的await结果
-  // 主要还是抛给外部registerCatch来处理
-  options.proxy = options.proxy || 'warning'
   url(query)
   header(query)
   return _request(query).then((res) => {
-    if (res.status !== 200) {
+    if (res.code !== '200') {
       sendMonitor(query, res)
     }
 
-    if (res.status === 200 && res.code === '200') {
-      if (options.proxy === 'info') {
+    if (res.code === '200') {
+      if (type === 'info') {
         return res
       } else {
         return res.data
       }
     } else {
-      if (options.proxy === 'info') {
+      if (type === 'info') {
         return res
       } else {
-        throw { code: res.code, message: res.message, options }
+        try {
+          hideLoading()
+        } catch {}
+        throw res
       }
     }
   })
 }
 
+// 自动化使用的方法
+export function createFetch<
+  REQ extends Record<string, any>,
+  RES extends IRequestResponse,
+>(url: any, method: any) {
+  return <T extends TProxy = 'warning'>(
+    data: REQ,
+    type?: T,
+  ): Promise<T extends 'info' ? RES & { header: any } : RES['data']> => {
+    return request(
+      {
+        url,
+        method,
+        data: data,
+      },
+      type,
+    )
+  }
+}
+
 export function thirdRequest<
   T extends Omit<Taro.request.Option, 'success' | 'fail'>,
 >(query: {
-  [K in keyof T]: K extends 'url' ? Normal.IHref<T[K]> : T[K]
+  [K in keyof T]: K extends 'url' ? IHref<T[K]> : T[K]
 }) {
   return _thirdRequest(query).then((res) => {
-    if (res.status !== 200) {
+    if (res.code !== '200') {
       sendMonitor(query, res)
     }
     return res
   })
 }
 
-export function uploadFile(
-  query: Omit<Taro.uploadFile.Option, 'success' | 'fail' | 'url'>,
-) {
-  const updateOption: Taro.uploadFile.Option = { ...query, url: '' }
-  return _uploadFile(updateOption).then((res) => {
-    if (res.status !== 200) {
-      sendMonitor(query, res)
-    }
-    return res
-  })
-}
+// 暂时只支持微信小程序环境
+// export function tencentUpload(filePath: any, filename: string, index?: number) {
+//   return _tencentUpload(filePath, filename, index).then((res) => {
+//     if (res.code !== '200') {
+//       sendMonitor(filePath + '_' + filename, res)
+//     }
+//     return res
+//   })
+// }

@@ -1,17 +1,17 @@
+import type { IPrefix, IPathName, IRequestResponse } from '../constants'
 import Taro from '@tarojs/taro'
-import type { IPrefix } from '@/constants/domain'
 
 // 基于和服务端的约定，这个方法主要是用来处理返回类型是json的请求，非json类型的自己单独封装
 // 格式如下 { statusCode: number, data: { success: boolean, data: any, code: string, message: string } }
 export default function innerRequest<
   T extends Omit<Taro.request.Option, 'success' | 'fail'>,
 >(option: {
-  [K in keyof T]: K extends 'url' ? Normal.IPathName<T[K], IPrefix> : T[K]
+  [K in keyof T]: K extends 'url' ? IPathName<T[K], IPrefix> : T[K]
 }) {
   option.timeout = option.timeout || 30000
   option.dataType = 'json'
   option.responseType = 'text'
-  return new Promise((resolve: (res: Normal.IRequestResponse) => void) => {
+  return new Promise((resolve: (res: IRequestResponse) => void) => {
     Taro.request({
       ...option,
     })
@@ -23,35 +23,32 @@ export default function innerRequest<
         ) {
           if (res.data.success) {
             resolve({
-              status: 200,
               header: res.header,
               code: '200',
               data: res.data.data,
             })
           } else {
             resolve({
-              status: 200,
               header: res.header,
-              code: res.data.code?.toString(),
-              data: res.data.message,
-              message: res.data.message,
+              code: (res.data.code || 597).toString(),
+              data: res.data.msg || res.data.message,
+              message: res.data.msg || res.data.message,
             })
           }
         } else {
-          if (res.statusCode === 200) res.statusCode = 602
+          if (res.statusCode === 200) res.statusCode = 598
           resolve({
-            status: res.statusCode || 601,
             header: res.header,
-            code: (res.statusCode || 601).toString(),
+            code: (res.statusCode || 599).toString(),
             data: res,
             message: '请求错误',
           })
         }
       })
       .catch((error) => {
+        console.log(error)
         resolve({
-          status: 601,
-          code: '601',
+          code: '499',
           data: error,
           message: '网络不稳定，请重试',
         })

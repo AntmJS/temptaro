@@ -43,7 +43,9 @@
     "babel.config.js",
     "eslint.config.js",
     "lint-staged.config.js",
-    "stylelint.config.js"
+    "stylelint.config.js",
+    "_antm.config.js",
+    "antm.config.js"
   ],
   "compileOnSave": false
 }

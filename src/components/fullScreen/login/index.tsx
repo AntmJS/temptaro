@@ -1,28 +1,100 @@
-import type GlobalState from '@antmjs/global-state'
 import { View } from '@tarojs/components'
-import { useClearGlobalError, useGlobalError } from '@/store'
-
+import Taro, { hideLoading, showLoading, showToast } from '@tarojs/taro'
+import { MiniPhoneButton } from '@antmjs/vantui'
+import { useEffect, useState } from 'react'
+import { cacheSetSync } from '@/cache'
+import { loginCommon } from '@/actions/common'
+import './index.less'
 interface IProps {
-  globalFetchError?: GlobalState.IError
-  pageError?: { code: string; message: string }
-  setPageError?: React.Dispatch<React.SetStateAction<undefined>>
+  onRefresh: () => void
+  setError: React.Dispatch<
+    | React.SetStateAction<{
+        code: string
+        message: string
+        data: any
+      }>
+    | undefined
+  >
+}
+
+interface Params {
+  jsCode: string
+  iv: string
+  userInfoEncryptedData: string
 }
 
 export default function Index(props: IProps) {
-  const { setPageError, pageError } = props
-  const clearGlobalError = useClearGlobalError()
-  const globalError = useGlobalError()
-  // 成功之后调用clearError，并且下拉刷新或者刷新当前页面
-  const clearError = () => {
-    // 清除页面数据
-    if (pageError) setPageError?.(undefined)
+  const { onRefresh, setError } = props
+  const [params, setParams] = useState<Params>({
+    jsCode: '',
+    iv: '',
+    userInfoEncryptedData: '',
+  })
 
-    // 清除全局异常
-    if (globalError) {
-      for (const key in globalError) {
-        clearGlobalError({ [key]: undefined })
-      }
+  useEffect(() => {
+    getCode()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const getCode = () => {
+    Taro.login({
+      success: (res) => {
+        if (res.code) {
+          const jsCode = res.code
+          const _params = { ...params, jsCode }
+          setParams(_params)
+        }
+      },
+    })
+  }
+
+  const handleLogin = async (_params: Params) => {
+    showLoading({
+      title: '登录中...',
+    })
+    const res = await loginCommon(_params)
+    hideLoading()
+    cacheSetSync('token', res.token)
+    setError(undefined)
+    onRefresh()
+  }
+
+  const onGetPhoneNumber = (res: any) => {
+    const { iv, encryptedData } = res
+    if (iv && encryptedData) {
+      const _params = { ...params, iv, userInfoEncryptedData: encryptedData }
+      setParams(_params)
+      handleLogin(_params)
+    } else {
+      showToast({ title: '登陆失败,请重新登录', icon: 'none' })
+      getCode()
     }
   }
-  return <View onClick={clearError}>login</View>
+
+  const onGetPhoneNumberFail = () => {
+    getCode()
+    showToast({ title: '登陆失败,请重新登录', icon: 'none' })
+  }
+
+  return (
+    <View className="pages-login-index">
+      <MiniPhoneButton
+        className="login-btn"
+        size="large"
+        type={'primary'}
+        openType="getPhoneNumber"
+        onFail={onGetPhoneNumberFail}
+        onGetPhone={(res) => {
+          if (!/(deny)|(permission)/.test(res.errMsg)) {
+            onGetPhoneNumber(res)
+          } else {
+            getCode()
+            showToast({ title: '登陆失败,请重新登录', icon: 'none' })
+          }
+        }}
+      >
+        登录
+      </MiniPhoneButton>
+    </View>
+  )
 }

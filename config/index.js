@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
+const npath = require('path')
 const pkg = require('../package.json')
 const miniChain = require('./webpack/miniChain')
 const h5Chain = require('./webpack/h5Chain')
@@ -16,10 +16,11 @@ function getVersion() {
 }
 
 const version = getVersion()
+console.log(version)
 
-let config = {
+const config = {
   projectName: pkg.name,
-  date: '2021-07-15',
+  date: '2022-3-14',
   designWidth: 750,
   deviceRatio: {
     640: 2.34 / 2,
@@ -34,8 +35,16 @@ let config = {
     DEPLOY_VERSION: JSON.stringify(version),
   },
   alias: {
-    '@': path.resolve(process.cwd(), 'src'),
-    react: path.resolve(process.cwd(), './node_modules/react'),
+    '@': npath.resolve(process.cwd(), 'src'),
+    react: npath.resolve(process.cwd(), './node_modules/react'),
+  },
+  defineConstants: {
+    // 解决Recoil报错问题
+    Window: 'function () {}',
+  },
+  copy: {
+    patterns: [],
+    options: {},
   },
   framework: 'react',
   mini: {
@@ -45,18 +54,21 @@ let config = {
     lessLoaderOption: {
       lessOptions: {
         modifyVars: {
-          hack: `true; @import "${path.join(
+          hack: `true; @import "${npath.join(
             process.cwd(),
-            'src/style/index.less',
+            'src/styles/index.less',
           )}";${
             process.env.TARO_ENV === 'kwai'
-              ? `@import "${path.join(process.cwd(), 'src/style/kwai.less')}";`
+              ? `@import "${npath.join(
+                  process.cwd(),
+                  'src/styles/kwai.less',
+                )}";`
               : ''
           }`,
         },
       },
       // 适用于全局引入样式
-      // additionalData: "@import '~/src/style/index.less';",
+      // additionalData: "@import '~/src/styles/index.less';",
     },
     postcss: {
       autoprefixer: {
@@ -89,7 +101,7 @@ let config = {
         chain.mode('production')
         chain.devtool('hidden-source-map')
         chain.output
-          .path(path.resolve('./build'))
+          .path(npath.resolve('./build'))
           .filename('assets/js/[name].js')
           .chunkFilename('assets/js/chunk/[name].js')
           .publicPath(publicPath.replace('VERSION', version))
@@ -97,7 +109,7 @@ let config = {
         chain.mode('development')
         chain.devtool('eval-cheap-module-source-map')
         chain.output
-          .path(path.resolve('./build'))
+          .path(npath.resolve('./build'))
           .filename('assets/js/[name].js')
           .chunkFilename('assets/js/chunk/[name].js')
           .publicPath(publicPath.replace('VERSION', version))
@@ -106,9 +118,20 @@ let config = {
         chain.output.publicPath(`/`)
       }
     },
+    esnextModules: [/@antmjs[\\/]vantui/],
+    lessLoaderOption: {
+      lessOptions: {
+        modifyVars: {
+          // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
+          hack: `true; @import "${npath.join(
+            process.cwd(),
+            'src/styles/index.less',
+          )}";`,
+        },
+      },
+    },
     router: {
-      mode: 'hash',
-      // 'pages/empty/index'
+      mode: 'browser',
     },
     devServer: {
       port: 10086,
@@ -120,26 +143,10 @@ let config = {
         'Access-Control-Allow-Origin': '*', // 表示允许跨域
       },
     },
-    esnextModules: [/@antmjs[\\/]vantui/],
-    proxy: {},
-    lessLoaderOption: {
-      lessOptions: {
-        modifyVars: {
-          hack: `true; @import "${path.join(
-            process.cwd(),
-            'src/style/index.less',
-          )}";`,
-        },
-      },
-      // 适用于全局引入样式
-      // additionalData: "@import '~/src/style/index.less';",
-    },
     postcss: {
       autoprefixer: {
         enable: true,
-        config: {
-          // autoprefixer 配置项
-        },
+        config: {},
       },
       pxtransform: {
         enable: true,
@@ -154,15 +161,14 @@ let config = {
       },
     },
     miniCssExtractPluginOption: {
-      ignoreOrder: true,
+      ignoreOrder: false,
       filename: 'assets/css/[name].css',
       chunkFilename: 'assets/css/chunk/[name].css',
     },
   },
   plugins: [
-    '@tarojs/plugin-platform-alipay-dd',
-    '@tarojs/plugin-platform-kwai',
-    [path.join(process.cwd(), 'config/webpack/configPlugin')],
+    [npath.join(process.cwd(), 'config/webpack/configPlugin')],
+    ['@tarojs/plugin-platform-kwai'],
   ],
 }
 

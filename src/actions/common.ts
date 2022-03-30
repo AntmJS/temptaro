@@ -1,9 +1,25 @@
-import request from '@/utils/request'
+/* Rap仓库ModuleId: 503316 */
 
-export function getConfig() {
-  // url的前缀会和constants/domain里面的环境下面的key做ts校验
-  // proxy.error: 交给页面自己处理，会抛给error
-  // proxy.warning: 直接内部帮你做了toast
-  // proxy.info：直接把整个数据返回给请求的await结果
-  return request({ url: '/api/xxx', method: 'GET' }, { proxy: 'error' })
-}
+// @ts-nocheck
+
+import { createFetch } from '@/utils/request'
+
+import type { getRoleList, getCosKey, login } from '@/actions/types/common';
+  
+/**
+ * 接口名：获取角色列表
+ * Rap 地址: http://rap2.taobao.org/repository/editor?id=299812&mod=503316&itf=2221146
+ */
+export const getRoleListCommon = createFetch<getRoleList['request'], getRoleList['response']>('/box/common/1.0/role/list', 'GET');
+
+/**
+ * 接口名：获取腾讯云临时key
+ * Rap 地址: http://rap2.taobao.org/repository/editor?id=299812&mod=503316&itf=2221147
+ */
+export const getCosKeyCommon = createFetch<getCosKey['request'], getCosKey['response']>('/box/common/1.0/cosKey', 'GET');
+
+/**
+ * 接口名：登录接口
+ * Rap 地址: http://rap2.taobao.org/repository/editor?id=299812&mod=503316&itf=2221148
+ */
+export const loginCommon = createFetch<login['request'], login['response']>('/box/common/1.0/login', 'POST');
