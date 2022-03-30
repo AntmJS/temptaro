@@ -25,16 +25,16 @@ export interface IRequestResponse {
 
 const domain = {
   real: {
-    box: 'http://rap2api.taobao.org/app/mock/299812',
+    box: 'http://rap2api.taobao.org/app/mock/xxx',
   },
   pre: {
-    box: 'http://rap2api.taobao.org/app/mock/299812',
+    box: 'http://rap2api.taobao.org/app/mock/xxx',
   },
   stable: {
-    box: 'http://rap2api.taobao.org/app/mock/299812',
+    box: 'http://rap2api.taobao.org/app/mock/xxx',
   },
   dev: {
-    box: 'http://rap2api.taobao.org/app/mock8/299812',
+    box: 'http://rap2api.taobao.org/app/mock/xxx',
   },
 }
 
