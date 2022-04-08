@@ -12,13 +12,9 @@ export type PullStatus = 'pulling' | 'canRelease' | 'refreshing' | 'complete'
 
 export type PullToRefreshProps = {
   children: ReactNode
-  pullingText?: ReactNode
-  canReleaseText?: ReactNode
-  refreshingText?: ReactNode
-  completeText?: ReactNode
-  completeDelay?: number
-  headHeight?: number
   threshold?: number
+  fixedStatus?: boolean
+  navHeight?: number
   onRefresh: () => Promise<void>
   renderText?: (status: PullStatus) => ReactNode
 }
@@ -29,17 +25,18 @@ export const defaultProps = {
   refreshingText: '加载中',
   completeText: '刷新成功',
   completeDelay: 500,
+  headHeight: 40,
 }
 
 export default function PullDownRefresh(p: PullToRefreshProps) {
   const props = Object.assign({}, defaultProps, p)
-  const headHeight = props.headHeight ?? 40
+  const headHeight = props.headHeight
   const threshold = props.threshold ?? 60
   const pullingRef = useRef(false)
   const yRef = useRef(0)
   const [status, setStatus] = useState<PullStatus>('pulling')
   const [springStyles, api] = useSpring(() => ({
-    from: { transform: `translateY(0px)` },
+    from: { transform: `scale(0)`, opacity: 0 },
     config: {
       tension: 300,
       friction: 30,
@@ -48,7 +45,7 @@ export default function PullDownRefresh(p: PullToRefreshProps) {
   }))
 
   async function doRefresh() {
-    api.start({ transform: `translateY(${headHeight}px)` })
+    api.start({ transform: `scale(1)`, opacity: 1 })
     setStatus('refreshing')
     try {
       await props.onRefresh()
@@ -59,7 +56,7 @@ export default function PullDownRefresh(p: PullToRefreshProps) {
     }
     api.start({
       to: async (next: any) => {
-        return next({ transform: `translateY(0px)` })
+        return next({ transform: `scale(0)`, opacity: 0 })
           .then(() => {
             setStatus('pulling')
           })
@@ -81,7 +78,7 @@ export default function PullDownRefresh(p: PullToRefreshProps) {
       if (status === 'canRelease') {
         doRefresh()
       } else {
-        api.start({ transform: `translateY(0px)` })
+        api.start({ transform: `scale(0)`, opacity: 0 })
       }
       return
     }
@@ -94,11 +91,13 @@ export default function PullDownRefresh(p: PullToRefreshProps) {
 
     event?.preventDefault?.()
     event?.stopPropagation?.()
-    const height = Math.max(
-      rubberbandIfOutOfBounds(y, 0, 0, headHeight * 5, 0.5),
-      0,
-    )
-    api.start({ transform: `translateY(${height}px)` })
+    const height =
+      Math.max(rubberbandIfOutOfBounds(y, 0, 0, headHeight * 5, 0.5), 0) / 1.1
+    const rate = height / threshold
+    api.start({
+      transform: `scale(${rate > 1 ? 1 : rate})`,
+      opacity: rate > 1 ? 1 : rate,
+    })
     setStatus(height > threshold ? 'canRelease' : 'pulling')
   }
 
@@ -144,26 +143,23 @@ export default function PullDownRefresh(p: PullToRefreshProps) {
 
   return (
     <View
-      catchMove
+      // catchMove
       onTouchEnd={onEnd}
       onTouchMove={onMove}
       onTouchStart={onStart}
       className="class-prefix-pull-to-refresh"
     >
       <NView
-        className={`${classPrefix}-container`}
-        style={{ marginTop: `-${headHeight}px`, ...springStyles }}
+        className={`${classPrefix}-head`}
+        style={{
+          position: props.fixedStatus ? 'fixed' : 'absolute',
+          top: props.fixedStatus ? `${(props.navHeight ?? 0) + 20}px` : '20px',
+          ...springStyles,
+        }}
       >
-        <View
-          className={`${classPrefix}-container-head`}
-          style={{ height: `${headHeight}px` }}
-        >
-          {renderStatusText()}
-        </View>
-        <View className={`${classPrefix}-container-content`}>
-          {props.children}
-        </View>
+        {renderStatusText()}
       </NView>
+      {props.children}
     </View>
   )
 }

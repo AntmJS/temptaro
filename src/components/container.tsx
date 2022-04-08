@@ -6,9 +6,11 @@ import {
   useEffect,
 } from 'react'
 import { showToast } from '@tarojs/taro'
+import { useRecoilValue } from 'recoil'
 import { UniteContext, Popup } from '@antmjs/vantui'
 import { EMlf } from '@antmjs/trace'
 import { monitor } from '@/trace'
+import { menuButtonStore } from '@/store'
 import Navigation from './navigation'
 import Error from './fullScreen/error'
 import Login from './fullScreen/login'
@@ -71,6 +73,12 @@ export default function Index(props: IProps) {
   } = props
   const ctx = useContext(UniteContext)
   const [loginStatus, setLoginStatus] = useState(false)
+  const menuButton = useRecoilValue(menuButtonStore)
+  const navHeight = menuButton
+    ? menuButton!.top +
+      menuButton!.height +
+      (menuButton!.top - menuButton!.statusBarHeight)
+    : 84
 
   // 异常来自于三个部分 1: Request Code 2 JSError 3: BoundaryError
   useEffect(() => {
@@ -111,7 +119,11 @@ export default function Index(props: IProps) {
     return (
       <>
         {enablePullDownRefresh ? (
-          <PullDownRefresh onRefresh={ctx.onRefresh}>
+          <PullDownRefresh
+            onRefresh={ctx.onRefresh}
+            fixedStatus={ctx.uniteConfig.page}
+            navHeight={navHeight}
+          >
             {props.children}
           </PullDownRefresh>
         ) : (

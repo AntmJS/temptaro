@@ -13,6 +13,5 @@ export default defineAppConfig({
     transparentTitle: 'always',
     titlePenetrate: 'YES',
     backgroundTextStyle: 'dark',
-    disableScroll: true,
   },
 })
