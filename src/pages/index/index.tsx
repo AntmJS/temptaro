@@ -33,5 +33,10 @@ export default Unite(
       </Container>
     )
   },
-  { page: true, stopPullDownRefreshAfterPull: true },
+  { page: true },
 )
+
+definePageConfig({
+  // 这里不要设置标题，在Container组件上面设置
+  navigationBarTitleText: '',
+})

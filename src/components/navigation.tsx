@@ -96,12 +96,11 @@ function MenuButton(props: IMenuButtonProps) {
 interface INavBarProps {
   title?: ReactNode
   menuButton: any
-  loading: boolean
   navClassName?: string
 }
 
 function NavBar(props: INavBarProps) {
-  const { title, menuButton, loading, navClassName } = props
+  const { title, menuButton, navClassName } = props
   const navHeight =
     menuButton!.top +
     menuButton!.height +
@@ -112,16 +111,10 @@ function NavBar(props: INavBarProps) {
     <>
       <View
         className={`navigation_minibar ${navClassName || ''}`}
-        style={
-          loading && process.env.TARO_ENV === 'alipay'
-            ? {
-                height: `${navHeight - statusBarHeight}px`,
-              }
-            : {
-                height: `${navHeight}px`,
-                paddingTop: `${statusBarHeight as number}px`,
-              }
-        }
+        style={{
+          height: `${navHeight}px`,
+          paddingTop: `${statusBarHeight as number}px`,
+        }}
       >
         <View
           className="navigation_minibar_center"
@@ -130,31 +123,11 @@ function NavBar(props: INavBarProps) {
             marginRight: `${paddingLeftRight as number}px`,
           }}
         >
-          {process.env.TARO_ENV !== 'alipay' && (
-            <View className="navigation_minibar_content van-ellipsis">
-              {title}
-            </View>
-          )}
-        </View>
-      </View>
-      {loading && (
-        <View
-          className="navigation_minibar_fix_loading"
-          style={{
-            top: `${
-              process.env.TARO_ENV === 'alipay'
-                ? navHeight - statusBarHeight
-                : navHeight
-            }px`,
-            height: `50px`,
-            width: '100%',
-          }}
-        >
-          <View className="navigation_minibar_stage">
-            <View className="navigation_minibar_loading" />
+          <View className="navigation_minibar_content van-ellipsis">
+            {title}
           </View>
         </View>
-      )}
+      </View>
       <View
         style={{
           height: `${navHeight}px`,
@@ -171,39 +144,12 @@ type IProps = {
   useNav?: boolean
   navTitle?: ReactNode
   navClassName?: string
-  loading?: boolean
 }
 
 export default function Index(props: IProps) {
-  const {
-    useNav = true,
-    navTitle,
-    navClassName,
-    homeUrl,
-    loading = false,
-  } = props
+  const { useNav = true, navTitle, navClassName, homeUrl } = props
   const [menuButton, setMenuButton]: any = useRecoilState(menuButtonStore)
 
-  // 设置导航栏标题
-  useEffect(() => {
-    if (process.env.TARO_ENV === 'alipay' && typeof navTitle === 'string') {
-      my.setNavigationBar({
-        reset: true,
-        title: navTitle || '',
-      })
-    }
-  }, [navTitle])
-  // 清空导航栏标题
-  useEffect(() => {
-    return function () {
-      if (process.env.TARO_ENV === 'alipay') {
-        my.setNavigationBar({
-          reset: true,
-          title: '',
-        })
-      }
-    }
-  }, [])
   // 设置导航栏位置
   useEffect(function () {
     if (process.env.TARO_ENV !== 'h5' && (!menuButton || !menuButton.precise)) {
@@ -215,7 +161,7 @@ export default function Index(props: IProps) {
       const ins = getCurrentInstance()
       if (ins.page?.config?.navigationBarTitleText)
         console.warn(
-          '使用PageBox组件后不要在配置文件设置navigationBarTitleText',
+          '使用Navigation组件后不要在配置文件设置navigationBarTitleText',
         )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -227,7 +173,6 @@ export default function Index(props: IProps) {
         <NavBar
           menuButton={menuButton}
           title={navTitle}
-          loading={loading}
           navClassName={navClassName}
         />
       )}

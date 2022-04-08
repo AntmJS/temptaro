@@ -13,8 +13,10 @@ import Navigation from './navigation'
 import Error from './fullScreen/error'
 import Login from './fullScreen/login'
 import Loading from './fullScreen/loading'
+import PullDownRefresh from './pullDownRefresh'
 import './container.less'
 
+const LOGIN_CODE = '206'
 class ErrorBoundary extends PureComponent<{ setError: any }> {
   constructor(props: any) {
     super(props)
@@ -55,10 +57,18 @@ type IProps = {
   navClassName?: string
   loading?: any
   ignoreError?: boolean
+  enablePullDownRefresh?: boolean
 }
 
 export default function Index(props: IProps) {
-  const { useNav, navTitle, navClassName, loading, ignoreError } = props
+  const {
+    useNav,
+    navTitle,
+    navClassName,
+    loading,
+    ignoreError,
+    enablePullDownRefresh = true,
+  } = props
   const ctx = useContext(UniteContext)
   const [loginStatus, setLoginStatus] = useState(false)
 
@@ -77,7 +87,7 @@ export default function Index(props: IProps) {
   }, [ctx.error, loading])
 
   useEffect(() => {
-    if (loading && ctx.error && !ignoreError && ctx.error.code === '404') {
+    if (loading && ctx.error && !ignoreError && ctx.error.code === LOGIN_CODE) {
       setLoginStatus(true)
     }
   }, [loading, ctx, ignoreError])
@@ -86,11 +96,11 @@ export default function Index(props: IProps) {
     if (loading) {
       if (ctx.error) {
         if (ignoreError) return <></>
-        if (ctx.error.code !== '404')
+        if (ctx.error.code !== LOGIN_CODE)
           return (
             <Error
               setError={ctx.setError as any}
-              onRefresh={ctx.startReload}
+              onRefresh={ctx.onRefresh}
               error={ctx.error}
             />
           )
@@ -100,7 +110,13 @@ export default function Index(props: IProps) {
     }
     return (
       <>
-        {props.children}
+        {enablePullDownRefresh ? (
+          <PullDownRefresh onRefresh={ctx.onRefresh}>
+            {props.children}
+          </PullDownRefresh>
+        ) : (
+          props.children
+        )}
         <Popup
           show={loginStatus}
           className="popup-with-login"
@@ -114,10 +130,14 @@ export default function Index(props: IProps) {
           onClose={() => {
             setLoginStatus(false)
             ctx.setError(undefined)
-            ctx.startReload()
+            ctx.onRefresh()
           }}
         >
-          <Login setError={ctx.setError as any} onRefresh={ctx.startReload} />
+          <Login
+            setLoginStatus={setLoginStatus}
+            setError={ctx.setError as any}
+            onRefresh={ctx.onRefresh}
+          />
         </Popup>
       </>
     )
@@ -131,7 +151,6 @@ export default function Index(props: IProps) {
           navTitle={navTitle}
           navClassName={navClassName}
           useNav={useNav}
-          loading={ctx.pullDownRefresh}
         >
           {render()}
         </Navigation>
