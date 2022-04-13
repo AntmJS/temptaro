@@ -48,17 +48,17 @@
     eslint-plugin-react "^7.24.0"
     eslint-plugin-react-hooks "^4.2.0"
 
-"@antmjs/iconfont@1.17.5":
-  version "1.17.5"
-  resolved "https://registry.npmmirror.com/@antmjs/iconfont/-/iconfont-1.17.5.tgz#4c52b0f9eb0b68a4717f7dab3b357b039f0d5f19"
-  integrity sha512-ZlLw9V3KF1aAmwsZBKvH/jZs0z5ByTd34hO+KXFB4peR8D5FFm2ivJB2AlzITyQBhioF2Gh0DRHVJAWZej7HcQ==
+"@antmjs/iconfont@1.18.1":
+  version "1.18.1"
+  resolved "https://registry.npmmirror.com/@antmjs/iconfont/-/iconfont-1.18.1.tgz#9c8e33560636348238e1436297817662b3469829"
+  integrity sha512-QfrkwaEQhCW6KdA5pRSToTnLcK9gvoCr2b0hTXxeVXD8muK+QES+jAGLCdk+NO9QiNQxMXSEmPVQ81nHipyc5g==
 
 "@antmjs/iconfont@^1.18.2":
   version "1.18.2"
   resolved "https://registry.npmmirror.com/@antmjs/iconfont/-/iconfont-1.18.2.tgz#d6f5e8226b973ff686c158bd2846da87b8de9939"
   integrity sha512-9EDZIFfytxo771+2dlLnwb3+KHGpt9EG6QO0gjNG7HzXfZnl4ShXFNJYcMEYcbIYNJWCu/WI7MAMxGNnKeGd0w==
 
-"@antmjs/mini-fix@^1.18.2":
+"@antmjs/mini-fix@^1.18.1":
   version "1.18.2"
   resolved "https://registry.npmmirror.com/@antmjs/mini-fix/-/mini-fix-1.18.2.tgz#546e393d06de1c2de7608cbdc7a1148cc557eeda"
   integrity sha512-GsVG2VN47ddpS4u/xonjz2D/9TzTQX+PghUhtAXKkTCgu12mDbN+yIi1qKnZC+71Ac9KPqnlj00ABGmtClzW7w==
@@ -116,17 +116,19 @@
   dependencies:
     "@babel/runtime-corejs3" "^7.14.7"
 
-"@antmjs/vantui@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.npmmirror.com/@antmjs/vantui/-/vantui-1.7.0.tgz#36835581cdd97ed29c60998db1626f921a6f29e5"
-  integrity sha512-tPvc+7DMAsLAkCkGgAeo7MR5bYxnMU8g6ZMRy0Yu5oQj0ph6mHuf65FFeleJ/Yy6HHi240ysGBxpajMEQCl3/Q==
+"@antmjs/vantui@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.npmmirror.com/@antmjs/vantui/-/vantui-1.8.1.tgz#4738c940f0288b01f0ee325636af663b8beab088"
+  integrity sha512-uep5PYXUcytugZv+oFVUS1Mjm7qK7v3TGyWc7OhAR4stoR4UUpF8x0uB3xPqs+pxypp60eB2hSIbmcA6jQuIkg==
   dependencies:
-    "@antmjs/iconfont" "1.17.5"
+    "@antmjs/iconfont" "1.18.1"
     "@babel/runtime-corejs3" "^7.14.7"
+    "@react-spring/web" "^9.4.4"
     "@vant/icons" "^1.7.1"
     classnames "^2.3.1"
     dayjs "^1.10.6"
     rc-util "^5.14.0"
+    use-deep-compare-effect "^1.8.1"
 
 "@antmjs/warning@^1.18.2":
   version "1.18.2"
@@ -5869,6 +5871,11 @@ deps-regex@^0.1.4:
   version "0.1.4"
   resolved "https://registry.npmmirror.com/deps-regex/-/deps-regex-0.1.4.tgz#518667b7691460a5e7e0a341be76eb7ce8090184"
   integrity sha512-3tzwGYogSJi8HoG93R5x9NrdefZQOXgHgGih/7eivloOq6yC6O+yoFxZnkgP661twvfILONfoKRdF9GQOGx2RA==
+
+dequal@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npmmirror.com/dequal/-/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
+  integrity sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==
 
 des.js@^1.0.0:
   version "1.0.1"
@@ -14824,6 +14831,14 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-deep-compare-effect@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.npmmirror.com/use-deep-compare-effect/-/use-deep-compare-effect-1.8.1.tgz#ef0ce3b3271edb801da1ec23bf0754ef4189d0c6"
+  integrity sha512-kbeNVZ9Zkc0RFGpfMN3MNfaKNvcLNyxOAAd9O4CBZ+kCBXXscn9s/4I+8ytUER4RDpEYs5+O6Rs4PqiZ+rHr5Q==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    dequal "^2.0.2"
 
 use@^3.1.0:
   version "3.1.1"
