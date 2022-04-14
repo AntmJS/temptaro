@@ -58,7 +58,7 @@
   resolved "https://registry.npmmirror.com/@antmjs/iconfont/-/iconfont-1.18.2.tgz#d6f5e8226b973ff686c158bd2846da87b8de9939"
   integrity sha512-9EDZIFfytxo771+2dlLnwb3+KHGpt9EG6QO0gjNG7HzXfZnl4ShXFNJYcMEYcbIYNJWCu/WI7MAMxGNnKeGd0w==
 
-"@antmjs/mini-fix@^1.18.1":
+"@antmjs/mini-fix@^1.18.2":
   version "1.18.2"
   resolved "https://registry.npmmirror.com/@antmjs/mini-fix/-/mini-fix-1.18.2.tgz#546e393d06de1c2de7608cbdc7a1148cc557eeda"
   integrity sha512-GsVG2VN47ddpS4u/xonjz2D/9TzTQX+PghUhtAXKkTCgu12mDbN+yIi1qKnZC+71Ac9KPqnlj00ABGmtClzW7w==

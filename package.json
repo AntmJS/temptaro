@@ -118,7 +118,7 @@
   "author": "",
   "dependencies": {
     "@antmjs/cache": "^1.18.2",
-    "@antmjs/mini-fix": "^1.18.1",
+    "@antmjs/mini-fix": "^1.18.2",
     "@antmjs/trace": "^1.18.2",
     "@antmjs/utils": "^1.18.2",
     "@antmjs/vantui": "^1.8.2",
