@@ -116,14 +116,13 @@
   dependencies:
     "@babel/runtime-corejs3" "^7.14.7"
 
-"@antmjs/vantui@^1.8.1":
-  version "1.8.1"
-  resolved "https://registry.npmmirror.com/@antmjs/vantui/-/vantui-1.8.1.tgz#4738c940f0288b01f0ee325636af663b8beab088"
-  integrity sha512-uep5PYXUcytugZv+oFVUS1Mjm7qK7v3TGyWc7OhAR4stoR4UUpF8x0uB3xPqs+pxypp60eB2hSIbmcA6jQuIkg==
+"@antmjs/vantui@^1.8.2":
+  version "1.8.2"
+  resolved "https://registry.npmmirror.com/@antmjs/vantui/-/vantui-1.8.2.tgz#1938c7764a98b157d160d7556c5a462610a09e81"
+  integrity sha512-U1WxY0srp7ksVhqSjHWfalEizRQmMWE5T4+CI6L3wa3AUVBdFbzl2VrphmmudswcREMQ4XMrJPdu3KKzb9cAKQ==
   dependencies:
     "@antmjs/iconfont" "1.18.1"
     "@babel/runtime-corejs3" "^7.14.7"
-    "@react-spring/web" "^9.4.4"
     "@vant/icons" "^1.7.1"
     classnames "^2.3.1"
     dayjs "^1.10.6"

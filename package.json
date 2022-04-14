@@ -121,7 +121,7 @@
     "@antmjs/mini-fix": "^1.18.1",
     "@antmjs/trace": "^1.18.2",
     "@antmjs/utils": "^1.18.2",
-    "@antmjs/vantui": "^1.8.1",
+    "@antmjs/vantui": "^1.8.2",
     "@babel/runtime": "^7.7.7",
     "@react-spring/web": "^9.4.4",
     "@tarojs/components": "3.4.3",
