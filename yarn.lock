@@ -2233,6 +2233,11 @@
     "@tarojs/shared" "3.4.3"
     webpack "4.46.0"
 
+"@tarojs/plugin-platform-alipay-dd@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmmirror.com/@tarojs/plugin-platform-alipay-dd/-/plugin-platform-alipay-dd-0.1.2.tgz#05bfc51001d36227408949fb565c702e261264dd"
+  integrity sha512-QOW4Z54VU/EXr2rQlKI3Xb5kDPcrsPFyXQV49iPSTEPDqgxOjfBCnuhmjjjhNeWj1yCEHqA0COABbmBR0sofxw==
+
 "@tarojs/plugin-platform-alipay@3.4.3":
   version "3.4.3"
   resolved "https://registry.npmmirror.com/@tarojs/plugin-platform-alipay/-/plugin-platform-alipay-3.4.3.tgz#821726cd313d957dd09736a3729565add90f1629"

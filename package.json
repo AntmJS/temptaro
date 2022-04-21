@@ -147,6 +147,8 @@
     "@commitlint/config-conventional": "^12.1.4",
     "@tarojs/cli": "^3.4.3",
     "@tarojs/mini-runner": "3.4.3",
+    "@tarojs/plugin-framework-react": "3.4.3",
+    "@tarojs/plugin-platform-alipay-dd": "^0.1.2",
     "@tarojs/plugin-platform-kwai": "^2.0.0",
     "@tarojs/webpack-runner": "3.4.3",
     "@types/react": "^17.0.2",
