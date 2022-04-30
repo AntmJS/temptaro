@@ -116,10 +116,10 @@
   dependencies:
     "@babel/runtime-corejs3" "^7.14.7"
 
-"@antmjs/vantui@^1.8.3":
-  version "1.8.3"
-  resolved "https://registry.npmmirror.com/@antmjs/vantui/-/vantui-1.8.3.tgz#f05d544740b6c3b6769d56b2dc836c9d3a4017c3"
-  integrity sha512-t14ZtIhfpSD40kpTGDbaEdyFtAQosGaxJQxLF4OpoEhX88tD2GIR1z+uy9iFlnUsU6WeiqIR6QPkwZ3ltPPVDg==
+"@antmjs/vantui@^1.9.2":
+  version "1.9.2"
+  resolved "https://registry.npmmirror.com/@antmjs/vantui/-/vantui-1.9.2.tgz#70b2d817ae117deb68c5cf030d7c29d62d307c43"
+  integrity sha512-pxmPIRx2jvswGB5bKiOWsxegG7ynfqbnk/bkVW8k03t00hp+cYD7xZfYVe5v60gcC6p21TcnKWM0OLZLAQcJmw==
   dependencies:
     "@antmjs/iconfont" "1.18.1"
     "@babel/runtime-corejs3" "^7.14.7"
