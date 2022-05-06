@@ -82,7 +82,12 @@ export default function Index(props: IProps) {
 
   // 异常来自于三个部分 1: Request Code 2 JSError 3: BoundaryError
   useEffect(() => {
-    if (!loading && ctx.error) {
+    if (
+      !loading &&
+      ctx.error &&
+      ctx.error.code !== 'JSError' &&
+      ctx.error.code !== 'BoundaryError'
+    ) {
       if (!ignoreError) {
         showToast({
           title: ctx.error.message,
@@ -101,7 +106,11 @@ export default function Index(props: IProps) {
   }, [loading, ctx, ignoreError])
 
   function render() {
-    if (loading) {
+    if (
+      loading ||
+      ctx.error?.code === 'JSError' ||
+      ctx.error?.code === 'BoundaryError'
+    ) {
       if (ctx.error) {
         if (ignoreError) return <></>
         if (ctx.error.code !== LOGIN_CODE)

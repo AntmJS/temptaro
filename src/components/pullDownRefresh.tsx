@@ -15,7 +15,11 @@ export type PullToRefreshProps = {
   threshold?: number
   fixedStatus?: boolean
   navHeight?: number
-  onRefresh: () => Promise<void>
+  onRefresh: <T extends boolean>(
+    catchRefresh?: T,
+  ) => T extends true
+    ? Promise<{ code: string; message: string; data: any }>
+    : void
   renderText?: (status: PullStatus) => ReactNode
 }
 
