@@ -1,62 +1,50 @@
 /* eslint-disable react/prop-types */
-import { animated, useSpring } from '@react-spring/web'
 
-import { ReactNode, useRef, useState } from 'react'
+import { ReactNode, useRef } from 'react'
+import { showToast } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { sleep, rubberbandIfOutOfBounds } from '@/utils'
-import './pullDownRefresh.less'
-
-const classPrefix = `class-prefix-pull-to-refresh`
 
 export type PullStatus = 'pulling' | 'canRelease' | 'refreshing' | 'complete'
 
 export type PullToRefreshProps = {
   children: ReactNode
   threshold?: number
-  fixedStatus?: boolean
-  navHeight?: number
   onRefresh: <T extends boolean>(
     catchRefresh?: T,
   ) => T extends true
     ? Promise<{ code: string; message: string; data: any }>
     : void
-  renderText?: (status: PullStatus) => ReactNode
+  setStatus: any
+  status: any
+  api: any
 }
 
-export const defaultProps = {
-  pullingText: '下拉刷新',
-  canReleaseText: '释放立即刷新',
-  refreshingText: '加载中',
-  completeText: '刷新成功',
-  completeDelay: 500,
-  headHeight: 40,
-}
-
-export default function PullDownRefresh(p: PullToRefreshProps) {
-  const props = Object.assign({}, defaultProps, p)
-  const headHeight = props.headHeight
+export default function PullDownRefresh(props: PullToRefreshProps) {
+  const setStatus = props.setStatus
+  const status = props.status
+  const api = props.api
+  const headHeight = 40
+  const completeDelay = 500
   const threshold = props.threshold ?? 60
   const pullingRef = useRef(false)
   const yRef = useRef(0)
-  const [status, setStatus] = useState<PullStatus>('pulling')
-  const [springStyles, api] = useSpring(() => ({
-    from: { transform: `scale(0)`, opacity: 0 },
-    config: {
-      tension: 300,
-      friction: 30,
-      clamp: true,
-    },
-  }))
 
   async function doRefresh() {
     api.start({ transform: `scale(1)`, opacity: 1 })
     setStatus('refreshing')
     try {
-      await props.onRefresh()
+      const res = await props.onRefresh(true)
+      if (res.code !== '200') {
+        showToast({
+          title: res.message,
+          icon: 'none',
+        })
+      }
       setStatus('complete')
     } catch {}
-    if (props.completeDelay > 0) {
-      await sleep(props.completeDelay)
+    if (completeDelay > 0) {
+      await sleep(completeDelay)
     }
     api.start({
       to: async (next: any) => {
@@ -131,38 +119,8 @@ export default function PullDownRefresh(p: PullToRefreshProps) {
     yRef.current = 0
   }
 
-  const renderStatusText = (): any => {
-    if (props.renderText) {
-      return props.renderText?.(status)
-    }
-
-    if (status === 'pulling') return props.pullingText
-    if (status === 'canRelease') return props.canReleaseText
-    if (status === 'refreshing')
-      return <View className="navigation_minibar_loading" />
-    if (status === 'complete') return props.completeText
-  }
-
-  const NView = animated(View)
-
   return (
-    <View
-      // catchMove
-      onTouchEnd={onEnd}
-      onTouchMove={onMove}
-      onTouchStart={onStart}
-      className="class-prefix-pull-to-refresh"
-    >
-      <NView
-        className={`${classPrefix}-head`}
-        style={{
-          position: props.fixedStatus ? 'fixed' : 'absolute',
-          top: props.fixedStatus ? `${(props.navHeight ?? 0) + 20}px` : '20px',
-          ...springStyles,
-        }}
-      >
-        {renderStatusText()}
-      </NView>
+    <View onTouchEnd={onEnd} onTouchMove={onMove} onTouchStart={onStart}>
       {props.children}
     </View>
   )

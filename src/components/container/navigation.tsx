@@ -5,6 +5,7 @@ import {
   reLaunch,
   getCurrentPages,
 } from '@tarojs/taro'
+import { animated } from '@react-spring/web'
 import { View } from '@tarojs/components'
 import { Icon } from '@antmjs/vantui'
 import { useRecoilState } from 'recoil'
@@ -39,11 +40,13 @@ function MenuButton(props: IMenuButtonProps) {
       const pages = getCurrentPages()
       if (pages.length > 0) {
         const ins = pages[pages.length - 1]
-        const url = ins?.route || ins?.['__route__']
+        let url = ins?.route || ins?.['__route__']
         if (pages.length > 1) {
           setBackButton(true)
         }
-        console.log(url, homeUrl)
+        if (url[0] === '/') {
+          url = url.substr(1)
+        }
         if (url !== homeUrl) {
           setHomeButton(true)
         }
@@ -94,46 +97,94 @@ function MenuButton(props: IMenuButtonProps) {
 }
 
 interface INavBarProps {
+  useNav?: boolean
   title?: ReactNode
   menuButton: any
   navClassName?: string
+  enablePullDownRefresh?: boolean
+  pullDownRefreshStatus?: 'pulling' | 'refreshing' | 'complete' | 'canRelease'
+  renderHeader?: (
+    navHeight: number,
+    statusBarHeight: number,
+    safeRight: number,
+  ) => void
+  springStyles: any
 }
 
 function NavBar(props: INavBarProps) {
-  const { title, menuButton, navClassName } = props
+  const {
+    useNav,
+    title,
+    menuButton,
+    navClassName,
+    enablePullDownRefresh,
+    pullDownRefreshStatus,
+    renderHeader,
+    springStyles,
+  } = props
   const navHeight =
     menuButton!.top +
     menuButton!.height +
     (menuButton!.top - menuButton!.statusBarHeight)
   const statusBarHeight = menuButton!.statusBarHeight
   const paddingLeftRight = menuButton!.width + menuButton!.marginRight * 2
+
+  const renderStatusText = (): any => {
+    if (pullDownRefreshStatus === 'pulling') return '下拉刷新'
+    if (pullDownRefreshStatus === 'canRelease') return '释放立即刷新'
+    if (pullDownRefreshStatus === 'refreshing')
+      return <View className="navigation_minibar_loading" />
+    if (pullDownRefreshStatus === 'complete') return '刷新成功'
+  }
+  const NView = animated(View)
   return (
     <>
-      <View
-        className={`navigation_minibar ${navClassName || ''}`}
-        style={{
-          height: `${navHeight}px`,
-          paddingTop: `${statusBarHeight as number}px`,
-        }}
-      >
-        <View
-          className="navigation_minibar_center"
-          style={{
-            marginLeft: `${paddingLeftRight as number}px`,
-            marginRight: `${paddingLeftRight as number}px`,
-          }}
-        >
-          <View className="navigation_minibar_content van-ellipsis">
-            {title}
+      <View className={`navigation_minibar ${navClassName || ''}`}>
+        {useNav && process.env.TARO_ENV !== 'h5' && (
+          <View
+            style={{
+              height: `${navHeight}px`,
+              paddingTop: `${statusBarHeight as number}px`,
+            }}
+          >
+            <View
+              className="navigation_minibar_center"
+              style={{
+                marginLeft: `${paddingLeftRight as number}px`,
+                marginRight: `${paddingLeftRight as number}px`,
+              }}
+            >
+              <View className="navigation_minibar_content van-ellipsis">
+                {title}
+              </View>
+            </View>
           </View>
-        </View>
+        )}
+        {renderHeader?.(navHeight, statusBarHeight, paddingLeftRight)}
+        {enablePullDownRefresh ? (
+          <View className="navigation_minibar_pulldown">
+            <NView
+              className={'navigation_minibar_pulldown_bar'}
+              style={{
+                ...springStyles,
+              }}
+            >
+              {renderStatusText()}
+            </NView>
+          </View>
+        ) : (
+          <></>
+        )}
       </View>
-      <View
-        style={{
-          height: `${navHeight}px`,
-          width: '100%',
-        }}
-      />
+      <View className="visibility-hidden">
+        <View
+          style={{
+            height: `${navHeight}px`,
+            width: '100%',
+          }}
+        />
+        {renderHeader?.(navHeight, statusBarHeight, paddingLeftRight)}
+      </View>
     </>
   )
 }
@@ -144,10 +195,27 @@ type IProps = {
   useNav?: boolean
   navTitle?: ReactNode
   navClassName?: string
+  enablePullDownRefresh?: boolean
+  pullDownRefreshStatus?: 'pulling' | 'refreshing' | 'complete' | 'canRelease'
+  renderHeader?: (
+    navHeight: number,
+    statusBarHeight: number,
+    safeRight: number,
+  ) => void
+  springStyles: any
 }
 
 export default function Index(props: IProps) {
-  const { useNav = true, navTitle, navClassName, homeUrl } = props
+  const {
+    useNav = true,
+    navTitle,
+    navClassName,
+    homeUrl,
+    renderHeader,
+    enablePullDownRefresh,
+    pullDownRefreshStatus,
+    springStyles,
+  } = props
   const [menuButton, setMenuButton]: any = useRecoilState(menuButtonStore)
 
   // 设置导航栏位置
@@ -169,11 +237,16 @@ export default function Index(props: IProps) {
 
   return (
     <>
-      {menuButton && useNav && process.env.TARO_ENV !== 'h5' && (
+      {menuButton && (
         <NavBar
           menuButton={menuButton}
           title={navTitle}
           navClassName={navClassName}
+          renderHeader={renderHeader}
+          enablePullDownRefresh={enablePullDownRefresh}
+          pullDownRefreshStatus={pullDownRefreshStatus}
+          springStyles={springStyles}
+          useNav={useNav}
         />
       )}
       {menuButton &&

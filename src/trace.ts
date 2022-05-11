@@ -47,7 +47,10 @@ const { exposure, log, monitor } = Trace(
           __logs__: data,
         }
         TaroRequest({
-          url: type === 'log' ? '' : '',
+          url:
+            type === 'log'
+              ? 'https://sbqfc-fed-log.cn-hangzhou.log.aliyuncs.com/logstores/trace/track'
+              : 'https://sbqfc-fed-log.cn-hangzhou.log.aliyuncs.com/logstores/monitor/track',
           method: 'POST',
           header: {
             'x-log-apiversion': '0.6.0',

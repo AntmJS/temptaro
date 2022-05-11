@@ -21,7 +21,7 @@ interface IProps {
 export default function Index(props: IProps) {
   const { error, onRefresh, setError } = props
 
-  const clearError = function () {
+  const clearError = async function () {
     setError(undefined)
     onRefresh()
   }

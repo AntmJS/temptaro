@@ -5,18 +5,18 @@ import {
   useContext,
   useEffect,
 } from 'react'
-import { showToast } from '@tarojs/taro'
-import { useRecoilValue } from 'recoil'
+import { showToast, usePageScroll } from '@tarojs/taro'
 import { UniteContext, Popup } from '@antmjs/vantui'
+import { View } from '@tarojs/components'
 import { EMlf } from '@antmjs/trace'
+import { useSpring } from '@react-spring/web'
 import { monitor } from '@/trace'
-import { menuButtonStore } from '@/store'
-import Navigation from './navigation'
-import Error from './fullScreen/error'
-import Login from './fullScreen/login'
-import Loading from './fullScreen/loading'
+import Error from '../fullScreen/error'
+import Login from '../fullScreen/login'
+import Loading from '../fullScreen/loading'
 import PullDownRefresh from './pullDownRefresh'
-import './container.less'
+import Navigation from './navigation'
+import './index.less'
 
 const LOGIN_CODE = '206'
 class ErrorBoundary extends PureComponent<{ setError: any }> {
@@ -52,33 +52,51 @@ class ErrorBoundary extends PureComponent<{ setError: any }> {
 }
 
 type IProps = {
+  className: string
   children: ReactNode
   useNav?: boolean
-  // renderData?: Record<string, any> | any[] | null
   navTitle?: ReactNode
   navClassName?: string
   loading?: any
   ignoreError?: boolean
-  enablePullDownRefresh?: boolean
+  enablePagePullDownRefresh?: boolean
+  renderPageTopHeader?: (
+    navHeight: number,
+    statusBarHeight: number,
+    safeRight: number,
+  ) => void
 }
 
 export default function Index(props: IProps) {
   const {
-    useNav,
+    useNav = true,
     navTitle,
     navClassName,
+    className,
     loading,
     ignoreError,
-    enablePullDownRefresh = true,
+    renderPageTopHeader,
+    enablePagePullDownRefresh = true,
   } = props
   const ctx = useContext(UniteContext)
+  const [canPull, setCanPull] = useState(true)
+  const [springStyles, api] = useSpring(() => ({
+    from: { transform: `scale(0)`, opacity: 0 },
+    config: {
+      tension: 300,
+      friction: 30,
+      clamp: true,
+    },
+  }))
+  const [pullDownRefreshStatus, setPullDownRefreshStatus] = useState(
+    'pulling',
+  ) as [
+    'pulling' | 'refreshing' | 'complete' | 'canRelease',
+    React.Dispatch<
+      React.SetStateAction<'pulling' | 'refreshing' | 'complete' | 'canRelease'>
+    >,
+  ]
   const [loginStatus, setLoginStatus] = useState(false)
-  const menuButton = useRecoilValue(menuButtonStore)
-  const navHeight = menuButton
-    ? menuButton!.top +
-      menuButton!.height +
-      (menuButton!.top - menuButton!.statusBarHeight)
-    : 84
 
   // 异常来自于三个部分 1: Request Code 2 JSError 3: BoundaryError
   useEffect(() => {
@@ -98,6 +116,15 @@ export default function Index(props: IProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ctx.error, loading])
+
+  usePageScroll((e) => {
+    if (e.scrollTop > 0 && canPull) {
+      setCanPull(false)
+    }
+    if (e.scrollTop <= 0 && !canPull) {
+      setCanPull(true)
+    }
+  })
 
   useEffect(() => {
     if (loading && ctx.error && !ignoreError && ctx.error.code === LOGIN_CODE) {
@@ -127,16 +154,17 @@ export default function Index(props: IProps) {
     }
     return (
       <>
-        {enablePullDownRefresh ? (
+        {ctx.uniteConfig.page && enablePagePullDownRefresh && canPull ? (
           <PullDownRefresh
             onRefresh={ctx.onRefresh}
-            fixedStatus={ctx.uniteConfig.page}
-            navHeight={navHeight}
+            setStatus={setPullDownRefreshStatus}
+            status={pullDownRefreshStatus}
+            api={api}
           >
-            {props.children}
+            <View className={className}>{props.children}</View>
           </PullDownRefresh>
         ) : (
-          props.children
+          <View className={className}>{props.children}</View>
         )}
         <Popup
           show={loginStatus}
@@ -148,7 +176,7 @@ export default function Index(props: IProps) {
           style={{
             height: '100vh',
           }}
-          onClose={() => {
+          onClose={async () => {
             setLoginStatus(false)
             ctx.setError(undefined)
             ctx.onRefresh()
@@ -172,6 +200,10 @@ export default function Index(props: IProps) {
           navTitle={navTitle}
           navClassName={navClassName}
           useNav={useNav}
+          enablePullDownRefresh={enablePagePullDownRefresh}
+          pullDownRefreshStatus={pullDownRefreshStatus}
+          renderHeader={renderPageTopHeader}
+          springStyles={springStyles}
         >
           {render()}
         </Navigation>
