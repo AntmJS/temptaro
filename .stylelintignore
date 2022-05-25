@@ -22,9 +22,11 @@
 .stylelintignore
 LICENSE
 
-src/actions/*
-!src/actions/types
-!src/actions/constants
+src/actions/rapper/*
+!src/actions/rapper/commonTypes
+!src/actions/rapper/types
+src/actions/swagger/*
+!src/actions/swagger/utils
 node_modules
 src/iconfont.less
 coverage

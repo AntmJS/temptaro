@@ -1,0 +1,10 @@
+  /**
+<% it.parameters.forEach((parameter) => { %>
+    * @param <%= parameter.name %> <%= parameter.optional ? '(optional)' : '' %> <%= parameter.name !== parameter.originalName ? `(API name: ${parameter.originalName})` : '' %>
+
+<% }); -%>
+  */
+  <%= it.name %>: createFetch<{
+  <% it.parameters.forEach((parameter) => { %>
+  <%= parameter.name %>: <%~ parameter.type %> <%= parameter.optional ? '| null | undefined' : '' %>,
+  <% }); %>}, IResponse<<%~ it.returnType %>>>('<%= it.url %>', '<%= it.method %>'),

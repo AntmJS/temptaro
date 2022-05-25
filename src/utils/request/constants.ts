@@ -35,6 +35,7 @@ const domain = {
   },
   dev: {
     box: 'http://rap2api.taobao.org/app/mock/299812',
+    pet: 'http://swagger.io',
   },
 }
 

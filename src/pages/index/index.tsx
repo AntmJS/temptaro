@@ -8,7 +8,8 @@ import DatetimePicker from '@/components/datetimePicker'
 import Picker from '@/components/picker'
 import Popup from '@/components/popup'
 import Area from '@/components/area'
-import { getRoleListCommon } from '@/actions/common'
+import { getRoleListCommon } from '@/actions/rapper/common'
+// import { petClient } from '@/actions/swagger/petstore'
 import { menuButtonStore } from '@/store'
 import './index.less'
 
@@ -36,6 +37,9 @@ export default Unite(
       ],
     },
     async onLoad() {
+      // const datap = await petClient.addPet({
+      //   body: { name: 'xx', photoUrls: ['xxx'] },
+      // })
       const data = await getRoleListCommon({})
       this.setState({
         info: data,

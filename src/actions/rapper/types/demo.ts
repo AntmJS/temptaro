@@ -1,13 +1,12 @@
-/* md5: b61b8d8382d7063b619091c34c96c784 */
-/* Rap仓库ModuleId: 504719 */
-/* rule设置参考：https://github.com/nuysoft/Mock/wiki/Syntax-Specification */
-import { IResponse } from '../constants'
+/* md5: b984dabef0e59fa90ab6ca805fdbca2c */
+/* Rap仓库ModuleId: 512128 */
+import { IResponse } from '../commonTypes/response.d'
 
 /**
  * 获取腾讯云临时key
  * @url /box/demo/1.0/cosKey
  * @method GET
- * @rapUrl http://rap2.taobao.org/repository/editor?id=299812&mod=504719&itf=2228962
+ * @rapUrl http://rap2.taobao.org/repository/editor?id=299812&mod=512128&itf=2270115
  */
 export type getCosKey = {
   request: Record<string, any>

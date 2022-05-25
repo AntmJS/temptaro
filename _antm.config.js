@@ -25,7 +25,7 @@ module.exports = {
       apiUrl: 'http://rap2api.taobao.org',
       rapUrl: 'http://rap2.taobao.org',
       // 生成的文件目录地址
-      rapperPath: './src/actions',
+      rapperPath: './src/actions/rapper',
       // rap项目id，自己输入
       repositoryId: 88888,
       // xxx自己登陆 http://rap2api.taobao.org 里面找cookie
@@ -83,7 +83,7 @@ import { createFetch } from '@/utils/request'
       mode: 'type',
       // fileRegex 将尝试使用绝对文件路径检测测试文件
       // (/__tests__/.*|(\\.|/)(test|spec))\\.[jt]sx?$
-      fileRegex: 'src/actions/types',
+      fileRegex: 'src/actions/rapper/types',
 
       formatFunc(params) {
         // createFetch<IReqGoodsQbf, IResGoodsQbf>('/c/api/1.0/approve/goods/qbf', 'GET')

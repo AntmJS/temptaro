@@ -1,6 +1,6 @@
 import type { IRequestResponse } from '../constants'
 import COS from 'cos-wx-sdk-v5'
-import { getCosKeyDemo } from '@/actions/demo'
+import { getCosKeyDemo } from '@/actions/rapper/demo'
 import { randomNum } from '@/utils'
 
 export default function (filePath: any, filename: string, index?: number) {

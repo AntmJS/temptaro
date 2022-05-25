@@ -8,12 +8,9 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 // deno-lint-ignore-file
+// @ts-nocheck
 
 import { createFetch } from '@/utils/request'
-
-export const defaults = {
-  baseUrl: '<%= it.baseUrl || '' %>',
-};
 
 export type IResponse<T> = {
   data: T
@@ -21,4 +18,3 @@ export type IResponse<T> = {
   message?: string
   code: string
 }
-

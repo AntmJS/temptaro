@@ -1,13 +1,12 @@
-/* md5: e69ae573b9cdfe181665a3acbdf112e1 */
-/* Rap仓库ModuleId: 503316 */
-/* rule设置参考：https://github.com/nuysoft/Mock/wiki/Syntax-Specification */
-import { IResponse } from '../constants'
+/* md5: 1841dd4b6fc1d4c8dd9e8aa45752fc28 */
+/* Rap仓库ModuleId: 512127 */
+import { IResponse } from '../commonTypes/response.d'
 
 /**
  * 获取角色列表
  * @url /box/common/1.0/role/list
  * @method GET
- * @rapUrl http://rap2.taobao.org/repository/editor?id=299812&mod=503316&itf=2221146
+ * @rapUrl http://rap2.taobao.org/repository/editor?id=299812&mod=512127&itf=2270116
  */
 export type getRoleList = {
   request: Record<string, any>
@@ -41,7 +40,7 @@ export type getRoleList = {
  * 获取腾讯云临时key
  * @url /box/common/1.0/cosKey
  * @method GET
- * @rapUrl http://rap2.taobao.org/repository/editor?id=299812&mod=503316&itf=2221147
+ * @rapUrl http://rap2.taobao.org/repository/editor?id=299812&mod=512127&itf=2270117
  */
 export type getCosKey = {
   request: Record<string, any>
@@ -78,7 +77,7 @@ export type getCosKey = {
  * 登录接口
  * @url /box/common/1.0/login
  * @method POST
- * @rapUrl http://rap2.taobao.org/repository/editor?id=299812&mod=503316&itf=2221148
+ * @rapUrl http://rap2.taobao.org/repository/editor?id=299812&mod=512127&itf=2270118
  */
 export type login = {
   request: {
