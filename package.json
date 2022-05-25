@@ -121,7 +121,8 @@
     "real:kwai": "cross-env NODE_ENV=production API_ENV=real npx taro build --type kwai",
     "build": "cross-env NODE_ENV=production npx taro build",
     "prepare": "husky install",
-    "rapper": "npx rapper"
+    "rapper": "npx rapper",
+    "swagger": "swaggie -s https://petstore.swagger.io/v2/swagger.json -o ./src/actions/petstore.ts -t ./src/actions/templates/fetch"
   },
   "author": "",
   "dependencies": {
@@ -142,7 +143,8 @@
     "lodash": "^4.17.21",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "recoil": "^0.6.1"
+    "recoil": "^0.6.1",
+    "swaggie": "^0.7.4"
   },
   "devDependencies": {
     "@antmjs/babel-preset": "^1.18.4",
