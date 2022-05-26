@@ -120,7 +120,7 @@
     "real:tt": "cross-env NODE_ENV=production API_ENV=real npx taro build --type tt",
     "real:kwai": "cross-env NODE_ENV=production API_ENV=real npx taro build --type kwai",
     "build": "cross-env NODE_ENV=production npx taro build",
-    "prepare": "husky install",
+    "prepare": "npx husky install",
     "rapper": "npx rapper",
     "swagger": "npx swaggie -s https://petstore.swagger.io/v2/swagger.json -o ./src/actions/swagger/petstore.ts -t ./src/actions/swagger/utils"
   },

@@ -1,6 +1,6 @@
 ## Taro项目模版
 
-目前支持微信、支付宝、抖音、快手小程序
+目前支持微信、支付宝、抖音、快手、百度小程序；支持H5
 
 ### 代码规范
 
@@ -11,19 +11,21 @@
 ### 开发效率
 
 * 使用Unite库以空间换时间的方案加快研发速度，同时保证TS类型安全
-* action层引入@antmjs/rapper方案确保响应结果保持TS类型安全，同时默认支持mock
+* action层使用@antmjs/rapper实现根据TS类型自动生成action逻辑，保证类型安全
+* action层也可以使用yarn swagger自动根据服务端的swagger api 自动生成action逻辑，保证类型安全
 * 自动埋点
 * 自动收集异常
 * 自动处理异常
 * 自动处理pullDownloadRefresh
 * 快速使用自定义导航
 * 快速支持事件抖动
+* 二次封装了部分频繁使用的组件
 
 ## 使用
 
-1. 将_antm.config.js 改成 antm.config.js，更新一些参数，gitignore去掉anmt.config.js
-2. 编辑actions/types目录，更新后执行yarn rapper
-3. 需要引入iconfont可以执行 yarn iconfont 会自动生成src/iconfont.less
-4. yarn
-5. yarn husky install 
-6. yarn watch:weapp
+1. 将_antm.config.js 改成 antm.config.js，更新一些参数，gitignore去掉antm.config.js
+2. 编辑actions/rapper/types目录，更新后执行yarn rapper(需要的话)
+3. 执行yarn swagger自动根据服务端swagger api生成action层代码(需要的话)
+4. 需要引入iconfont可以执行 yarn iconfont 会自动生成src/iconfont.less
+5. yarn
+6. yarn watch:weapp(package.json里面填写对应环境的appId)
