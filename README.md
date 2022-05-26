@@ -24,7 +24,7 @@
 ## 使用
 
 1. 将_antm.config.js 改成 antm.config.js，更新一些参数，gitignore去掉antm.config.js
-2. 编辑actions/rapper/types目录，更新后执行yarn rapper(需要的话)
+2. 编辑actions/rapper/types目录，更新后执行yarn rapper自动生成action层代码(需要的话)
 3. 执行yarn swagger自动根据服务端swagger api生成action层代码(需要的话)
 4. 需要引入iconfont可以执行 yarn iconfont 会自动生成src/iconfont.less
 5. yarn
