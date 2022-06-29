@@ -154,18 +154,17 @@ export default function Index(props: IProps) {
     }
     return (
       <>
-        {ctx.uniteConfig.page && enablePagePullDownRefresh && canPull ? (
-          <PullDownRefresh
-            onRefresh={ctx.onRefresh}
-            setStatus={setPullDownRefreshStatus}
-            status={pullDownRefreshStatus}
-            api={api}
-          >
-            <View className={className}>{props.children}</View>
-          </PullDownRefresh>
-        ) : (
+        <PullDownRefresh
+          canPull={
+            !!(ctx.uniteConfig.page && enablePagePullDownRefresh && canPull)
+          }
+          onRefresh={ctx.onRefresh}
+          setStatus={setPullDownRefreshStatus}
+          status={pullDownRefreshStatus}
+          api={api}
+        >
           <View className={className}>{props.children}</View>
-        )}
+        </PullDownRefresh>
         <Popup
           show={loginStatus}
           className="popup-with-login"

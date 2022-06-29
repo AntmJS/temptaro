@@ -8,6 +8,7 @@ import { sleep, rubberbandIfOutOfBounds } from '@/utils'
 export type PullStatus = 'pulling' | 'canRelease' | 'refreshing' | 'complete'
 
 export type PullToRefreshProps = {
+  canPull: boolean
   children: ReactNode
   threshold?: number
   onRefresh: <T extends boolean>(
@@ -94,29 +95,35 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
   }
 
   const onStart = function (e: any) {
-    yRef.current = e.changedTouches[0].pageY
-    common({
-      first: true,
-      last: false,
-      event: e.changedTouches[0],
-    })
+    if (props.canPull) {
+      yRef.current = e.changedTouches[0].pageY
+      common({
+        first: true,
+        last: false,
+        event: e.changedTouches[0],
+      })
+    }
   }
   const onMove = function (e: any) {
-    e?.preventDefault?.()
-    e?.stopPropagation?.()
-    common({
-      first: true,
-      last: false,
-      event: e.changedTouches[0],
-    })
+    if (props.canPull) {
+      e?.preventDefault?.()
+      e?.stopPropagation?.()
+      common({
+        first: true,
+        last: false,
+        event: e.changedTouches[0],
+      })
+    }
   }
   const onEnd = function (e: any) {
-    common({
-      first: false,
-      last: true,
-      event: e.changedTouches[0],
-    })
-    yRef.current = 0
+    if (props.canPull) {
+      common({
+        first: false,
+        last: true,
+        event: e.changedTouches[0],
+      })
+      yRef.current = 0
+    }
   }
 
   return (
