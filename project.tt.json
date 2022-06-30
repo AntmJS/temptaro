@@ -5,6 +5,7 @@
     "urlCheck": true,
     "es6": false,
     "minified": false,
-    "postcss": false
+    "postcss": false,
+    "enhance": false
   }
 }
