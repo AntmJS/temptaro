@@ -48,6 +48,15 @@
     eslint-plugin-react "^7.24.0"
     eslint-plugin-react-hooks "^4.2.0"
 
+"@antmjs/global-state@^1.19.2":
+  version "1.19.2"
+  resolved "https://registry.npmmirror.com/@antmjs/global-state/-/global-state-1.19.2.tgz#0a2d122daef2ccc3e30c4d72c2aded80ba85df26"
+  integrity sha512-sK+Mnn2ofdRsfFKfkkd1PwCgcPd6qRPrhIkp7su2t4btswVU73pFtJxuSOZXjeFzfHaaoNt3z4DQQTlhs48NKg==
+  dependencies:
+    "@babel/runtime-corejs3" "^7.14.7"
+    scheduler "^0.20.2"
+    use-context-selector "^1.3.7"
+
 "@antmjs/iconfont@1.18.1":
   version "1.18.1"
   resolved "https://registry.npmmirror.com/@antmjs/iconfont/-/iconfont-1.18.1.tgz#9c8e33560636348238e1436297817662b3469829"
@@ -109,6 +118,13 @@
     history "^5.0.0"
     mobile-detect "^1.4.5"
 
+"@antmjs/unite@^1.19.2":
+  version "1.19.2"
+  resolved "https://registry.npmmirror.com/@antmjs/unite/-/unite-1.19.2.tgz#e5a84bb295cdfeebe34d4068a8bf053e397676b2"
+  integrity sha512-8V9S4rrtGDhRNzLFGHvpzWqWIYfstCssiwGZkTAXQ7d8IGtvpTBN/sCzUY3k+SQpkxbmrc40TaeC705p/XkDpg==
+  dependencies:
+    "@babel/runtime-corejs3" "^7.14.7"
+
 "@antmjs/utils@1.19.2", "@antmjs/utils@^1.19.2":
   version "1.19.2"
   resolved "https://registry.npmmirror.com/@antmjs/utils/-/utils-1.19.2.tgz#3113421640e5b42690c4fc94d0dc1077f39282f6"
@@ -116,10 +132,10 @@
   dependencies:
     "@babel/runtime-corejs3" "^7.14.7"
 
-"@antmjs/vantui@^1.9.5":
-  version "1.9.5"
-  resolved "https://registry.npmmirror.com/@antmjs/vantui/-/vantui-1.9.5.tgz#011f828ce5dca3286c51adfb060d9d48bde4ce81"
-  integrity sha512-4QCg7HcD10zRkBju7FUXVtZAJqjrgP3oEICaQH0uvd65QD6yl2j0SvmbSBCRmbXsheDXM/5xuEbdS4yakC8w/A==
+"@antmjs/vantui@^1.9.10":
+  version "1.9.10"
+  resolved "https://registry.npmmirror.com/@antmjs/vantui/-/vantui-1.9.10.tgz#5a3c3d0148749d614837a61e6b93dbd505f193ac"
+  integrity sha512-lW4Dk5IqvW4OXWHkli3LXRPkdSgTQoZpY8ky9854nQzDY6zRKzMn6DrUmrjr1QmusrdoR1na1ak9OpmTBcOfpw==
   dependencies:
     "@antmjs/iconfont" "1.18.1"
     "@babel/runtime-corejs3" "^7.14.7"
@@ -8814,8 +8830,6 @@ is-path-in-cwd@^2.0.0:
   version "2.1.0"
   resolved "https://registry.npmmirror.com/is-path-in-cwd/-/is-path-in-cwd-2.1.0.tgz#bfe2dca26c69f397265a4009963602935a053acb"
   integrity sha512-rNocXHgipO+rvnP6dk3zI20RpOtrAM/kzbB258Uw5BWr3TpXi861yzjo16Dn4hUox07iw5AyeMLHWsujkjzvRQ==
-  dependencies:
-    is-path-inside "^2.1.0"
 
 is-path-inside@^1.0.0:
   version "1.0.1"
@@ -8823,13 +8837,6 @@ is-path-inside@^1.0.0:
   integrity sha512-qhsCR/Esx4U4hg/9I19OVUAJkGWtjRYHMRgUMZE2TDdj+Ag+kttZanLupfddNyglzz50cUlmWzUaI37GDfNx/g==
   dependencies:
     path-is-inside "^1.0.1"
-
-is-path-inside@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmmirror.com/is-path-inside/-/is-path-inside-2.1.0.tgz#7c9810587d659a40d27bcdb4d5616eab059494b2"
-  integrity sha512-wiyhTzfDWsvwAW53OBWF5zuvaOGlZ6PwYxAbPVDhpm+gM09xKQGjBq/8uYN12aDvMxnAnq3dxTyoSoRNmg5YFg==
-  dependencies:
-    path-is-inside "^1.0.2"
 
 is-plain-obj@^1.0.0, is-plain-obj@^1.1.0:
   version "1.1.0"
@@ -14372,6 +14379,11 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-context-selector@^1.3.7:
+  version "1.4.1"
+  resolved "https://registry.npmmirror.com/use-context-selector/-/use-context-selector-1.4.1.tgz#eb96279965846b72915d7f899b8e6ef1d768b0ae"
+  integrity sha512-Io2ArvcRO+6MWIhkdfMFt+WKQX+Vb++W8DS2l03z/Vw/rz3BclKpM0ynr4LYGyU85Eke+Yx5oIhTY++QR0ZDoA==
 
 use-deep-compare-effect@^1.8.1:
   version "1.8.1"
