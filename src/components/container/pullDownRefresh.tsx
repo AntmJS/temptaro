@@ -82,8 +82,8 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
 
     if (!pullingRef.current) return
 
-    event?.preventDefault?.()
-    event?.stopPropagation?.()
+    // event?.preventDefault?.()
+    // event?.stopPropagation?.()
     const height =
       Math.max(rubberbandIfOutOfBounds(y, 0, 0, headHeight * 5, 0.5), 0) / 1.1
     const rate = height / threshold
@@ -106,8 +106,8 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
   }
   const onMove = function (e: any) {
     if (props.canPull) {
-      e?.preventDefault?.()
-      e?.stopPropagation?.()
+      // e?.preventDefault?.()
+      // e?.stopPropagation?.()
       common({
         first: true,
         last: false,

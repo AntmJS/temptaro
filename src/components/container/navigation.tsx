@@ -96,6 +96,12 @@ function MenuButton(props: IMenuButtonProps) {
   )
 }
 
+interface IH5PullDownRefresh {
+  navClassName?: string
+  springStyles: any
+  pullDownRefreshStatus?: 'pulling' | 'refreshing' | 'complete' | 'canRelease'
+}
+
 interface INavBarProps {
   useNav?: boolean
   title?: ReactNode
@@ -189,6 +195,35 @@ function NavBar(props: INavBarProps) {
   )
 }
 
+function H5PullDownRefresh(props: IH5PullDownRefresh) {
+  const { navClassName, pullDownRefreshStatus, springStyles } = props
+
+  const renderStatusText = (): any => {
+    if (pullDownRefreshStatus === 'pulling') return '下拉刷新'
+    if (pullDownRefreshStatus === 'canRelease') return '释放立即刷新'
+    if (pullDownRefreshStatus === 'refreshing')
+      return <View className="navigation_minibar_loading" />
+    if (pullDownRefreshStatus === 'complete') return '刷新成功'
+  }
+  const NView = animated(View)
+  return (
+    <>
+      <View className={`navigation_minibar ${navClassName || ''}`}>
+        <View className="navigation_minibar_pulldown">
+          <NView
+            className={'navigation_minibar_pulldown_bar'}
+            style={{
+              ...springStyles,
+            }}
+          >
+            {renderStatusText()}
+          </NView>
+        </View>
+      </View>
+    </>
+  )
+}
+
 type IProps = {
   homeUrl: string
   children: ReactNode
@@ -237,6 +272,15 @@ export default function Index(props: IProps) {
 
   return (
     <>
+      {process.env.TARO_ENV === 'h5' && enablePullDownRefresh ? (
+        <H5PullDownRefresh
+          navClassName={navClassName}
+          pullDownRefreshStatus={pullDownRefreshStatus}
+          springStyles={springStyles}
+        />
+      ) : (
+        <></>
+      )}
       {menuButton && (
         <NavBar
           menuButton={menuButton}
