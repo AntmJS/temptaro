@@ -3,7 +3,7 @@ import Taro, { hideLoading, showLoading, showToast } from '@tarojs/taro'
 import { MiniPhoneButton } from '@antmjs/vantui'
 import { useEffect, useState } from 'react'
 import { cacheSetSync } from '@/cache'
-import { loginCommon } from '@/actions/rapper/common'
+import { loginCommon } from '@/actions/simple/common'
 import './index.less'
 interface IProps {
   setLoginStatus: React.Dispatch<React.SetStateAction<boolean>>

@@ -3,7 +3,7 @@ import { View } from '@tarojs/components'
 import { useReachBottom } from '@tarojs/taro'
 import Container from '@/components/container'
 import Pagination from '@/components/pagination'
-import { getRoleListCommon } from '@/actions/rapper/common'
+import { getRoleListCommon } from '@/actions/simple/common'
 import './index.less'
 
 const PAGE_SIZE = 20
