@@ -4,6 +4,7 @@ import {
   navigateBack,
   reLaunch,
   getCurrentPages,
+  useDidShow,
 } from '@tarojs/taro'
 import { animated } from '@react-spring/web'
 import { View } from '@tarojs/components'
@@ -12,6 +13,18 @@ import { useRecoilState } from 'recoil'
 import { menuButtonStore } from '@/store'
 import { setMenuButtonAsync } from '@/utils'
 import './navigation.less'
+
+const hackSyncWechatTitle = () => {
+  const iframe = document.createElement('iframe')
+  iframe.style.display = 'none'
+  iframe.src = '/favicon.ico'
+  iframe.onload = () => {
+    setTimeout(() => {
+      document.body.removeChild(iframe)
+    }, 10)
+  }
+  document.body.appendChild(iframe)
+}
 
 interface IMenuButtonProps {
   menuButton: any
@@ -99,6 +112,12 @@ function MenuButton(props: IMenuButtonProps) {
 interface IH5PullDownRefresh {
   navClassName?: string
   springStyles: any
+  enablePullDownRefresh?: boolean
+  renderHeader?: (
+    navHeight: number,
+    statusBarHeight: number,
+    safeRight: number,
+  ) => void
   pullDownRefreshStatus?: 'pulling' | 'refreshing' | 'complete' | 'canRelease'
 }
 
@@ -183,12 +202,14 @@ function NavBar(props: INavBarProps) {
         )}
       </View>
       <View className="visibility-hidden">
-        <View
-          style={{
-            height: `${navHeight}px`,
-            width: '100%',
-          }}
-        />
+        {useNav && (
+          <View
+            style={{
+              height: `${navHeight}px`,
+              width: '100%',
+            }}
+          />
+        )}
         {renderHeader?.(navHeight, statusBarHeight, paddingLeftRight)}
       </View>
     </>
@@ -196,7 +217,13 @@ function NavBar(props: INavBarProps) {
 }
 
 function H5PullDownRefresh(props: IH5PullDownRefresh) {
-  const { navClassName, pullDownRefreshStatus, springStyles } = props
+  const {
+    navClassName,
+    pullDownRefreshStatus,
+    springStyles,
+    renderHeader,
+    enablePullDownRefresh,
+  } = props
 
   const renderStatusText = (): any => {
     if (pullDownRefreshStatus === 'pulling') return '下拉刷新'
@@ -209,16 +236,30 @@ function H5PullDownRefresh(props: IH5PullDownRefresh) {
   return (
     <>
       <View className={`navigation_minibar ${navClassName || ''}`}>
-        <View className="navigation_minibar_pulldown">
-          <NView
-            className={'navigation_minibar_pulldown_bar'}
-            style={{
-              ...springStyles,
-            }}
-          >
-            {renderStatusText()}
-          </NView>
-        </View>
+        {renderHeader?.(0, 0, 0)}
+        {enablePullDownRefresh ? (
+          <View className="navigation_minibar_pulldown">
+            <NView
+              className={'navigation_minibar_pulldown_bar'}
+              style={{
+                ...springStyles,
+              }}
+            >
+              {renderStatusText()}
+            </NView>
+          </View>
+        ) : (
+          <></>
+        )}
+      </View>
+      <View className="visibility-hidden">
+        <View
+          style={{
+            height: `0px`,
+            width: '100%',
+          }}
+        />
+        {renderHeader?.(0, 0, 0)}
       </View>
     </>
   )
@@ -253,6 +294,15 @@ export default function Index(props: IProps) {
   } = props
   const [menuButton, setMenuButton]: any = useRecoilState(menuButtonStore)
 
+  useDidShow(() => {
+    // 设置title
+    if (process.env.TARO_ENV === 'h5' && navTitle) {
+      document.title = navTitle.toString()
+      if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+        hackSyncWechatTitle()
+      }
+    }
+  })
   // 设置导航栏位置
   useEffect(function () {
     if (process.env.TARO_ENV !== 'h5' && (!menuButton || !menuButton.precise)) {
@@ -272,9 +322,11 @@ export default function Index(props: IProps) {
 
   return (
     <>
-      {process.env.TARO_ENV === 'h5' && enablePullDownRefresh ? (
+      {process.env.TARO_ENV === 'h5' ? (
         <H5PullDownRefresh
           navClassName={navClassName}
+          renderHeader={renderHeader}
+          enablePullDownRefresh={enablePullDownRefresh}
           pullDownRefreshStatus={pullDownRefreshStatus}
           springStyles={springStyles}
         />
