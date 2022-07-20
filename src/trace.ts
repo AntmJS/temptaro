@@ -1,6 +1,10 @@
 import { document } from '@tarojs/runtime'
-import { request as TaroRequest } from '@tarojs/taro'
-import Trace, { EAppType, EAppSubType, EGcs, utf8ToBytes } from '@antmjs/trace'
+// import { request as TaroRequest } from '@tarojs/taro'
+import Trace, {
+  EAppType,
+  EAppSubType,
+  EGcs /* utf8ToBytes */,
+} from '@antmjs/trace'
 import { cacheGetSync } from './cache'
 
 const { exposure, log, monitor } = Trace(
@@ -42,27 +46,28 @@ const { exposure, log, monitor } = Trace(
           !/(redirectTo:fail)|(hideLoading:fail)|(cancel)/.test(item.d1),
       )
       if (process.env.API_ENV === 'real' && data?.length > 0) {
-        const body = {
-          __topic__: '1', // appId
-          __logs__: data,
-        }
-        TaroRequest({
-          url:
-            type === 'log'
-              ? 'https://sbqfc-fed-log.cn-hangzhou.log.aliyuncs.com/logstores/trace/track'
-              : 'https://sbqfc-fed-log.cn-hangzhou.log.aliyuncs.com/logstores/monitor/track',
-          method: 'POST',
-          header: {
-            'x-log-apiversion': '0.6.0',
-            'x-log-bodyrawsize': `${utf8ToBytes(JSON.stringify(body)).length}`,
-          },
-          responseType: 'text',
-          dataType: '其他',
-          data: body,
-          timeout: 10000,
-          success() {},
-          fail() {},
-        })
+        console.info(type, data)
+        //   const body = {
+        //     __topic__: '1', // appId
+        //     __logs__: data,
+        //   }
+        //   TaroRequest({
+        //     url:
+        //       type === 'log'
+        //         ? 'https://logstorename.cn-hangzhou.log.aliyuncs.com/logstores/trace/track'
+        //         : 'https://logstorename.cn-hangzhou.log.aliyuncs.com/logstores/monitor/track',
+        //     method: 'POST',
+        //     header: {
+        //       'x-log-apiversion': '0.6.0',
+        //       'x-log-bodyrawsize': `${utf8ToBytes(JSON.stringify(body)).length}`,
+        //     },
+        //     responseType: 'text',
+        //     dataType: '其他',
+        //     data: body,
+        //     timeout: 10000,
+        //     success() {},
+        //     fail() {},
+        //   })
       } else {
         console.info(type, data)
       }
