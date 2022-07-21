@@ -7,7 +7,6 @@ import {
 } from 'react'
 import { showToast, usePageScroll } from '@tarojs/taro'
 import { UniteContext, Popup } from '@antmjs/vantui'
-import { View } from '@tarojs/components'
 import { EMlf } from '@antmjs/trace'
 import { useSpring } from '@react-spring/web'
 import { monitor } from '@/trace'
@@ -155,6 +154,10 @@ export default function Index(props: IProps) {
     return (
       <>
         <PullDownRefresh
+          style={{
+            visibility: loginStatus ? 'hidden' : 'visible',
+          }}
+          className={className}
           canPull={
             !!(ctx.uniteConfig.page && enablePagePullDownRefresh && canPull)
           }
@@ -163,7 +166,7 @@ export default function Index(props: IProps) {
           status={pullDownRefreshStatus}
           api={api}
         >
-          <View className={className}>{props.children}</View>
+          <>{props.children}</>
         </PullDownRefresh>
         <Popup
           show={loginStatus}

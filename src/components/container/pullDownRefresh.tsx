@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { ReactNode, useRef } from 'react'
+import { ReactNode, useRef, CSSProperties } from 'react'
 import { showToast } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { sleep, rubberbandIfOutOfBounds } from '@/utils'
@@ -8,6 +8,8 @@ import { sleep, rubberbandIfOutOfBounds } from '@/utils'
 export type PullStatus = 'pulling' | 'canRelease' | 'refreshing' | 'complete'
 
 export type PullToRefreshProps = {
+  className: string
+  style: CSSProperties
   canPull: boolean
   children: ReactNode
   threshold?: number
