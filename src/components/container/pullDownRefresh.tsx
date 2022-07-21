@@ -129,7 +129,13 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
   }
 
   return (
-    <View onTouchEnd={onEnd} onTouchMove={onMove} onTouchStart={onStart}>
+    <View
+      className={props.className || ''}
+      style={props.style}
+      onTouchEnd={onEnd}
+      onTouchMove={onMove}
+      onTouchStart={onStart}
+    >
       {props.children}
     </View>
   )
