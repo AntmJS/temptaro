@@ -1,6 +1,6 @@
 import type { ActionSheetItem } from '@antmjs/vantui/types/action-sheet'
 import { useRecoilState } from 'recoil'
-import { Unite, Button, ActionSheet } from '@antmjs/vantui'
+import { Unite, Button, ActionSheet, CellGroup, Field } from '@antmjs/vantui'
 import { View } from '@tarojs/components'
 import { useReachBottom, showModal, navigateTo } from '@tarojs/taro'
 import Container from '@/components/container'
@@ -80,6 +80,22 @@ export default Unite(
           )
         }}
       >
+        <CellGroup>
+          <Field
+            required
+            clearable
+            label="用户名"
+            icon="questionO"
+            placeholder="请输入用户名"
+          />
+          <Field
+            type="password"
+            label="密码"
+            placeholder="请输入密码"
+            required
+            border
+          />
+        </CellGroup>
         {info && (
           <>
             <View className="btn-panel">

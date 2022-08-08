@@ -162,7 +162,13 @@ const config = {
       },
       pxtransform: {
         enable: true,
-        config: {},
+        // 3.5之后baseFontSize相关的逻辑有调整，这里为了兼容调整一下
+        config: {
+          baseFontSize: 23.4375,
+          // Taro这里的逻辑应该有bug，minRootSize应该为20，但不能设置为20，代码里面baseFontSize取的是这个值。
+          minRootSize: 23.4375,
+          maxRootSize: 40,
+        },
       },
       cssModules: {
         enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
