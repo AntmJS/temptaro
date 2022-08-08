@@ -1,9 +1,11 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "pnpm3.5temp",
-  "appid": "testAppId",
+  "projectname": "mini-project",
   "setting": {
+    "urlCheck": true,
     "es6": false,
-    "minified": false
+    "minified": false,
+    "postcss": false,
+    "enhance": false
   }
 }
