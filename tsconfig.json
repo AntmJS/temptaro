@@ -27,7 +27,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
+    // "isolatedModules": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "jsx": "react-jsx",
@@ -40,6 +40,7 @@
   "include": [
     "src",
     "config",
+    "types",
     "babel.config.js",
     "eslint.config.js",
     "lint-staged.config.js",

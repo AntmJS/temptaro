@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { RecoilRoot } from 'recoil'
 import {
   useDidShow,
@@ -11,11 +11,7 @@ import './cache'
 import { setSysInfoAsync } from '@/utils'
 import './app.less'
 
-interface IProps {
-  children: React.ReactNode
-}
-
-export default function App(props: IProps) {
+export default function App(props: any) {
   // 可以使用所有的 React Hooks
   useEffect(() => {
     console.log('app launch')

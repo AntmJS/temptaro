@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable import/no-commonjs */
-const npath = require('path')
 const MiniFixPlugin = require('@antmjs/plugin-mini-fix')
+const GlobalFixPlugin = require('./globalFixPlugin')
 
 module.exports = function (chain) {
   // add @antmjs/plugin-mini-fix and @antmjs/mini-fix
@@ -9,13 +9,8 @@ module.exports = function (chain) {
   // 这个问题是因为微信抖音和支付宝钉钉原生小程序的返回结果就是不一致的，Taro目前是没有去处理的
   chain.plugin('MiniFixPlugin').use(new MiniFixPlugin())
 
-  // 解决支付宝小程序和钉钉小程序报Object is not a function的问题
-  chain.module
-    .rule('global-loader')
-    .test(/node_modules[\\/]webpack[\\/]buildin[\\/]global\.js/i)
-    .pre()
-    .use('global-loader')
-    .loader(npath.join(process.cwd(), 'config/webpack/globalLoader'))
+  //解决支付宝小程序、钉钉小程序、百度小程序没有暴露全局变量global的问题
+  chain.plugin('GlobalFixPlugin').use(new GlobalFixPlugin())
 
   // taro内部的配置：scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))];
   // taro内置的webpack配置在编译script的时候使用的是项目根目录的babel.config.js的配置，如果你项目的useBuiltIns设置为'usage'，则runtime和shared都会polyfill，就会导致出错
@@ -26,7 +21,6 @@ module.exports = function (chain) {
     .exclude.clear()
     .add(
       (filename) =>
-        /webpack[\\/]buildin[\\/]global\.js/.test(filename) ||
         /css-loader/.test(filename) ||
         (/node_modules/.test(filename) &&
           !(

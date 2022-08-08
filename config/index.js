@@ -35,8 +35,11 @@ const config = {
     DEPLOY_VERSION: JSON.stringify(version),
   },
   alias: {
+    '@babel/runtime-corejs3/regenerator': npath.resolve(
+      process.cwd(),
+      './node_modules/regenerator-runtime',
+    ),
     '@': npath.resolve(process.cwd(), 'src'),
-    react: npath.resolve(process.cwd(), './node_modules/react'),
   },
   defineConstants: {
     // 解决Recoil报错问题
@@ -46,7 +49,17 @@ const config = {
     patterns: [],
     options: {},
   },
+  compiler: {
+    type: 'webpack5',
+    prebundle: {
+      // 暂时不要开启，开启会报错
+      enable: false,
+    },
+  },
   framework: 'react',
+  cache: {
+    enable: false, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+  },
   mini: {
     webpackChain(chain) {
       miniChain(chain)
@@ -138,7 +151,6 @@ const config = {
       hot: true,
       host: '0.0.0.0',
       historyApiFallback: true,
-      disableHostCheck: true,
       headers: {
         'Access-Control-Allow-Origin': '*', // 表示允许跨域
       },

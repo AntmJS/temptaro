@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/triple-slash-reference */
-/// <reference path="../node_modules/@tarojs/taro/types/index.d.ts" />
+/// <reference types="@tarojs/taro" />
+
 declare module '*.png'
 declare module '*.gif'
 declare module '*.jpg'

@@ -57,8 +57,8 @@ function MenuButton(props: IMenuButtonProps) {
         if (pages.length > 1) {
           setBackButton(true)
         }
-        if (url[0] === '/') {
-          url = url.substr(1)
+        if (url && url[0] === '/') {
+          url = url.substring(1)
         }
         if (url !== homeUrl) {
           setHomeButton(true)

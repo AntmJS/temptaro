@@ -18,7 +18,7 @@ import Navigation from './navigation'
 import './index.less'
 
 const LOGIN_CODE = '206'
-class ErrorBoundary extends PureComponent<{ setError: any }> {
+class ErrorBoundary extends PureComponent<{ setError: any; children: any }> {
   constructor(props: any) {
     super(props)
   }
