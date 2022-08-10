@@ -165,52 +165,56 @@ function NavBar(props: INavBarProps) {
   return (
     <>
       <View className={`navigation_minibar ${navClassName || ''}`}>
-        {useNav && process.env.TARO_ENV !== 'h5' && (
-          <View
-            style={{
-              height: `${navHeight}px`,
-              paddingTop: `${statusBarHeight as number}px`,
-            }}
-          >
+        <>
+          {useNav && process.env.TARO_ENV !== 'h5' && (
             <View
-              className="navigation_minibar_center"
               style={{
-                marginLeft: `${paddingLeftRight as number}px`,
-                marginRight: `${paddingLeftRight as number}px`,
+                height: `${navHeight}px`,
+                paddingTop: `${statusBarHeight as number}px`,
               }}
             >
-              <View className="navigation_minibar_content van-ellipsis">
-                {title}
+              <View
+                className="navigation_minibar_center"
+                style={{
+                  marginLeft: `${paddingLeftRight as number}px`,
+                  marginRight: `${paddingLeftRight as number}px`,
+                }}
+              >
+                <View className="navigation_minibar_content van-ellipsis">
+                  {title}
+                </View>
               </View>
             </View>
-          </View>
-        )}
-        {renderHeader?.(navHeight, statusBarHeight, paddingLeftRight)}
-        {enablePullDownRefresh ? (
-          <View className="navigation_minibar_pulldown">
-            <NView
-              className={'navigation_minibar_pulldown_bar'}
-              style={{
-                ...springStyles,
-              }}
-            >
-              {renderStatusText()}
-            </NView>
-          </View>
-        ) : (
-          <></>
-        )}
+          )}
+          {renderHeader?.(navHeight, statusBarHeight, paddingLeftRight)}
+          {enablePullDownRefresh ? (
+            <View className="navigation_minibar_pulldown">
+              <NView
+                className={'navigation_minibar_pulldown_bar'}
+                style={{
+                  ...springStyles,
+                }}
+              >
+                {renderStatusText()}
+              </NView>
+            </View>
+          ) : (
+            <></>
+          )}
+        </>
       </View>
       <View className="visibility-hidden">
-        {useNav && (
-          <View
-            style={{
-              height: `${navHeight}px`,
-              width: '100%',
-            }}
-          />
-        )}
-        {renderHeader?.(navHeight, statusBarHeight, paddingLeftRight)}
+        <>
+          {useNav && (
+            <View
+              style={{
+                height: `${navHeight}px`,
+                width: '100%',
+              }}
+            />
+          )}
+          {renderHeader?.(navHeight, statusBarHeight, paddingLeftRight)}
+        </>
       </View>
     </>
   )
@@ -236,30 +240,34 @@ function H5PullDownRefresh(props: IH5PullDownRefresh) {
   return (
     <>
       <View className={`navigation_minibar ${navClassName || ''}`}>
-        {renderHeader?.(0, 0, 0)}
-        {enablePullDownRefresh ? (
-          <View className="navigation_minibar_pulldown">
-            <NView
-              className={'navigation_minibar_pulldown_bar'}
-              style={{
-                ...springStyles,
-              }}
-            >
-              {renderStatusText()}
-            </NView>
-          </View>
-        ) : (
-          <></>
-        )}
+        <>
+          {renderHeader?.(0, 0, 0)}
+          {enablePullDownRefresh ? (
+            <View className="navigation_minibar_pulldown">
+              <NView
+                className={'navigation_minibar_pulldown_bar'}
+                style={{
+                  ...springStyles,
+                }}
+              >
+                {renderStatusText()}
+              </NView>
+            </View>
+          ) : (
+            <></>
+          )}
+        </>
       </View>
       <View className="visibility-hidden">
-        <View
-          style={{
-            height: `0px`,
-            width: '100%',
-          }}
-        />
-        {renderHeader?.(0, 0, 0)}
+        <>
+          <View
+            style={{
+              height: `0px`,
+              width: '100%',
+            }}
+          />
+          {renderHeader?.(0, 0, 0)}
+        </>
       </View>
     </>
   )
