@@ -115,16 +115,16 @@ const config = {
         chain.devtool('hidden-source-map')
         chain.output
           .path(npath.resolve('./build'))
-          .filename('assets/js/[name].js')
-          .chunkFilename('assets/js/chunk/[name].js')
+          .filename('assets/js/[name]_[hash].js')
+          .chunkFilename('assets/js/chunk/[name]_[hash].js')
           .publicPath(publicPath.replace('VERSION', version))
       } else {
         chain.mode('development')
         chain.devtool('eval-cheap-module-source-map')
         chain.output
           .path(npath.resolve('./build'))
-          .filename('assets/js/[name].js')
-          .chunkFilename('assets/js/chunk/[name].js')
+          .filename('assets/js/[name]_[hash].js')
+          .chunkFilename('assets/js/chunk/[name]_[hash].js')
           .publicPath(publicPath.replace('VERSION', version))
       }
       if (process.env.WATCHING === 'true') {
@@ -174,8 +174,8 @@ const config = {
     },
     miniCssExtractPluginOption: {
       ignoreOrder: false,
-      filename: 'assets/css/[name].css',
-      chunkFilename: 'assets/css/chunk/[name].css',
+      filename: 'assets/css/[name]_[hash].css',
+      chunkFilename: 'assets/css/chunk/[name]_[hash].css',
     },
   },
   plugins: [
