@@ -7,6 +7,7 @@ module.exports = {
       'taro',
       {
         framework: 'react',
+        'dynamic-import-node': process.env.TARO_ENV === 'h5',
         ts: true,
         useBuiltIns: 'usage',
       },
