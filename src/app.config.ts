@@ -17,5 +17,7 @@ export default defineAppConfig({
     // 支付宝全局设置自定义导航栏
     transparentTitle: 'always',
     titlePenetrate: 'YES',
+    // 关闭H5路由动画
+    animation: false,
   },
 })
