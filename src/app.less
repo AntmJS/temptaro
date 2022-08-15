@@ -1,8 +1,7 @@
 /* stylelint-disable selector-type-no-unknown, selector-max-type */
 @import '@antmjs/vantui/es/style/base.less';
 // @import './iconfont.less';
-page,
-body {
+page {
   background: @pageBack;
   font-size: 28px;
 }
@@ -13,6 +12,12 @@ div {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+body,
+html {
+  // NOTE: taro h5 ios上拉遮挡底部fixed元素
+  overflow: hidden !important;
 }
 
 // 可以用的类
