@@ -9,7 +9,6 @@ import Picker from '@/components/picker'
 import Popup from '@/components/popup'
 import Area from '@/components/area'
 import { getRoleListCommon } from '@/actions/simple/common'
-// import { petClient } from '@/actions/swagger/petstore'
 import { menuButtonStore } from '@/store'
 import './index.less'
 
