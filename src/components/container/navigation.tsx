@@ -304,8 +304,12 @@ export default function Index(props: IProps) {
 
   useDidShow(() => {
     // 设置title
-    if (process.env.TARO_ENV === 'h5' && navTitle) {
-      document.title = navTitle.toString()
+    if (process.env.TARO_ENV === 'h5') {
+      try {
+        document.title = navTitle?.toString?.() || ''
+      } catch {
+        document.title = ''
+      }
       if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
         hackSyncWechatTitle()
       }

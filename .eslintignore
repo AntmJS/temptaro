@@ -29,6 +29,7 @@ src/actions/swagger/*
 !src/actions/swagger/utils
 node_modules
 coverage
+api-ui
 dist
 build
 weapp

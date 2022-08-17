@@ -1,4 +1,4 @@
-import type { IPrefix, IPathName, IRequestResponse } from '../constants'
+import type { IPrefix, IPathName } from '../constants'
 import Taro from '@tarojs/taro'
 
 // 基于和服务端的约定，这个方法主要是用来处理返回类型是json的请求，非json类型的自己单独封装
@@ -11,7 +11,7 @@ export default function innerRequest<
   option.timeout = option.timeout || 30000
   option.dataType = 'json'
   option.responseType = 'text'
-  return new Promise((resolve: (res: IRequestResponse) => void) => {
+  return new Promise((resolve: (res: CreateFetchResponse<any>) => void) => {
     Taro.request({
       ...option,
     })

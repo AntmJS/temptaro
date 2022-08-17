@@ -121,15 +121,17 @@
     "real:kwai": "cross-env NODE_ENV=production API_ENV=real npx taro build --type kwai",
     "build": "cross-env NODE_ENV=production npx taro build",
     "prepare": "npx husky install",
-    "rapper": "npx rapper",
-    "swagger": "npx swaggie -s https://petstore.swagger.io/v2/swagger.json -o ./src/actions/swagger/petstore.ts -t ./src/actions/swagger/utils"
+    "api:watch": "antm-api  watch --path ./src/actions --server true --mock true --action true",
+    "api:build": "antm-api  build --path ./src/actions",
+    "rapper": "antm-api  file --path ./src/actions/rapper/types --action true",
+    "swagger": "antm-api swagger --path ./src/actions/swagger/types --url https://petstore.swagger.io/v2/swagger.json"
   },
   "author": "",
   "dependencies": {
-    "@antmjs/cache": "^1.21.2",
-    "@antmjs/mini-fix": "^1.21.2",
-    "@antmjs/trace": "^1.21.2",
-    "@antmjs/utils": "^1.21.2",
+    "@antmjs/cache": "^1.21.3",
+    "@antmjs/mini-fix": "^1.21.3",
+    "@antmjs/trace": "^1.21.3",
+    "@antmjs/utils": "^1.21.3",
     "@antmjs/vantui": "^1.9.21",
     "@babel/runtime": "^7.7.7",
     "@react-spring/web": "^9.5.2",
@@ -158,13 +160,13 @@
     "recoil": "^0.7.4"
   },
   "devDependencies": {
-    "@antmjs/eslint": "^1.21.2",
-    "@antmjs/iconfont": "^1.21.2",
-    "@antmjs/plugin-global-fix": "^1.21.2",
-    "@antmjs/plugin-mini-fix": "^1.21.2",
-    "@antmjs/rapper": "^1.21.2",
-    "@antmjs/stylelint": "^1.21.2",
-    "@antmjs/warning": "^1.21.2",
+    "@antmjs/api": "^1.21.3",
+    "@antmjs/eslint": "^1.21.3",
+    "@antmjs/iconfont": "^1.21.3",
+    "@antmjs/plugin-global-fix": "^1.21.3",
+    "@antmjs/plugin-mini-fix": "^1.21.3",
+    "@antmjs/stylelint": "^1.21.3",
+    "@antmjs/warning": "^1.21.3",
     "@babel/core": "^7.8.0",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
@@ -186,7 +188,6 @@
     "prettier": "^2.7.1",
     "react-refresh": "0.11.0",
     "stylelint": "^13.13.1",
-    "swaggie": "^0.7.4",
     "typescript": "^4.7.4",
     "webpack": "5.69.0"
   }

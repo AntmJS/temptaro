@@ -1,10 +1,4 @@
-import type {
-  IPrefix,
-  IPathName,
-  IHref,
-  IRequestResponse,
-  TProxy,
-} from './constants'
+import type { IPrefix, IPathName, IHref, TProxy } from './constants'
 import { hideLoading } from '@tarojs/taro'
 import { EMlf } from '@antmjs/trace'
 import { monitor } from '@/trace'
@@ -51,8 +45,7 @@ function header(option: Taro.request.Option) {
   option.header = header
 }
 
-// 只处理response.data为json的情况,其他返回都属于异常
-export function request<
+function request<
   T extends Omit<Taro.request.Option, 'success' | 'fail' | 'header'>,
   M extends TProxy,
 >(
@@ -60,7 +53,7 @@ export function request<
     [K in keyof T]: K extends 'url' ? IPathName<T[K], IPrefix> : T[K]
   },
   type?: M,
-): Promise<M extends 'info' ? IRequestResponse : IRequestResponse['data']> {
+): Promise<M extends 'info' ? CreateFetchResponse<any> : any> {
   // warning: 直接内部帮你做了toast
   // info：直接把整个数据返回给请求的await结果
   url(query)
@@ -89,15 +82,18 @@ export function request<
   })
 }
 
+// 只处理response.data为json的情况,其他返回都属于异常
 // 自动化使用的方法
 export function createFetch<
   REQ extends Record<string, any>,
-  RES extends IRequestResponse,
+  RES extends Record<string, any>,
 >(url: any, method: any) {
   return <T extends TProxy = 'warning'>(
     data: REQ,
     type?: T,
-  ): Promise<T extends 'info' ? RES & { header: any } : RES['data']> => {
+  ): Promise<
+    T extends 'info' ? CreateFetchResponse<RES['data']> : RES['data']
+  > => {
     return request(
       {
         url,

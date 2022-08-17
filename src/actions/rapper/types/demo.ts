@@ -1,4 +1,4 @@
-import { IResponse } from '../commonTypes/response.d'
+import { IResponseData } from '../commonTypes/response.d'
 
 /**
  * 获取腾讯云临时key
@@ -7,7 +7,7 @@ import { IResponse } from '../commonTypes/response.d'
  */
 export type getCosKey = {
   request: Record<string, any>
-  response: IResponse<{
+  response: IResponseData<{
     /**
      * id
      * @value  'dsafasdfasd'

@@ -1,4 +1,4 @@
-import { IResponse } from '../commonTypes/response.d'
+import { IResponseData } from '../commonTypes/response.d'
 
 /**
  * 获取角色列表
@@ -7,7 +7,7 @@ import { IResponse } from '../commonTypes/response.d'
  */
 export type getRoleList = {
   request: Record<string, any>
-  response: IResponse<
+  response: IResponseData<
     Array<{
       /**
        * 名称
@@ -40,7 +40,7 @@ export type getRoleList = {
  */
 export type getCosKey = {
   request: Record<string, any>
-  response: IResponse<{
+  response: IResponseData<{
     /**
      * id
      * @value  'dsafasdfasd'
@@ -92,7 +92,7 @@ export type login = {
      **/
     userInfoEncryptedData: string
   }
-  response: IResponse<{
+  response: IResponseData<{
     token: string
   }>
 }

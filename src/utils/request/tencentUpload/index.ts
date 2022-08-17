@@ -1,11 +1,10 @@
-import type { IRequestResponse } from '../constants'
 import COS from 'cos-wx-sdk-v5'
 import { getCosKeyDemo } from '@/actions/simple/demo'
 import { randomNum } from '@/utils'
 
 export default function (filePath: any, filename: string, index?: number) {
   return new Promise(
-    (resolve: (res: IRequestResponse & { index?: number }) => void) => {
+    (resolve: (res: CreateFetchResponse<any> & { index?: number }) => void) => {
       const cos = new COS({
         // ForcePathStyle: true, // 如果使用了很多存储桶，可以通过打开后缀式，减少配置白名单域名数量，请求时会用地域域名
         getAuthorization: async function (

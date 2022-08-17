@@ -17,6 +17,13 @@ declare let my: any
 declare let ks: any
 declare let tt: any
 
+declare type CreateFetchResponse<T> = {
+  code: string
+  header?: any
+  data: T
+  message?: string
+}
+
 declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: 'production' | 'development'

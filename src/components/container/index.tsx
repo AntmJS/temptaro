@@ -10,6 +10,7 @@ import { UniteContext, Popup } from '@antmjs/vantui'
 import { EMlf } from '@antmjs/trace'
 import { useSpring } from '@react-spring/web'
 import { monitor } from '@/trace'
+import { LOGIN_CODE } from '@/constants'
 import Error from '../fullScreen/error'
 import Login from '../fullScreen/login'
 import Loading from '../fullScreen/loading'
@@ -17,7 +18,6 @@ import PullDownRefresh from './pullDownRefresh'
 import Navigation from './navigation'
 import './index.less'
 
-const LOGIN_CODE = '206'
 class ErrorBoundary extends PureComponent<{ setError: any; children: any }> {
   constructor(props: any) {
     super(props)

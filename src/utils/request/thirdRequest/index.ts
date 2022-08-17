@@ -1,4 +1,4 @@
-import type { IHref, IRequestResponse } from '../constants'
+import type { IHref } from '../constants'
 import Taro from '@tarojs/taro'
 
 export default function thirdRequest<
@@ -6,7 +6,7 @@ export default function thirdRequest<
 >(option: {
   [K in keyof T]: K extends 'url' ? IHref<T[K]> : T[K]
 }) {
-  return new Promise((resolve: (res: IRequestResponse) => void) => {
+  return new Promise((resolve: (res: CreateFetchResponse<any>) => void) => {
     Taro.request({
       ...option,
     })

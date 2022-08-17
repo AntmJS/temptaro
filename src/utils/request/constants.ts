@@ -12,13 +12,6 @@ export type IHref<T extends string> = T extends `https://${infer R}`
   ? `http://${R}`
   : never
 
-export interface IRequestResponse {
-  code: string
-  header?: Record<string, any>
-  data: any
-  message?: string
-}
-
 /************************************************** */
 /** 上半部分类型，下半部分逻辑 */
 /************************************************** */

@@ -30,6 +30,7 @@ src/actions/swagger/*
 node_modules
 src/iconfont.less
 coverage
+api-ui
 dist
 build
 weapp
