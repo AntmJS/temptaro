@@ -23,9 +23,14 @@
 
 ## 使用
 
+1. 执行yarn rapper自动生成action层代码(需要的话)
+2. 执行yarn swagger自动根据服务端swagger api生成action层代码(需要的话)
+3. 需要引入iconfont可以执行 yarn iconfont 会自动生成src/iconfont.less
+4. yarn
+5. yarn watch:weapp(package.json里面填写对应环境的appId)
+
+## 如果需要添加告警机制
+
 1. 将_antm.config.js 改成 antm.config.js
-2. 执行yarn rapper自动生成action层代码(需要的话)
-3. 执行yarn swagger自动根据服务端swagger api生成action层代码(需要的话)
-4. 需要引入iconfont可以执行 yarn iconfont 会自动生成src/iconfont.less
-5. yarn
-6. yarn watch:weapp(package.json里面填写对应环境的appId)
+2. 更新antm.config.js里面的webhooks.url的access_token
+3. 将.husky/pre-commit里面的npx antm-warning webhooks 注释取消
