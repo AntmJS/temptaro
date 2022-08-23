@@ -243,16 +243,14 @@ function H5PullDownRefresh(props: IH5PullDownRefresh) {
         <>
           {renderHeader?.(0, 0, 0)}
           {enablePullDownRefresh ? (
-            <View className="navigation_minibar_pulldown">
-              <NView
-                className={'navigation_minibar_pulldown_bar'}
-                style={{
-                  ...springStyles,
-                }}
-              >
-                {renderStatusText()}
-              </NView>
-            </View>
+            <NView
+              className={'navigation_minibar_pulldown'}
+              style={{
+                ...springStyles,
+              }}
+            >
+              {renderStatusText()}
+            </NView>
           ) : (
             <></>
           )}

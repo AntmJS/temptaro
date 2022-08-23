@@ -34,7 +34,7 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
   const yRef = useRef(0)
 
   async function doRefresh() {
-    api.start({ transform: `scale(1)`, opacity: 1 })
+    api.start({ transform: `translateX(-50%) scale(1)`, opacity: 1 })
     setStatus('refreshing')
     try {
       const res = await props.onRefresh(true)
@@ -51,7 +51,7 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
     }
     api.start({
       to: async (next: any) => {
-        return next({ transform: `scale(0)`, opacity: 0 })
+        return next({ transform: `translateX(-50%) scale(0)`, opacity: 0 })
           .then(() => {
             setStatus('pulling')
           })
@@ -73,7 +73,7 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
       if (status === 'canRelease') {
         doRefresh()
       } else {
-        api.start({ transform: `scale(0)`, opacity: 0 })
+        api.start({ transform: `translateX(-50%) scale(0)`, opacity: 0 })
       }
       return
     }
@@ -90,7 +90,7 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
       Math.max(rubberbandIfOutOfBounds(y, 0, 0, headHeight * 5, 0.5), 0) / 1.1
     const rate = height / threshold
     api.start({
-      transform: `scale(${rate > 1 ? 1 : rate})`,
+      transform: `translateX(-50%) scale(${rate > 1 ? 1 : rate})`,
       opacity: rate > 1 ? 1 : rate,
     })
     setStatus(height > threshold ? 'canRelease' : 'pulling')
