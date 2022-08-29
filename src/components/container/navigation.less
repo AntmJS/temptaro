@@ -9,6 +9,7 @@
   z-index: 800;
   background: @navBack;
   backdrop-filter: @backDropFilter;
+
   &_center {
     display: flex;
     flex-direction: column;
@@ -16,6 +17,7 @@
     align-items: center;
     height: 100%;
   }
+
   &_content {
     width: 100%;
     font-size: 28px;
@@ -23,6 +25,7 @@
     font-weight: 500;
     text-align: center;
   }
+
   &_pulldown {
     display: flex;
     justify-content: center;
@@ -38,6 +41,7 @@
     color: @gray-6;
     background-color: @white;
     transform-origin: center;
+
     .navigation_minibar_loading {
       position: relative;
       width: 14px;
@@ -47,6 +51,7 @@
       color: @gray-6;
       animation: dotFlashing 1s infinite linear alternate;
       animation-delay: 0.5s;
+
       &::before {
         content: '';
         display: inline-block;
@@ -61,6 +66,7 @@
         animation: dotFlashing 1s infinite alternate;
         animation-delay: 0s;
       }
+
       &::after {
         content: '';
         display: inline-block;
@@ -76,6 +82,7 @@
         animation-delay: 1s;
       }
     }
+    /* stylelint-disable-next-line keyframes-name-pattern */
     @keyframes dotFlashing {
       0% {
         background-color: @gray-6;
@@ -87,22 +94,26 @@
     }
   }
 }
+
 .visibility-hidden {
   position: relative;
   top: -999px;
 }
+
 .navigation_minibar_left {
   z-index: 800;
   position: fixed;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
+
   &_back {
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
+
     .van-icon {
       /* prettier-ignore */
       font-size: 20PX;
@@ -110,12 +121,14 @@
       color: #ffffff;
     }
   }
+
   &_home {
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
+
     .van-icon {
       /* prettier-ignore */
       font-size: 20PX;

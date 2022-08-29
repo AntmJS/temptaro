@@ -6,7 +6,8 @@ import {
   useEffect,
 } from 'react'
 import { showToast, usePageScroll } from '@tarojs/taro'
-import { UniteContext, Popup } from '@antmjs/vantui'
+import { Popup } from '@antmjs/vantui'
+import { UniteContext } from '@antmjs/unite'
 import { EMlf } from '@antmjs/trace'
 import { useSpring } from '@react-spring/web'
 import { monitor } from '@/trace'
@@ -80,7 +81,7 @@ export default function Index(props: IProps) {
   const ctx = useContext(UniteContext)
   const [canPull, setCanPull] = useState(true)
   const [springStyles, api] = useSpring(() => ({
-    from: { transform: `scale(0)`, opacity: 0 },
+    from: { transform: `translateX(-50%) scale(0)`, opacity: 0 },
     config: {
       tension: 300,
       friction: 30,
@@ -98,12 +99,14 @@ export default function Index(props: IProps) {
   const [loginStatus, setLoginStatus] = useState(false)
 
   // 异常来自于三个部分 1: Request Code 2 JSError 3: BoundaryError
+  // 有初始数据但是请求接口报错了，则toast。JSError BoundaryError Login 三个直接展示全屏错误
   useEffect(() => {
     if (
       !loading &&
       ctx.error &&
       ctx.error.code !== 'JSError' &&
-      ctx.error.code !== 'BoundaryError'
+      ctx.error.code !== 'BoundaryError' &&
+      ctx.error.code !== LOGIN_CODE
     ) {
       if (!ignoreError) {
         showToast({
@@ -126,31 +129,29 @@ export default function Index(props: IProps) {
   })
 
   useEffect(() => {
-    if (loading && ctx.error && !ignoreError && ctx.error.code === LOGIN_CODE) {
+    // Login报错 直接展示全屏错误
+    if (ctx.error && ctx.error.code === LOGIN_CODE) {
       setLoginStatus(true)
     }
-  }, [loading, ctx, ignoreError])
+  }, [ctx])
 
   function render() {
+    // JSError、 BoundaryError、 没有初始数据并且报错并且不是登录错误  则全屏展示
     if (
-      loading ||
       ctx.error?.code === 'JSError' ||
-      ctx.error?.code === 'BoundaryError'
+      ctx.error?.code === 'BoundaryError' ||
+      (loading && ctx.error && ctx.error?.code !== LOGIN_CODE)
     ) {
-      if (ctx.error) {
-        if (ignoreError) return <></>
-        if (ctx.error.code !== LOGIN_CODE)
-          return (
-            <Error
-              setError={ctx.setError as any}
-              onRefresh={ctx.onRefresh}
-              error={ctx.error}
-            />
-          )
-      } else {
-        return <Loading />
-      }
+      if (ignoreError) return <></>
+      return (
+        <Error
+          setError={ctx.setError as any}
+          onRefresh={ctx.onRefresh}
+          error={ctx.error}
+        />
+      )
     }
+    if (loading) return <Loading />
     return (
       <>
         <PullDownRefresh
@@ -168,28 +169,6 @@ export default function Index(props: IProps) {
         >
           <>{props.children}</>
         </PullDownRefresh>
-        <Popup
-          show={loginStatus}
-          className="popup-with-login"
-          closeIconPosition="top-left"
-          position="bottom"
-          closeable
-          safeAreaInsetTop
-          style={{
-            height: '100vh',
-          }}
-          onClose={async () => {
-            setLoginStatus(false)
-            ctx.setError(undefined)
-            ctx.onRefresh()
-          }}
-        >
-          <Login
-            setLoginStatus={setLoginStatus}
-            setError={ctx.setError as any}
-            onRefresh={ctx.onRefresh}
-          />
-        </Popup>
       </>
     )
   }
@@ -212,6 +191,28 @@ export default function Index(props: IProps) {
       ) : (
         render()
       )}
+      <Popup
+        show={loginStatus}
+        className="popup-with-login"
+        closeIconPosition="top-left"
+        position="bottom"
+        closeable
+        safeAreaInsetTop
+        style={{
+          height: '100vh',
+        }}
+        onClose={async () => {
+          setLoginStatus(false)
+          ctx.setError(undefined)
+          ctx.onRefresh()
+        }}
+      >
+        <Login
+          setLoginStatus={setLoginStatus}
+          setError={ctx.setError as any}
+          onRefresh={ctx.onRefresh}
+        />
+      </Popup>
     </ErrorBoundary>
   )
 }

@@ -1,4 +1,4 @@
-import { Unite } from '@antmjs/vantui'
+import { Unite } from '@antmjs/unite'
 import { View } from '@tarojs/components'
 import { useReachBottom } from '@tarojs/taro'
 import Container from '@/components/container'

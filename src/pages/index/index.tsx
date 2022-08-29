@@ -1,6 +1,7 @@
 import type { ActionSheetItem } from '@antmjs/vantui/types/action-sheet'
 import { useRecoilState } from 'recoil'
-import { Unite, Button, ActionSheet, CellGroup, Field } from '@antmjs/vantui'
+import { Button, ActionSheet, CellGroup, Field } from '@antmjs/vantui'
+import { Unite } from '@antmjs/unite'
 import { View } from '@tarojs/components'
 import { useReachBottom, showModal, navigateTo } from '@tarojs/taro'
 import Container from '@/components/container'
@@ -34,6 +35,12 @@ export default Unite(
           openType: 'share',
         },
       ],
+    },
+    async onShow() {
+      console.log(111)
+    },
+    async onHide() {
+      console.log(222)
     },
     async onLoad() {
       // const datap = await petClient.addPet({

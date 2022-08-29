@@ -16,7 +16,7 @@ export type PullToRefreshProps = {
   onRefresh: <T extends boolean>(
     catchRefresh?: T,
   ) => T extends true
-    ? Promise<{ code: string; message: string; data: any }>
+    ? Promise<{ code: string; message: string; data?: any }>
     : void
   setStatus: any
   status: any

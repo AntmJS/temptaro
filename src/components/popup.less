@@ -1,6 +1,7 @@
 .components-normal-popup {
   display: flex;
   flex-direction: column;
+
   .popup-title-panel {
     position: absolute;
     left: 0;
@@ -15,16 +16,19 @@
     align-items: center;
     background: @navBack;
     backdrop-filter: @backDropFilter;
+
     .popup-title {
       font-size: 32px;
       font-weight: 800;
       color: @black;
     }
   }
+
   .block-placehold {
     /* prettier-ignore */
     height: 40PX;
   }
+
   .popup-body-panel {
     flex: 1;
     overflow-y: scroll;

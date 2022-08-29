@@ -188,16 +188,14 @@ function NavBar(props: INavBarProps) {
           )}
           {renderHeader?.(navHeight, statusBarHeight, paddingLeftRight)}
           {enablePullDownRefresh ? (
-            <View className="navigation_minibar_pulldown">
-              <NView
-                className={'navigation_minibar_pulldown_bar'}
-                style={{
-                  ...springStyles,
-                }}
-              >
-                {renderStatusText()}
-              </NView>
-            </View>
+            <NView
+              className={'navigation_minibar_pulldown'}
+              style={{
+                ...springStyles,
+              }}
+            >
+              {renderStatusText()}
+            </NView>
           ) : (
             <></>
           )}

@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+
   .page-init-loading {
     position: relative;
     width: 14px;
@@ -12,6 +13,7 @@
     color: @gray-6;
     animation: dotFlashing 1s infinite linear alternate;
     animation-delay: 0.5s;
+
     &::before {
       content: '';
       display: inline-block;
@@ -26,6 +28,7 @@
       animation: dotFlashing 1s infinite alternate;
       animation-delay: 0s;
     }
+
     &::after {
       content: '';
       display: inline-block;
@@ -41,6 +44,7 @@
       animation-delay: 1s;
     }
   }
+  /* stylelint-disable-next-line keyframes-name-pattern */
   @keyframes dotFlashing {
     0% {
       background-color: @gray-6;
