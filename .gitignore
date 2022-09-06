@@ -9,8 +9,6 @@
 .DS_Store
 
 antm.config.js
-package-lock.json
-
 
 src/actions/rapper/*
 !src/actions/rapper/commonTypes
