@@ -1,3 +1,8 @@
+## 注意事项
+
+* h5环境使用useRouter取到的params需要自行decode，其他环境及this.location内部已decode过了
+* 如果自己在函数式组件内调用useDidShow，需要在方法内包裹一层nextTick方法，否则Taro的生命周期里面会先执行useDidShow，再执行useEffect(() => {//后执行}, [])
+
 ## Taro项目模版
 
 目前支持微信、支付宝、抖音、快手、百度小程序；支持H5
