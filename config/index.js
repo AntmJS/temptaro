@@ -184,6 +184,7 @@ const config = {
     },
   },
   plugins: [
+    ['@tarojs/plugin-framework-react', { reactMode: 'concurrent' }],
     [npath.join(process.cwd(), 'config/webpack/configPlugin')],
     '@tarojs/plugin-platform-alipay-dd',
     ['@tarojs/plugin-platform-kwai'],
