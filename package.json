@@ -133,7 +133,7 @@
     "@antmjs/trace": "^2.1.0",
     "@antmjs/unite": "^2.1.0",
     "@antmjs/utils": "^2.1.0",
-    "@antmjs/vantui": "^2.2.2",
+    "@antmjs/vantui": "^2.2.3",
     "@babel/runtime": "^7.7.7",
     "@react-spring/web": "^9.5.2",
     "@tarojs/components": "3.5.6",
