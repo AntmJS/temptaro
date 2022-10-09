@@ -60,7 +60,7 @@ function MenuButton(props: IMenuButtonProps) {
         if (url && url[0] === '/') {
           url = url.substring(1)
         }
-        if (url !== homeUrl) {
+        if (url?.split('?')[0] !== homeUrl) {
           setHomeButton(true)
         }
       }
