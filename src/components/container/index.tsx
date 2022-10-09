@@ -54,6 +54,7 @@ class ErrorBoundary extends PureComponent<{ setError: any; children: any }> {
 type IProps = {
   className: string
   children: ReactNode
+  showMenuBtns?: boolean
   useNav?: boolean
   navTitle?: ReactNode
   navClassName?: string
@@ -70,6 +71,7 @@ type IProps = {
 export default function Index(props: IProps) {
   const {
     useNav = true,
+    showMenuBtns = true,
     navTitle,
     navClassName,
     className,
@@ -181,6 +183,7 @@ export default function Index(props: IProps) {
           navTitle={navTitle}
           navClassName={navClassName}
           useNav={useNav}
+          showMenuBtns={showMenuBtns}
           enablePullDownRefresh={enablePagePullDownRefresh}
           pullDownRefreshStatus={pullDownRefreshStatus}
           renderHeader={renderPageTopHeader}

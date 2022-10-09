@@ -5,7 +5,19 @@ import { IMenuButton } from '@/store'
 
 function _setMenuButton(sysInfo: any, setStore: SetterOrUpdater<IMenuButton>) {
   try {
-    const menuButton = getMenuButtonBoundingClientRect()
+    let menuButton: any
+    if (process.env.TARO_ENV === 'h5') {
+      menuButton = {
+        bottom: 36,
+        height: 32,
+        left: document.body.clientWidth - 7 - 87,
+        right: document.body.clientWidth - 7,
+        top: 4,
+        width: 87,
+      }
+    } else {
+      menuButton = getMenuButtonBoundingClientRect()
+    }
     if (menuButton) {
       if (sysInfo) {
         setStore({
@@ -17,7 +29,7 @@ function _setMenuButton(sysInfo: any, setStore: SetterOrUpdater<IMenuButton>) {
           right: menuButton.right,
           marginRight: sysInfo.screenWidth - menuButton.right,
           top: menuButton.top,
-          statusBarHeight: sysInfo.statusBarHeight || menuButton.top - 4,
+          statusBarHeight: sysInfo.statusBarHeight ?? menuButton.top - 4,
         })
       } else {
         setStore({
@@ -46,7 +58,7 @@ function _setMenuButton(sysInfo: any, setStore: SetterOrUpdater<IMenuButton>) {
         right: 368,
         marginRight: 7,
         top: 48,
-        statusBarHeight: sysInfo?.statusBarHeight || 48 - 4,
+        statusBarHeight: sysInfo?.statusBarHeight ?? 48 - 4,
       })
     }
   } catch (error) {
@@ -59,7 +71,7 @@ function _setMenuButton(sysInfo: any, setStore: SetterOrUpdater<IMenuButton>) {
       right: 368,
       marginRight: 7,
       top: 48,
-      statusBarHeight: sysInfo?.statusBarHeight || 48 - 4,
+      statusBarHeight: sysInfo?.statusBarHeight ?? 48 - 4,
     })
   }
 }
@@ -71,6 +83,9 @@ function _setSysInfo(
 ) {
   getSystemInfo({
     success(sysInfo) {
+      if (process.env.TARO_ENV === 'h5') {
+        sysInfo.statusBarHeight = 0
+      }
       if (menuButton) {
         setStore({
           precise: true,
@@ -81,7 +96,7 @@ function _setSysInfo(
           right: menuButton.right,
           marginRight: sysInfo.screenWidth - menuButton.right,
           top: menuButton.top,
-          statusBarHeight: sysInfo.statusBarHeight || menuButton.top - 4,
+          statusBarHeight: sysInfo.statusBarHeight ?? menuButton.top - 4,
         })
       } else {
         setMenuButton(sysInfo, setStore)
@@ -102,7 +117,8 @@ function _setSysInfo(
           right: menuButton.right,
           marginRight: 7,
           top: menuButton.top,
-          statusBarHeight: menuButton.top - 4,
+          statusBarHeight:
+            process.env.TARO_ENV === 'h5' ? 0 : menuButton.top - 4,
         })
       } else {
         setMenuButton(null, setStore)
@@ -124,7 +140,7 @@ export function setMenuButtonAsync(setStore: SetterOrUpdater<IMenuButton>) {
           right: mb.right,
           marginRight: si.screenWidth - mb.right,
           top: mb.top,
-          statusBarHeight: si.statusBarHeight || mb.top - 4,
+          statusBarHeight: si.statusBarHeight ?? mb.top - 4,
         })
       } else if (mb) {
         _setSysInfo(mb, setStore)

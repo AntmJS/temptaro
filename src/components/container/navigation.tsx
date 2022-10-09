@@ -166,7 +166,7 @@ function NavBar(props: INavBarProps) {
     <>
       <View className={`navigation_minibar ${navClassName || ''}`}>
         <>
-          {useNav && process.env.TARO_ENV !== 'h5' && (
+          {useNav && (
             <View
               style={{
                 height: `${navHeight}px`,
@@ -218,60 +218,10 @@ function NavBar(props: INavBarProps) {
   )
 }
 
-function H5PullDownRefresh(props: IH5PullDownRefresh) {
-  const {
-    navClassName,
-    pullDownRefreshStatus,
-    springStyles,
-    renderHeader,
-    enablePullDownRefresh,
-  } = props
-
-  const renderStatusText = (): any => {
-    if (pullDownRefreshStatus === 'pulling') return '下拉刷新'
-    if (pullDownRefreshStatus === 'canRelease') return '释放立即刷新'
-    if (pullDownRefreshStatus === 'refreshing')
-      return <View className="navigation_minibar_loading" />
-    if (pullDownRefreshStatus === 'complete') return '刷新成功'
-  }
-  const NView = animated(View)
-  return (
-    <>
-      <View className={`navigation_minibar ${navClassName || ''}`}>
-        <>
-          {renderHeader?.(0, 0, 0)}
-          {enablePullDownRefresh ? (
-            <NView
-              className={'navigation_minibar_pulldown'}
-              style={{
-                ...springStyles,
-              }}
-            >
-              {renderStatusText()}
-            </NView>
-          ) : (
-            <></>
-          )}
-        </>
-      </View>
-      <View className="visibility-hidden">
-        <>
-          <View
-            style={{
-              height: `0px`,
-              width: '100%',
-            }}
-          />
-          {renderHeader?.(0, 0, 0)}
-        </>
-      </View>
-    </>
-  )
-}
-
 type IProps = {
   homeUrl: string
   children: ReactNode
+  showMenuBtns?: boolean
   useNav?: boolean
   navTitle?: ReactNode
   navClassName?: string
@@ -288,6 +238,7 @@ type IProps = {
 export default function Index(props: IProps) {
   const {
     useNav = true,
+    showMenuBtns = true,
     navTitle,
     navClassName,
     homeUrl,
@@ -300,7 +251,7 @@ export default function Index(props: IProps) {
 
   useDidShow(() => {
     // 设置title
-    if (process.env.TARO_ENV === 'h5') {
+    if (process.env.TARO_ENV === 'h5' && !useNav) {
       try {
         document.title = navTitle?.toString?.() || ''
       } catch {
@@ -313,7 +264,7 @@ export default function Index(props: IProps) {
   })
   // 设置导航栏位置
   useEffect(function () {
-    if (process.env.TARO_ENV !== 'h5' && (!menuButton || !menuButton.precise)) {
+    if (!menuButton || !menuButton.precise) {
       setMenuButtonAsync(setMenuButton)
     }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -330,17 +281,6 @@ export default function Index(props: IProps) {
 
   return (
     <>
-      {process.env.TARO_ENV === 'h5' ? (
-        <H5PullDownRefresh
-          navClassName={navClassName}
-          renderHeader={renderHeader}
-          enablePullDownRefresh={enablePullDownRefresh}
-          pullDownRefreshStatus={pullDownRefreshStatus}
-          springStyles={springStyles}
-        />
-      ) : (
-        <></>
-      )}
       {menuButton && (
         <NavBar
           menuButton={menuButton}
@@ -353,11 +293,9 @@ export default function Index(props: IProps) {
           useNav={useNav}
         />
       )}
-      {menuButton &&
-        process.env.TARO_ENV !== 'h5' &&
-        process.env.TARO_ENV !== 'alipay' && (
-          <MenuButton menuButton={menuButton} homeUrl={homeUrl} />
-        )}
+      {menuButton && showMenuBtns && process.env.TARO_ENV !== 'alipay' && (
+        <MenuButton menuButton={menuButton} homeUrl={homeUrl} />
+      )}
       {props.children}
     </>
   )
