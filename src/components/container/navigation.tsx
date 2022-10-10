@@ -77,6 +77,7 @@ function MenuButton(props: IMenuButtonProps) {
           left: `${menuButton!.marginRight}px`,
           width: `${menuButton!.width}px`,
           height: `${menuButton!.height}px`,
+          display: !backButton && !homeButton ? 'none' : 'block',
         }}
       >
         {backButton && (
