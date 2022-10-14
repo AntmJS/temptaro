@@ -6,7 +6,6 @@ import { cacheSetSync } from '@/cache'
 import { loginCommon } from '@/actions/simple/common'
 import './index.less'
 interface IProps {
-  setLoginStatus: React.Dispatch<React.SetStateAction<boolean>>
   onRefresh: () => void
   setError: React.Dispatch<
     | React.SetStateAction<{
@@ -25,7 +24,7 @@ interface Params {
 }
 
 export default function Index(props: IProps) {
-  const { onRefresh, setError, setLoginStatus } = props
+  const { onRefresh, setError } = props
   const [params, setParams] = useState<Params>({
     jsCode: '',
     iv: '',
@@ -57,7 +56,6 @@ export default function Index(props: IProps) {
     hideLoading()
     cacheSetSync('token', res.token)
     setError(undefined)
-    setLoginStatus(false)
     onRefresh()
   }
 

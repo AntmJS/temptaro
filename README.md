@@ -1,7 +1,7 @@
 ## 注意事项
 
-* h5环境使用useRouter取到的params需要自行decode，其他环境及this.location内部已decode过了
-* 如果自己在函数式组件内调用useDidShow，需要在方法内包裹一层nextTick方法，否则Taro的生命周期里面会先执行useDidShow，再执行useEffect(() => {//后执行}, [])
+* h5环境使用useRouter取到的params需要自行decode，其他环境及this.location内部已decode过了，或者使用hooks.ts内的useRouter
+* 如果自己在函数式组件内调用useDidShow，需要在方法内包裹一层nextTick方法，否则Taro的生命周期里面会先执行useDidShow，再执行useEffect(() => {//后执行}, [])，或者使用hooks.ts内的useDidShow
 
 ## Taro项目模版
 
@@ -16,7 +16,7 @@
 ### 开发效率
 
 * 使用Unite库以空间换时间的方案加快研发速度，同时保证TS类型安全
-* action层使用@antmjs/rapper实现根据TS类型自动生成action逻辑，保证类型安全
+* action层使用@antmjs/api实现根据TS类型自动生成action逻辑，保证类型安全
 * action层也可以使用yarn swagger自动根据服务端的swagger api 自动生成action逻辑，保证类型安全
 * 自动埋点
 * 自动收集异常
@@ -39,3 +39,27 @@
 1. 将_antm.config.js 改成 antm.config.js
 2. 更新antm.config.js里面的webhooks.url的access_token
 3. 将.husky/pre-commit里面的npx antm-warning webhooks 注释取消
+
+### 执行顺序 useDidShow 优先于useEffect执行
+
+- app show
+- app launch
+
+- index com show
+- index page show
+- index com load
+- index page load
+
+- index com hide
+- index page hide
+
+- second com show
+- second page show
+- second com load
+- second page load
+
+- index com show
+- index pageshow
+
+- second page unload
+- second com unload

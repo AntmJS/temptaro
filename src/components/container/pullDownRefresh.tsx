@@ -1,29 +1,34 @@
 /* eslint-disable react/prop-types */
 
-import { ReactNode, useRef, CSSProperties } from 'react'
-import { showToast } from '@tarojs/taro'
+import { ReactNode, useRef, useState } from 'react'
+import { showToast, usePageScroll } from '@tarojs/taro'
 import { View } from '@tarojs/components'
+import { animated, useSpring } from '@react-spring/web'
 import { sleep, rubberbandIfOutOfBounds } from '@/utils'
+import './pullDownRefresh.less'
 
 export type PullStatus = 'pulling' | 'canRelease' | 'refreshing' | 'complete'
 
 export type PullToRefreshProps = {
   className: string
-  style: CSSProperties
-  canPull: boolean
   children: ReactNode
   threshold?: number
+  statusBarHeight: number
   onRefresh: <T extends boolean>(
     catchRefresh?: T,
   ) => T extends true
     ? Promise<{ code: string; message: string; data?: any }>
     : void
-  setStatus: any
-  status: any
-  api: any
 }
 
-export default function PullDownRefresh(props: PullToRefreshProps) {
+function PullDownRefresh(
+  props: PullToRefreshProps & {
+    setStatus: any
+    api: any
+    status: any
+    canPull: boolean
+  },
+) {
   const setStatus = props.setStatus
   const status = props.status
   const api = props.api
@@ -127,16 +132,71 @@ export default function PullDownRefresh(props: PullToRefreshProps) {
       yRef.current = 0
     }
   }
-
   return (
     <View
       className={props.className || ''}
-      style={props.style}
       onTouchEnd={onEnd}
       onTouchMove={onMove}
       onTouchStart={onStart}
     >
       {props.children}
     </View>
+  )
+}
+
+export default function Index(props: PullToRefreshProps) {
+  const [canPull, setCanPull] = useState(true)
+  const [springStyles, api] = useSpring(() => ({
+    from: { transform: `translateX(-50%) scale(0)`, opacity: 0 },
+    config: {
+      tension: 300,
+      friction: 30,
+      clamp: true,
+    },
+  }))
+  const [pullDownRefreshStatus, setPullDownRefreshStatus] = useState(
+    'pulling',
+  ) as [
+    'pulling' | 'refreshing' | 'complete' | 'canRelease',
+    React.Dispatch<
+      React.SetStateAction<'pulling' | 'refreshing' | 'complete' | 'canRelease'>
+    >,
+  ]
+
+  usePageScroll((e) => {
+    if (e.scrollTop > 0 && canPull) {
+      setCanPull(false)
+    }
+    if (e.scrollTop <= 0 && !canPull) {
+      setCanPull(true)
+    }
+  })
+  const renderStatusText = (): any => {
+    if (pullDownRefreshStatus === 'pulling') return '下拉刷新'
+    if (pullDownRefreshStatus === 'canRelease') return '释放立即刷新'
+    if (pullDownRefreshStatus === 'refreshing')
+      return <View className="navigation_minibar_loading" />
+    if (pullDownRefreshStatus === 'complete') return '刷新成功'
+  }
+  const NView = animated(View)
+  return (
+    <>
+      <PullDownRefresh
+        {...props}
+        api={api}
+        canPull={canPull}
+        status={pullDownRefreshStatus}
+        setStatus={setPullDownRefreshStatus}
+      />
+      <NView
+        className={'navigation_minibar_pulldown'}
+        style={{
+          top: `${props.statusBarHeight + 4}px`,
+          ...springStyles,
+        }}
+      >
+        {renderStatusText()}
+      </NView>
+    </>
   )
 }

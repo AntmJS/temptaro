@@ -31,6 +31,13 @@ function _setMenuButton(sysInfo: any, setStore: SetterOrUpdater<IMenuButton>) {
           top: menuButton.top,
           statusBarHeight: sysInfo.statusBarHeight ?? menuButton.top - 4,
         })
+        cacheSet({
+          key: 'menuButton',
+          data: {
+            ...menuButton,
+            marginRight: sysInfo.screenWidth - menuButton.right,
+          },
+        })
       } else {
         setStore({
           precise: false,
@@ -43,11 +50,11 @@ function _setMenuButton(sysInfo: any, setStore: SetterOrUpdater<IMenuButton>) {
           top: menuButton.top,
           statusBarHeight: menuButton.top - 4,
         })
+        cacheSet({
+          key: 'menuButton',
+          data: menuButton,
+        })
       }
-      cacheSet({
-        key: 'menuButton',
-        data: menuButton,
-      })
     } else {
       setStore({
         precise: false,
@@ -138,7 +145,7 @@ export function setMenuButtonAsync(setStore: SetterOrUpdater<IMenuButton>) {
           width: mb.width,
           left: mb.left,
           right: mb.right,
-          marginRight: si.screenWidth - mb.right,
+          marginRight: mb.marginRight ?? si.screenWidth - mb.right,
           top: mb.top,
           statusBarHeight: si.statusBarHeight ?? mb.top - 4,
         })

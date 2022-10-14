@@ -1,4 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import {
+  nextTick,
+  useDidShow as useDidShowInTaro,
+  useRouter as useRouterInTaro,
+} from '@tarojs/taro'
+import { parse } from '@antmjs/utils'
 import { debounce, throttle } from 'lodash'
 import { useCallback, useRef } from 'react'
 
@@ -22,4 +28,20 @@ export function useThrottle(fn: any, ms?: number): any {
     [],
   )
   return result
+}
+
+export function useDidShow(fn: any): void {
+  useDidShowInTaro(() => {
+    // Taro的生命周期里面会先执行useDidShow，再执行useEffect(() => {//后执行}, [])
+    // 这里加nextTick延后执行
+    nextTick(fn)
+  })
+}
+
+export function useRouter() {
+  const routerInfo: Taro.RouterInfo = useRouterInTaro()
+  if (process.env.TARO_ENV === 'h5') {
+    const query = parse(location.search ? location.search.slice(1) : '')
+    routerInfo.params = { ...routerInfo.params, ...query }
+  }
 }
