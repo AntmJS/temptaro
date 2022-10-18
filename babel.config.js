@@ -9,6 +9,7 @@ module.exports = {
         framework: 'react',
         ts: true,
         useBuiltIns: 'usage',
+        hot: false,
       },
     ],
   ],
