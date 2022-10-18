@@ -10,7 +10,6 @@ import './pullDownRefresh.less'
 export type PullStatus = 'pulling' | 'canRelease' | 'refreshing' | 'complete'
 
 export type PullToRefreshProps = {
-  className: string
   children: ReactNode
   threshold?: number
   statusBarHeight: number
@@ -133,12 +132,7 @@ function PullDownRefresh(
     }
   }
   return (
-    <View
-      className={props.className || ''}
-      onTouchEnd={onEnd}
-      onTouchMove={onMove}
-      onTouchStart={onStart}
-    >
+    <View onTouchEnd={onEnd} onTouchMove={onMove} onTouchStart={onStart}>
       {props.children}
     </View>
   )

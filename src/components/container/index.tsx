@@ -5,6 +5,7 @@ import {
   showToast,
   useDidShow,
 } from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import { UniteContext } from '@antmjs/unite'
 import { EMlf } from '@antmjs/trace'
 import { useRecoilState } from 'recoil'
@@ -82,7 +83,7 @@ type IProps = {
 }
 
 function Render(props: IProps & { ctx: any }): any {
-  const { ctx, loading, ignoreError } = props
+  const { ctx, loading, ignoreError, className } = props
 
   // 组件把Login、JSError、BoundaryError报错抛到页面，由页面来处理
   useEffect(() => {
@@ -176,11 +177,11 @@ function Render(props: IProps & { ctx: any }): any {
   }
 
   if (loading) return <Loading />
-  return props.children
+  return <View className={className}>{props.children}</View>
 }
 
 export default function Index(props: IProps) {
-  const { navTitle, navClassName, renderPageTopHeader, className } = props
+  const { navTitle, navClassName, renderPageTopHeader } = props
 
   const ctx = useContext(UniteContext)
 
@@ -240,7 +241,6 @@ export default function Index(props: IProps) {
         )}
         {ctx.uniteConfig.page && enablePagePullDownRefresh ? (
           <PullDownRefresh
-            className={className}
             onRefresh={ctx.onRefresh}
             statusBarHeight={statusBarHeight}
           >
