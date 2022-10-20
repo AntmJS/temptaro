@@ -28,9 +28,9 @@ module.exports = function (chain) {
           {
             framework: 'react',
             ts: true,
-            hot: false,
             // 这里必须要用false即runtime和shared这两个包不能进行polyfill
             useBuiltIns: false,
+            hot: false,
           },
         ],
       ],
