@@ -17,8 +17,9 @@
     "source.fixAll.stylelint": true
   },
   "eslint.options": {
-    "overrideConfigFile": "eslint.config.js"
+    "overrideConfigFile": ".eslintrc.js"
   },
   "stylelint.enable": true,
+  "stylelint.validate": ["css", "less", "postcss", "scss"],
   "stylelint.configFile": "stylelint.config.js"
 }

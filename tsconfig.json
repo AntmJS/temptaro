@@ -42,7 +42,7 @@
     "./config",
     "./types",
     "./babel.config.js",
-    "./eslint.config.js",
+    ".eslintrc.js",
     "./lint-staged.config.js",
     "./stylelint.config.js",
     "./_antm.config.js",

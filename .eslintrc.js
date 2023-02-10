@@ -3,7 +3,7 @@ module.exports = {
   parserOptions: {
     project: 'tsconfig.json',
     sourceType: 'module',
-    ecmaVersion: '2021',
+    ecmaVersion: 2021,
   },
   settings: {
     'import/resolver': {
@@ -20,7 +20,7 @@ module.exports = {
       // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
       // default to latest and warns if missing
       // It will default to "detect" in the future
-      // flowVersion: '0.53', // Flow version
+      // flowVersion: "0.53", // Flow version
     },
   },
 }

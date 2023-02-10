@@ -1,6 +1,6 @@
 module.exports = {
   '**/*.{js,jsx,ts,tsx}': [
-    'npx eslint -c eslint.config.js --fix',
+    'npx eslint -c .eslintrc.js --fix',
     'npx prettier --write',
   ],
   '**/*.ts?(x)': () => 'npx tsc -p tsconfig.json --skipLibCheck',

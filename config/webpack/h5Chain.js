@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const H5FixPlugin = require('@antmjs/plugin-h5-fix')
 module.exports = function (chain) {
+  chain.plugin('H5FixPlugin').use(new H5FixPlugin())
   // taro内部的配置：scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))];
   // taro内置的webpack配置在编译script的时候使用的是项目根目录的babel.config.js的配置，如果你项目的useBuiltIns设置为'usage'，则runtime和shared都会polyfill，就会导致出错
   // 所以下面重写了exclude的配置，并给runtime和shared单独进行了匹配
@@ -11,8 +14,9 @@ module.exports = function (chain) {
         /css-loader/.test(filename) ||
         (/node_modules/.test(filename) &&
           !(
-            /(taro)|(react-spring)|(@antmjs)|(recoil)/.test(filename) &&
-            !/tarojs[\\/](runtime|shared|plugin-platform)/.test(filename)
+            /(taro)|(react-spring)|(@antmjs)|(recoil)|(buffer)|(qrcode)/.test(
+              filename,
+            ) && !/tarojs[\\/](runtime|shared|plugin-platform)/.test(filename)
           )),
     )
 

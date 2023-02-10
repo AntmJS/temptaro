@@ -6,6 +6,7 @@
 .cache
 .temp
 .idea
+.swc
 .rn_temp
 .DS_Store
 .editorconfig
