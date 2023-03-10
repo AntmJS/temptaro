@@ -18,7 +18,7 @@ function Index(props: IPropsModel): JSX.Element {
         <View className="components-mum">
           <Image
             className="image"
-            src="https://g.18qjz.cn/img/static/124w_124h_63CAA1498816035.gif"
+            src="../resources/images/loading.gif"
             mode="aspectFill"
           />
         </View>
