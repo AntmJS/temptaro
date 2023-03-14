@@ -170,5 +170,5 @@ const config = {
 }
 
 module.exports = function (merge) {
-  return merge({}, config, require(`./${process.env.NODE_ENV}`))
+  return merge({}, config, require(`./${process.env.NODE_ENV || 'production'}`))
 }
