@@ -30,15 +30,14 @@
       "dev": ""
     }
   },
-  "browserslist": [
-    "Chrome >= 35",
-    "ChromeAndroid >= 35",
-    "iOS >= 8",
-    "Safari >= 8",
-    "Android >= 4.1",
-    "QQAndroid >= 4.1",
-    "UCAndroid >= 4.1"
-  ],
+  "browserslist": {
+    "production": [
+      "ios >= 9"
+    ],
+    "development": [
+      "last 1 version"
+    ]
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
