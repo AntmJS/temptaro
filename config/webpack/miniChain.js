@@ -1,3 +1,4 @@
+/* eslint-disable import/no-commonjs */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const MiniFixPlugin = require('@antmjs/plugin-mini-fix')
 const GlobalFixPlugin = require('@antmjs/plugin-global-fix')

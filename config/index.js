@@ -6,6 +6,7 @@ const h5Chain = require('./webpack/h5Chain')
 
 process.env.TARO_ENV = process.env.TARO_ENV ?? 'weapp'
 process.env.NODE_ENV = process.env.NODE_ENV ?? 'production'
+process.env.API_ENV = process.env.API_ENV ?? 'real'
 
 function getVersion() {
   function fillZero(value) {
@@ -13,13 +14,18 @@ function getVersion() {
   }
   const date = new Date()
 
-  return `${date.getFullYear() - 2010}.${date.getMonth()}${fillZero(
-    date.getDay(),
-  )}.${date.getHours()}${fillZero(date.getMinutes())}`
+  return `${date.getFullYear()}${fillZero(date.getMonth() + 1)}${fillZero(
+    date.getDate(),
+  )}${fillZero(date.getHours())}${fillZero(date.getMinutes())}${fillZero(
+    date.getSeconds(),
+  )}`
 }
 
-const version = getVersion()
-console.log(version)
+const version = process.env.VERSION || getVersion()
+console.log('TaroEnv: ', process.env.TARO_ENV)
+console.log('NodeEnv: ', process.env.NODE_ENV)
+console.log('ApiEnv: ', process.env.API_ENV)
+console.log('Version: ', version)
 
 const config = {
   projectName: pkg.name,
@@ -33,6 +39,7 @@ const config = {
   sourceRoot: 'src',
   outputRoot: process.env.TARO_ENV === 'h5' ? 'build' : process.env.TARO_ENV,
   env: {
+    TARO_ENV: JSON.stringify(process.env.TARO_ENV),
     API_ENV: JSON.stringify(process.env.API_ENV),
     WATCHING: JSON.stringify(process.env.WATCHING || 'false'),
     DEPLOY_VERSION: JSON.stringify(version),

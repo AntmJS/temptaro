@@ -16,7 +16,7 @@ module.exports = function (chain) {
       (filename) =>
         /css-loader/.test(filename) ||
         (/node_modules/.test(filename) &&
-          !/(taro)|(@antmjs)|(react-spring)|(recoil)|(buffer)|(qrcode)/.test(
+          !/(taro)|(inversify)|(@antmjs)|(react-spring)|(recoil)|(buffer)|(qrcode)/.test(
             filename,
           )),
     )
